@@ -54,16 +54,18 @@ public class Initializer extends JFrame {
   }
 
   private void setup() {
+    this.container.setSize(FrameInfo.WIDOW_WIDTH, FrameInfo.WIDOW_HEIGHT);
     this.setContentPane(container);
     this.setTitle(FrameInfo.APP_NAME);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(FrameInfo.WIDOW_WIDTH, FrameInfo.WIDOW_HEIGHT);
     this.setLocation(FrameInfo.LOCATION, FrameInfo.LOCATION);
-    this.setVisible(true);
 
     this.setPanels();
     this.setTabbedPane();
     this.setButtonListener();
+
+    this.setVisible(true);
   }
 
   private void setPanels() {
