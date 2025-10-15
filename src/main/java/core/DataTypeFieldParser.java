@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class DataParser {
+public class DataTypeFieldParser {
 
   public static final String NA = "N/A";
   public static final String NEW_LINE = "\n";

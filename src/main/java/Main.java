@@ -1,8 +1,8 @@
-import initializer.Initializer;
+import definition.DataTypeDefinition;
 
 public class Main {
 
   public static void main(String[] args) {
-    new Initializer();
+    new DataTypeDefinition();
   }
 }

@@ -1,6 +1,6 @@
-package initializer;
+package definition;
 
-import core.DataParser;
+import core.DataTypeFieldParser;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import ui.FrameInfo;
 
-public class DataInputComponent extends JPanel {
+public class DataTypeDefinitionFieldPanel extends JPanel {
 
   private static final String NAME = "Name";
   private static final String DESCRIPTION = "Description";
@@ -21,7 +21,7 @@ public class DataInputComponent extends JPanel {
   private final JTextArea nameTextArea;
   private final JTextArea descriptionTextArea;
 
-  protected DataInputComponent() {
+  protected DataTypeDefinitionFieldPanel() {
     super();
 
     setLayout(new GridLayout(1, 2));
@@ -86,8 +86,8 @@ public class DataInputComponent extends JPanel {
 
   protected void appendSchemaToTextArea(List<String> schemas) {
     schemas.forEach(schema -> {
-      nameTextArea.append(schema + DataParser.NEW_LINE);
-      descriptionTextArea.append(DataParser.NA + DataParser.NEW_LINE);
+      nameTextArea.append(schema + DataTypeFieldParser.NEW_LINE);
+      descriptionTextArea.append(DataTypeFieldParser.NA + DataTypeFieldParser.NEW_LINE);
     });
   }
 

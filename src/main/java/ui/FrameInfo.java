@@ -13,6 +13,7 @@ public interface FrameInfo {
   int LOCATION = 200;
   int CONTENT_WIDTH = 1000;
   int CONTENT_HEIGHT = 500;
+  int ICON_SIZE = 20;
 
   Dimension WINDOW_DIMENSION = new Dimension(FrameInfo.WIDOW_WIDTH, FrameInfo.WIDOW_HEIGHT);
   Dimension CONTENT_DIMENSION = new Dimension(FrameInfo.CONTENT_WIDTH, FrameInfo.CONTENT_HEIGHT);

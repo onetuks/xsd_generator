@@ -1,4 +1,4 @@
-package initializer;
+package definition;
 
 import static dto.XDataType.ACCESS;
 import static dto.XDataType.ACTION;
@@ -11,9 +11,9 @@ import static dto.XDataType.TABLE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcSchemaInvocator {
+public class JdbcStructureInvocator {
 
-  protected List<String> generateSELECTSchema() {
+  protected List<String> generateSELECTStructure() {
     List<String> schema = new ArrayList<>();
 
     schema.add(ROW);
@@ -21,7 +21,7 @@ public class JdbcSchemaInvocator {
     return schema;
   }
 
-  protected List<String> generateDMLSchema(int schemaIndex) {
+  protected List<String> generateDMLStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(TABLE);
@@ -30,7 +30,7 @@ public class JdbcSchemaInvocator {
     return schema;
   }
 
-  protected List<String> generateSQLDMLSchema(int schemaIndex) {
+  protected List<String> generateSQLStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(ACCESS);
@@ -39,7 +39,7 @@ public class JdbcSchemaInvocator {
     return schema;
   }
 
-  protected List<String> generatePROCEDURESchema(int schemaIndex) {
+  protected List<String> generatePROCEDUREStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(TABLE);
