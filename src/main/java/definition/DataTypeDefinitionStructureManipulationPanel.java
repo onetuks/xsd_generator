@@ -3,19 +3,21 @@ package definition;
 import ui.FrameInfo;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class DataTypeDefinitionStructureManipulationPanel extends JPanel {
 
-    public DataTypeDefinitionStructureManipulationPanel(JTabbedPane tabbedPane) {
+    private final DataTypeDefinitionFieldTabbedPane fieldTabbedPane;
+
+    public DataTypeDefinitionStructureManipulationPanel(DataTypeDefinitionFieldTabbedPane fieldTabbedPane) {
         super();
+
+        this.fieldTabbedPane = fieldTabbedPane;
 
         setBorder(FrameInfo.COMPOUND_BORDER);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(titlePanel());
-        add(buttonPanel(tabbedPane));
+        add(buttonPanel());
     }
 
     private JPanel titlePanel() {
@@ -24,21 +26,18 @@ public class DataTypeDefinitionStructureManipulationPanel extends JPanel {
         return titlePanel;
     }
 
-    private JPanel buttonPanel(JTabbedPane tabbedPane) {
+    private JPanel buttonPanel() {
         JPanel panel = new JPanel();
-        panel.add(new JButton("Add") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                String newTabTitle = "#" + (tabbedPane.getTabCount() + 1);
-                tabbedPane.addTab(newTabTitle, null, new DataTypeDefinitionFieldPanel(), null);
-            }
-        });
-        panel.add(new JButton("Remove") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
-            }
-        });
+
+        JButton addBtn = new JButton("Add");
+        addBtn.addActionListener(e -> fieldTabbedPane.addNewTab());
+
+        JButton removeBtn = new JButton("Remove");
+        removeBtn.addActionListener(e -> fieldTabbedPane.removeTabAt(fieldTabbedPane.getTabCount() - 1));
+
+        panel.add(addBtn);
+        panel.add(removeBtn);
+
         return panel;
     }
 }

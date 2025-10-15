@@ -61,7 +61,6 @@ public class TreeViewer extends JFrame {
   }
 
   private void setup() {
-    setTitle(FrameInfo.APP_NAME);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setSize(FrameInfo.WIDOW_WIDTH - TREE_VIEWER_WIDTH, FrameInfo.WIDOW_HEIGHT);
     setLocation(FrameInfo.LOCATION, FrameInfo.LOCATION);

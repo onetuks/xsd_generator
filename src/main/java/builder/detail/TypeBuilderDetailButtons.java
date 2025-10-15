@@ -2,6 +2,7 @@ package builder.detail;
 
 import static builder.TypeBuilder.CONTENT_HEIGHT;
 import static builder.TypeBuilder.CONTENT_WIDTH;
+import static ui.FrameInfo.ICON_SIZE;
 
 import builder.TypeBuilder;
 import java.awt.Dimension;
@@ -12,8 +13,6 @@ import model.XNode;
 import ui.FrameInfo;
 
 public class TypeBuilderDetailButtons {
-
-  private static final int ICON_SIZE = 20;
 
   private final TypeBuilder builder;
 

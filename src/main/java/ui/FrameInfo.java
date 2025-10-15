@@ -6,7 +6,6 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
 public interface FrameInfo {
-  String APP_NAME = "XSD Generator";
 
   int WIDOW_WIDTH = 1050;
   int WIDOW_HEIGHT = 650;

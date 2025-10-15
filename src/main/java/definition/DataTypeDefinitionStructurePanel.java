@@ -1,7 +1,6 @@
 package definition;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class DataTypeDefinitionStructurePanel extends JPanel {
 

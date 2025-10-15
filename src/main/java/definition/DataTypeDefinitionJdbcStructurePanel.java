@@ -27,41 +27,43 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
 
     private JPanel buttonPanel(JTabbedPane tabbedPane) {
         JPanel panel = new JPanel();
-        panel.add(new JButton("SELECT") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                DataTypeDefinitionFieldPanel component =
-                        (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
-                component.appendSchemaToTextArea(jdbcStructureInvocator.generateSELECTStructure());
-            }
+
+        JButton selectBtn = new JButton("Select");
+        selectBtn.addActionListener(e -> {
+            DataTypeDefinitionFieldPanel component =
+                    (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+            component.appendSchemaToTextArea(jdbcStructureInvocator.generateSELECTStructure());
         });
-        panel.add(new JButton("DML") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                DataTypeDefinitionFieldPanel component =
-                        (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
-                component.appendSchemaToTextArea(
-                        jdbcStructureInvocator.generateDMLStructure(tabbedPane.getSelectedIndex() + 1));
-            }
+
+        JButton updateBtn = new JButton("Update");
+        updateBtn.addActionListener(e -> {
+            DataTypeDefinitionFieldPanel component =
+                    (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+            component.appendSchemaToTextArea(
+                    jdbcStructureInvocator.generateDMLStructure(tabbedPane.getSelectedIndex() + 1));
         });
-        panel.add(new JButton("SQL") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                DataTypeDefinitionFieldPanel component =
-                        (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
-                component.appendSchemaToTextArea(
-                        jdbcStructureInvocator.generateSQLStructure(tabbedPane.getSelectedIndex() + 1));
-            }
+
+        JButton sqlBtn = new JButton("SQL");
+        sqlBtn.addActionListener(e -> {
+            DataTypeDefinitionFieldPanel component =
+                    (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+            component.appendSchemaToTextArea(
+                    jdbcStructureInvocator.generateSQLStructure(tabbedPane.getSelectedIndex() + 1));
         });
-        panel.add(new JButton("PROCEDURE") {
-            @Override
-            public void addActionListener(ActionListener l) {
-                DataTypeDefinitionFieldPanel component =
-                        (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
-                component.appendSchemaToTextArea(
-                        jdbcStructureInvocator.generatePROCEDUREStructure(tabbedPane.getSelectedIndex() + 1));
-            }
+
+        JButton procedureBtn = new JButton("Procedure");
+        procedureBtn.addActionListener(e -> {
+            DataTypeDefinitionFieldPanel component =
+                    (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+            component.appendSchemaToTextArea(
+                    jdbcStructureInvocator.generatePROCEDUREStructure(tabbedPane.getSelectedIndex() + 1));
         });
+
+        panel.add(selectBtn);
+        panel.add(updateBtn);
+        panel.add(sqlBtn);
+        panel.add(procedureBtn);
+
         return panel;
     }
 }

@@ -130,7 +130,7 @@ public class TreeViewerControlPanel extends JPanel {
 
     completeButton.addActionListener(e -> {
       treeViewer.setVisible(false);
-      new TypeBuilder(treeViewer.getBuilder().getInitializer(), treeViewer.getTree());
+      new TypeBuilder(treeViewer.getBuilder().getDataTypeDefinition(), treeViewer.getTree());
     });
 
     return completeButton;
@@ -141,7 +141,7 @@ public class TreeViewerControlPanel extends JPanel {
 
     cancelButton.addActionListener(e -> {
       treeViewer.setVisible(false);
-      new TypeBuilder(treeViewer.getBuilder().getInitializer(), treeViewer.getBuilder().getTree());
+      new TypeBuilder(treeViewer.getBuilder().getDataTypeDefinition(), treeViewer.getBuilder().getTree());
     });
 
     return cancelButton;

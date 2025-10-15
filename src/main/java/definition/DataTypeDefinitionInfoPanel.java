@@ -31,15 +31,15 @@ public class DataTypeDefinitionInfoPanel extends JPanel {
         namespaceComponent.getInfoTextField().setText(null);
     }
 
-    public DataTypeDefinitionInfoComponent getDtNameComponent() {
-        return dtNameComponent;
+    public String getDTName() {
+        return dtNameComponent.getInfoTextField().getText();
     }
 
-    public DataTypeDefinitionInfoComponent getNamespaceComponent() {
-        return namespaceComponent;
+    public String getNamespace() {
+        return namespaceComponent.getInfoTextField().getText();
     }
 
-    public DataTypeDefinitionInfoComponent getTargetDirComponent() {
-        return targetDirComponent;
+    public String getTargetDir() {
+        return targetDirComponent.getInfoTextField().getText();
     }
 }

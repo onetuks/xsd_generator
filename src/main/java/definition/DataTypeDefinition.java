@@ -1,19 +1,19 @@
 package definition;
 
 import ui.FrameInfo;
+import util.Navigator;
 
 import javax.swing.*;
 
-public class DataTypeDefinition extends JFrame {
+public class DataTypeDefinition extends JPanel {
+
+    private final Navigator navigator;
 
     private final DataTypeDefinitionInfoPanel dtInfoPanel;
     private final DataTypeDefinitionFieldTabbedPane dtFieldTabbedPane;
 
-    private final JPanel container = new JPanel();
-
-    public DataTypeDefinition() {
-        super(FrameInfo.APP_NAME);
-
+    public DataTypeDefinition(Navigator navigator) {
+        this.navigator = navigator;
         this.dtInfoPanel = new DataTypeDefinitionInfoPanel();
         this.dtFieldTabbedPane = new DataTypeDefinitionFieldTabbedPane();
 
@@ -21,23 +21,27 @@ public class DataTypeDefinition extends JFrame {
     }
 
     private void initComponent() {
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        setContentPane(container);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(FrameInfo.EMPTY_BORDER);
+        add(Box.createVerticalStrut(8));
+        add(dtInfoPanel);
+        add(Box.createVerticalStrut(8));
+        add(new DataTypeDefinitionStructurePanel(dtFieldTabbedPane));
+        add(Box.createVerticalStrut(8));
+        add(dtFieldTabbedPane);
+        add(Box.createVerticalStrut(12));
+        add(new DataTypeDefinitionButtonPanel(this));
+    }
 
-        container.setBorder(FrameInfo.EMPTY_BORDER);
-        container.add(Box.createVerticalStrut(8));
-        container.add(dtInfoPanel);
-        container.add(Box.createVerticalStrut(8));
-        container.add(new DataTypeDefinitionStructurePanel(dtFieldTabbedPane));
-        container.add(Box.createVerticalStrut(8));
-        container.add(dtFieldTabbedPane);
-        container.add(Box.createVerticalStrut(12));
-        container.add(new DataTypeDefinitionButtonPanel(dtInfoPanel, dtFieldTabbedPane));
+    public Navigator getNavigator() {
+        return navigator;
+    }
 
-        // 프레임 기본 설정: pack() -> 위치 -> visible
-        pack(); // preferredSize 기반으로 크기 결정
-        setLocation(FrameInfo.LOCATION, FrameInfo.LOCATION);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+    public DataTypeDefinitionInfoPanel getDtInfoPanel() {
+        return dtInfoPanel;
+    }
+
+    public DataTypeDefinitionFieldTabbedPane getDtFieldTabbedPane() {
+        return dtFieldTabbedPane;
     }
 }

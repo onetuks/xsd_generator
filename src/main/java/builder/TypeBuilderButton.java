@@ -3,7 +3,6 @@ package builder;
 import arborist.TreeViewer;
 import core.FileSaver;
 import core.XsdGenerator;
-import initializer.Initializer;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -14,14 +13,13 @@ public class TypeBuilderButton extends JPanel {
 
   private final XsdGenerator xsdGenerator;
   private final FileSaver fileSaver;
-  private final Initializer initializer;
+//  private final Initializer initializer;
   private final TypeBuilder builder;
 
-  public TypeBuilderButton(Initializer initializer, TypeBuilder builder) {
+  public TypeBuilderButton(TypeBuilder builder) {
     super(new FlowLayout(FlowLayout.RIGHT));
     this.xsdGenerator = new XsdGenerator();
     this.fileSaver = new FileSaver();
-    this.initializer = initializer;
     this.builder = builder;
 
     setBackground(FrameInfo.PRIMARY);
@@ -69,7 +67,7 @@ public class TypeBuilderButton extends JPanel {
 
     cancelButton.addActionListener(e -> {
       builder.setVisible(false);
-      initializer.setVisible(true);
+//      initializer.setVisible(true);
     });
 
     add(cancelButton);
