@@ -1,6 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import core.NodeLinker;
 import dto.XDataTypes;
 import model.XTree;
 import org.junit.jupiter.api.Test;
@@ -20,53 +19,53 @@ public class NodeLinkerTest {
     // then
     assertEquals(expected.getNamespace(), result.getNamespace());
     assertEquals(expected.getFilePath(), result.getFilePath());
-    assertEquals(expected.getRoot().getEntity().getName(), result.getRoot().getEntity().getName());
+    assertEquals(expected.getRoot().entity().getName(), result.getRoot().entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(0).getEntity().getName(),
+            .children().get(0).entity().getName(),
         result.getRoot()
-            .getChildren().get(0).getEntity().getName());
+            .children().get(0).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(0).getEntity().getName(),
+            .children().get(0)
+            .children().get(0).entity().getName(),
         result.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(0).getEntity().getName());
+            .children().get(0)
+            .children().get(0).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(1).getEntity().getName(),
+            .children().get(0)
+            .children().get(1).entity().getName(),
         result.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(1).getEntity().getName());
+            .children().get(0)
+            .children().get(1).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(2).getEntity().getName(),
+            .children().get(0)
+            .children().get(2).entity().getName(),
         result.getRoot()
-            .getChildren().get(0)
-            .getChildren().get(2).getEntity().getName());
+            .children().get(0)
+            .children().get(2).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(0).getEntity().getName(),
+            .children().get(1)
+            .children().get(0).entity().getName(),
         result.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(0).getEntity().getName());
+            .children().get(1)
+            .children().get(0).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(1).getEntity().getName(),
+            .children().get(1)
+            .children().get(1).entity().getName(),
         result.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(1).getEntity().getName());
+            .children().get(1)
+            .children().get(1).entity().getName());
     assertEquals(
         expected.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(2).getEntity().getName(),
+            .children().get(1)
+            .children().get(2).entity().getName(),
         result.getRoot()
-            .getChildren().get(1)
-            .getChildren().get(2).getEntity().getName());
+            .children().get(1)
+            .children().get(2).entity().getName());
   }
 }

@@ -1,12 +1,16 @@
 package definition;
 
 import core.DataTypePipelineService;
+import definition.components.DataTypeDefinitionButtonPanel;
+import definition.components.DataTypeDefinitionFieldTabbedPane;
+import definition.components.DataTypeDefinitionInfoPanel;
+import definition.components.DataTypeDefinitionStructurePanel;
 import ui.FrameInfo;
-import global.Navigator;
+import util.Navigator;
 
 import javax.swing.*;
 
-public class DataTypeDefinition extends JPanel {
+public class DataTypeDefinitionPanel extends JPanel {
 
     private final Navigator navigator;
     private final DataTypePipelineService dataTypePipelineService;
@@ -14,7 +18,7 @@ public class DataTypeDefinition extends JPanel {
     private final DataTypeDefinitionInfoPanel dtInfoPanel;
     private final DataTypeDefinitionFieldTabbedPane dtFieldTabbedPane;
 
-    public DataTypeDefinition(Navigator navigator, DataTypePipelineService service) {
+    public DataTypeDefinitionPanel(Navigator navigator, DataTypePipelineService service) {
         this.navigator = navigator;
         this.dataTypePipelineService = service;
         this.dtInfoPanel = new DataTypeDefinitionInfoPanel();

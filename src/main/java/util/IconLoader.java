@@ -1,4 +1,4 @@
-package global;
+package util;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

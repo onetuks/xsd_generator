@@ -1,11 +1,12 @@
 import core.DataTypePipelineService;
-import definition.DataTypeDefinition;
-import specification.DataTypeSpecification;
+import definition.DataTypeDefinitionPanel;
+import specification.DataTypeSpecificationPanel;
 import ui.FrameInfo;
-import global.Navigator;
+import util.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class MainFrame extends JFrame implements Navigator {
 
@@ -42,7 +43,8 @@ public class MainFrame extends JFrame implements Navigator {
     }
 
     private void registerContentPanels() {
-        contentPanel.add(new DataTypeDefinition(this, service), Navigator.DEFINITION);
-        contentPanel.add(new DataTypeSpecification(this, service), Navigator.SPECIFICATION);
+        contentPanel.add(new DataTypeDefinitionPanel(this, service), Navigator.DEFINITION);
+        contentPanel.add(new DataTypeSpecificationPanel(this, service), Navigator.SPECIFICATION);
+        
     }
 }

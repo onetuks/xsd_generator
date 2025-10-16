@@ -1,23 +1,24 @@
 package core;
 
-import definition.DataTypeElement;
-import model.DataType;
+import model.DataTypeState;
 import model.DataTypeNode;
+import specification.elements.DataTypeElement;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
 public class DataTypePipelineService {
 
-    private final DataType dataType = new DataType();
+    private final DataTypeState state = new DataTypeState();
 
-    public void updateDataType(String dtName, String namespace, String targetDir) {
-        dataType.setDtName(dtName);
-        dataType.setNamespace(namespace);
-        dataType.setTargetPath(targetDir);
+    public void updateDataTypeState(
+            String dtName, String namespace, String targetDir,
+            List<DataTypeElement> dataTypeElements) {
+        state.setMeta(dtName, namespace, targetDir);
+        state.setElements(dataTypeElements);
     }
 
-    public void updateDataType(List<DataTypeElement> elements) {
+    public void updateDataTypeNode(List<DataTypeElement> elements) {
         IntStream.of(0, elements.size())
                 .forEach(idx -> {
                     DataTypeElement currentElement = elements.get(idx);
@@ -34,7 +35,7 @@ public class DataTypePipelineService {
 
     private DataTypeNode findNode(DataTypeElement element) {
         Queue<DataTypeNode> queue = new ArrayDeque<>();
-        queue.add(dataType.getRoot());
+        queue.add(state.getRootNode());
 
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
@@ -58,5 +59,13 @@ public class DataTypePipelineService {
             }
         }
         return elements.get(idx);
+    }
+
+    public List<DataTypeElement> getDataTypeElement() {
+        return state.getElements();
+    }
+
+    public DataTypeNode getRootNode() {
+        return state.getRootNode();
     }
 }

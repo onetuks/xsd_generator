@@ -1,6 +1,7 @@
-package core;
+package definition.services;
 
-import definition.DataTypeElement;
+import specification.elements.DataTypeElement;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

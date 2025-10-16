@@ -1,4 +1,4 @@
-package definition;
+package model.vo;
 
 public interface Level {
   int FIRST = 1;

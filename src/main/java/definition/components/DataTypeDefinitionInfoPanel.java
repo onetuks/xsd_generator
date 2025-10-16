@@ -1,4 +1,4 @@
-package definition;
+package definition.components;
 
 import ui.FrameInfo;
 

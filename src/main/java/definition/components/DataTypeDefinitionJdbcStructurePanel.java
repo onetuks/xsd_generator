@@ -1,9 +1,9 @@
-package definition;
+package definition.components;
 
+import definition.services.JdbcStructureInvocator;
 import ui.FrameInfo;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
 

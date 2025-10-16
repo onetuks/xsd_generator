@@ -1,6 +1,6 @@
-package definition;
+package definition.components;
 
-import global.IconLoader;
+import util.IconLoader;
 
 import javax.swing.*;
 import java.awt.*;

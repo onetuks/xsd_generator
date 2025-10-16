@@ -1,4 +1,4 @@
-package builder;
+package specification.components;
 
 import static builder.TypeBuilder.CONTENT_HEIGHT;
 import static builder.TypeBuilder.SMALL_TEXT_FIELD_WIDTH;
@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import ui.FrameInfo;
 
-public class TypeBuilderHeaderPanel extends JPanel {
+public class DataTypeSpecificationHeaderPanel extends JPanel {
 
   private static final int COMBO_BOX_WIDTH = 80;
   private static final int BIG_COMBO_BOX_WIDTH = 90;
@@ -25,26 +25,25 @@ public class TypeBuilderHeaderPanel extends JPanel {
   private static final String DESCRIPTION = "Description";
   private static final String ATTRIBUTES = "Attributes";
 
-  public TypeBuilderHeaderPanel() {
+  public DataTypeSpecificationHeaderPanel() {
     super();
     setup();
 
-    add(buildHeaderLabel(NAME));
-    add(buildHeaderLabel(CATEGORY));
-    add(buildHeaderLabel(TYPE));
-    add(buildHeaderLabel(OCCURRENCE));
-    add(buildHeaderLabel(DESCRIPTION));
-    add(buildHeaderLabel(ATTRIBUTES));
+    add(createHeaderLabel(NAME));
+    add(createHeaderLabel(CATEGORY));
+    add(createHeaderLabel(TYPE));
+    add(createHeaderLabel(OCCURRENCE));
+    add(createHeaderLabel(DESCRIPTION));
+    add(createHeaderLabel(ATTRIBUTES));
   }
 
   protected void setup() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
-    setBackground(FrameInfo.SECONDARY);
     setPreferredSize(new Dimension(FrameInfo.CONTENT_WIDTH, (int) (CONTENT_HEIGHT * 1.5)));
     setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
   }
 
-  private JLabel buildHeaderLabel(String labelText) {
+  private JLabel createHeaderLabel(String labelText) {
     JLabel label = new JLabel(labelText);
     label.setForeground(FrameInfo.TERTIARY);
 

@@ -1,6 +1,6 @@
-package definition;
+package definition.components;
 
-import core.DataTypeFieldParser;
+import definition.services.DataTypeFieldParser;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import ui.FrameInfo;
 
 public class DataTypeDefinitionFieldPanel extends JPanel {
 

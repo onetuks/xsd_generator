@@ -1,7 +1,9 @@
-package definition;
+package definition.components;
 
-import core.DataTypeFieldParser;
-import global.Navigator;
+import definition.services.DataTypeFieldParser;
+import definition.DataTypeDefinitionPanel;
+import specification.elements.DataTypeElement;
+import util.Navigator;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -10,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class DataTypeDefinitionButtonPanel extends JPanel {
 
-    private final DataTypeDefinition dataTypeDefinition;
+    private final DataTypeDefinitionPanel dataTypeDefinitionPanel;
 
-    public DataTypeDefinitionButtonPanel(DataTypeDefinition dataTypeDefinition) {
-        this.dataTypeDefinition = dataTypeDefinition;
+    public DataTypeDefinitionButtonPanel(DataTypeDefinitionPanel dataTypeDefinitionPanel) {
+        this.dataTypeDefinitionPanel = dataTypeDefinitionPanel;
 
         initResetButton();
         initNextButton();
@@ -22,8 +24,8 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
     private void initResetButton() {
         JButton resetBtn = new JButton("Reset");
         resetBtn.addActionListener(e -> {
-            dataTypeDefinition.getDtInfoPanel().clear();
-            dataTypeDefinition.getDtFieldTabbedPane().clearAllTabs();
+            dataTypeDefinitionPanel.getDtInfoPanel().clear();
+            dataTypeDefinitionPanel.getDtFieldTabbedPane().clearAllTabs();
         });
         add(resetBtn);
     }
@@ -32,14 +34,14 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
         JButton nextBtn = new JButton("Next");
         nextBtn.addActionListener(e -> {
             try {
-                dataTypeDefinition
+                dataTypeDefinitionPanel
                         .getDataTypePipelineService()
-                        .updateDataType(
-                                dataTypeDefinition.getDtInfoPanel().getDTName(),
-                                dataTypeDefinition.getDtInfoPanel().getNamespace(),
-                                dataTypeDefinition.getDtInfoPanel().getTargetDir());
-                dataTypeDefinition.getDataTypePipelineService().updateDataType(extractDataTypeFields());
-                dataTypeDefinition.getNavigator().showScreen(Navigator.SPECIFICATION);
+                        .updateDataTypeState(
+                                dataTypeDefinitionPanel.getDtInfoPanel().getDTName(),
+                                dataTypeDefinitionPanel.getDtInfoPanel().getNamespace(),
+                                dataTypeDefinitionPanel.getDtInfoPanel().getTargetDir(),
+                                extractDataTypeFields());
+                dataTypeDefinitionPanel.getNavigator().showScreen(Navigator.SPECIFICATION);
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -49,7 +51,7 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
 
     private List<DataTypeElement> extractDataTypeFields() {
         DataTypeFieldParser dataTypeFieldParser = new DataTypeFieldParser();
-        return Arrays.stream(dataTypeDefinition.getDtFieldTabbedPane().getComponents())
+        return Arrays.stream(dataTypeDefinitionPanel.getDtFieldTabbedPane().getComponents())
                 .map(component -> (DataTypeDefinitionFieldPanel) component)
                 .map(component ->
                         dataTypeFieldParser.parseData(

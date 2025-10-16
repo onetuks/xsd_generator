@@ -1,12 +1,12 @@
-package definition;
+package definition.services;
 
-import static definition.DataTypeElement.ACCESS;
-import static definition.DataTypeElement.ACTION;
-import static definition.DataTypeElement.DB_TABLE_NAME;
-import static definition.DataTypeElement.KEY;
-import static definition.DataTypeElement.ROW;
-import static definition.DataTypeElement.STATEMENT;
-import static definition.DataTypeElement.TABLE;
+import static specification.elements.DataTypeElement.ACCESS;
+import static specification.elements.DataTypeElement.ACTION;
+import static specification.elements.DataTypeElement.DB_TABLE_NAME;
+import static specification.elements.DataTypeElement.KEY;
+import static specification.elements.DataTypeElement.ROW;
+import static specification.elements.DataTypeElement.STATEMENT;
+import static specification.elements.DataTypeElement.TABLE;
 
 import java.util.ArrayList;
 import java.util.List;
