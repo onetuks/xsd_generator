@@ -1,8 +1,7 @@
 package definition;
 
 import core.DataTypeFieldParser;
-import dto.XDataType;
-import util.Navigator;
+import global.Navigator;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -10,8 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DataTypeDefinitionButtonPanel extends JPanel {
-
-    private final DataTypeFieldParser dataTypeFieldParser = new DataTypeFieldParser();
 
     private final DataTypeDefinition dataTypeDefinition;
 
@@ -35,13 +32,14 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
         JButton nextBtn = new JButton("Next");
         nextBtn.addActionListener(e -> {
             try {
+                dataTypeDefinition
+                        .getDataTypePipelineService()
+                        .updateDataType(
+                                dataTypeDefinition.getDtInfoPanel().getDTName(),
+                                dataTypeDefinition.getDtInfoPanel().getNamespace(),
+                                dataTypeDefinition.getDtInfoPanel().getTargetDir());
+                dataTypeDefinition.getDataTypePipelineService().updateDataType(extractDataTypeFields());
                 dataTypeDefinition.getNavigator().showScreen(Navigator.SPECIFICATION);
-//                new DataTypeSpecification(
-//                        new XDataTypes(
-//                                dtInfoPanel.getDTName(),
-//                                dtInfoPanel.getNamespace(),
-//                                dtInfoPanel.getTargetDir(),
-//                                extractDataTypeFields()));
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -49,7 +47,8 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
         add(nextBtn);
     }
 
-    private List<XDataType> extractDataTypeFields() {
+    private List<DataTypeElement> extractDataTypeFields() {
+        DataTypeFieldParser dataTypeFieldParser = new DataTypeFieldParser();
         return Arrays.stream(dataTypeDefinition.getDtFieldTabbedPane().getComponents())
                 .map(component -> (DataTypeDefinitionFieldPanel) component)
                 .map(component ->
