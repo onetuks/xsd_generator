@@ -13,7 +13,7 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
-import model.XNode;
+import model.DataTypeNode;
 import ui.FrameInfo;
 
 public class TreeViewerScrollPane extends JScrollPane {
@@ -113,10 +113,10 @@ public class TreeViewerScrollPane extends JScrollPane {
     return jTree;
   }
 
-  private MutableTreeNode buildTreeNode(XNode node) {
-    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node.getEntity().getName());
+  private MutableTreeNode buildTreeNode(DataTypeNode node) {
+    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node.entity().getName());
 
-    node.getChildren().stream()
+    node.children().stream()
         .map(this::buildTreeNode)
         .forEach(treeNode::add);
 

@@ -1,4 +1,4 @@
-package dto;
+package definition;
 
 import java.util.Objects;
 import model.vo.Attribute;
@@ -6,7 +6,7 @@ import model.vo.Category;
 import model.vo.Occurrence;
 import model.vo.Type;
 
-public class XDataType {
+public class DataTypeElement {
 
   public static final String STATEMENT = "StatementName";
   public static final String DB_TABLE_NAME = "dbTableName";
@@ -23,7 +23,7 @@ public class XDataType {
   private final Type type;
   private final Occurrence occurrence;
 
-  public XDataType(String dataTypeName) {
+  public DataTypeElement(String dataTypeName) {
     this.level = getProperLevel(dataTypeName);
     this.name = dataTypeName;
     this.description = "";
@@ -32,7 +32,7 @@ public class XDataType {
     this.occurrence = null;
   }
 
-  public XDataType(String name, String description) {
+  public DataTypeElement(String name, String description) {
     this.level = getProperLevel(name);
     this.name = name;
     this.description = description;
@@ -50,18 +50,12 @@ public class XDataType {
       return Level.FIRST;
     }
 
-    switch (name) {
-      case ROW:
-        return Level.FIRST;
-      case DB_TABLE_NAME:
-        return Level.SECOND;
-      case ACCESS:
-      case KEY:
-      case TABLE:
-        return Level.THIRD;
-      default:
-        return Level.FOURTH;
-    }
+      return switch (name) {
+          case ROW -> Level.FIRST;
+          case DB_TABLE_NAME -> Level.SECOND;
+          case ACCESS, KEY, TABLE -> Level.THIRD;
+          default -> Level.FOURTH;
+      };
   }
 
   private Category getProperCategory(String name) {

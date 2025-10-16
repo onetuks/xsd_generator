@@ -5,7 +5,7 @@ import model.vo.Category;
 import model.vo.Occurrence;
 import model.vo.Type;
 
-public class XEntity {
+public class DataTypeEntity {
 
   private final String name;
   private final String description;
@@ -13,7 +13,7 @@ public class XEntity {
   private Type type;
   private Occurrence occurrence;
 
-  public XEntity(
+  public DataTypeEntity(
       String name, String description, Category category, Type type, Occurrence occurrence) {
     this.name = name;
     this.description = description == null ? "" : description;
@@ -63,7 +63,7 @@ public class XEntity {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    XEntity xEntity = (XEntity) o;
+    DataTypeEntity xEntity = (DataTypeEntity) o;
     return Objects.equals(name, xEntity.name);
   }
 

@@ -5,21 +5,21 @@ import static builder.TypeBuilder.TEXT_FIELD_WIDTH;
 
 import java.awt.Dimension;
 import javax.swing.JTextField;
-import model.XNode;
+import model.DataTypeNode;
 import ui.FrameInfo;
 
 public class TypeBuilderDetailTextFields {
 
-  protected JTextField buildNameTextField(XNode node) {
-    JTextField nameTextField = new JTextField(node.getEntity().getName());
+  protected JTextField buildNameTextField(DataTypeNode node) {
+    JTextField nameTextField = new JTextField(node.entity().getName());
 
     setDefaultTextFieldConfiguration(nameTextField);
 
     return nameTextField;
   }
 
-  protected JTextField buildDescriptionTextField(XNode node) {
-    JTextField descriptionTextField = new JTextField(node.getEntity().getDescription());
+  protected JTextField buildDescriptionTextField(DataTypeNode node) {
+    JTextField descriptionTextField = new JTextField(node.entity().getDescription());
 
     setDefaultTextFieldConfiguration(descriptionTextField);
 

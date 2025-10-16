@@ -1,6 +1,6 @@
 package core;
 
-import dto.XDataType;
+import definition.DataTypeElement;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -11,7 +11,7 @@ public class DataTypeFieldParser {
   public static final String NEW_LINE = "\n";
   private static final String BLANK = "";
 
-  public List<XDataType> parseData(String nameText, String descriptionText) {
+  public List<DataTypeElement> parseData(String nameText, String descriptionText) {
     String[] names = nameText.trim().split("\n");
     String[] descriptions = descriptionText.split("\n");
 
@@ -26,7 +26,7 @@ public class DataTypeFieldParser {
           String description = descriptions.length <= i
               ? ""
               : descriptions[i].trim().replaceAll(NA, BLANK);
-          return new XDataType(name, description);
+          return new DataTypeElement(name, description);
         })
         .collect(Collectors.toList());
   }

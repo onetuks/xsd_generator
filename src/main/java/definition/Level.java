@@ -1,4 +1,4 @@
-package dto;
+package definition;
 
 public interface Level {
   int FIRST = 1;

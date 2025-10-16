@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import model.XNode;
+import model.DataTypeNode;
 import ui.FrameInfo;
 
 public class TypeBuilderDetailButtons {
@@ -20,7 +20,7 @@ public class TypeBuilderDetailButtons {
     this.builder = builder;
   }
 
-  protected JButton buildRemoveButton(XNode node) {
+  protected JButton buildRemoveButton(DataTypeNode node) {
     JButton removeButton = new JButton(
         new ImageIcon(
             new ImageIcon("resources/delete.png")

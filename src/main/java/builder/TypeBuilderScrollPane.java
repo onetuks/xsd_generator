@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import model.XNode;
+import model.DataTypeNode;
 import model.vo.Category;
 import ui.FrameInfo;
 
@@ -37,14 +37,14 @@ public class TypeBuilderScrollPane extends JScrollPane {
     return container;
   }
 
-  private List<TypeBuilderDetailPanel> buildDetailPanel(TypeBuilder builder, XNode node) {
+  private List<TypeBuilderDetailPanel> buildDetailPanel(TypeBuilder builder, DataTypeNode node) {
     List<TypeBuilderDetailPanel> detailPanels = new ArrayList<>();
 
-    if (node.getEntity().getCategory() != Category.COMPLEX_TYPE) {
+    if (node.entity().getCategory() != Category.COMPLEX_TYPE) {
       detailPanels.add(new TypeBuilderDetailPanel(builder, node));
     }
 
-    node.getChildren().stream()
+    node.children().stream()
         .map(child -> buildDetailPanel(builder, child))
         .forEach(detailPanels::addAll);
 

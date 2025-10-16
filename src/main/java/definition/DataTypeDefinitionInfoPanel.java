@@ -3,7 +3,6 @@ package definition;
 import ui.FrameInfo;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class DataTypeDefinitionInfoPanel extends JPanel {
 

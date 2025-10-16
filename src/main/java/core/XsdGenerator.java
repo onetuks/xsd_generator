@@ -1,6 +1,6 @@
 package core;
 
-import model.XNode;
+import model.DataTypeNode;
 import model.XTree;
 import model.vo.Attribute;
 import model.vo.Category;
@@ -29,42 +29,42 @@ public class XsdGenerator {
     return generateSchemaTag(tree, generateXsdString(tree.getRoot()));
   }
 
-  private String generateXsdString(XNode node) {
-    if (node.getEntity().getCategory() == Category.COMPLEX_TYPE) {
+  private String generateXsdString(DataTypeNode node) {
+    if (node.entity().getCategory() == Category.COMPLEX_TYPE) {
       return generateComplexTypeTag(node);
-    } else if (node.getEntity().getCategory() == Category.ATTRIBUTE) {
+    } else if (node.entity().getCategory() == Category.ATTRIBUTE) {
       return generateAttributeTag(node);
     }
     return generateElementTag(node);
   }
 
-  private String generateComplexTypeTag(XNode node) {
-    return String.format(ROOT_COMPLEX_TYPE_TAG, node.getEntity().getName()) +
+  private String generateComplexTypeTag(DataTypeNode node) {
+    return String.format(ROOT_COMPLEX_TYPE_TAG, node.entity().getName()) +
         SEQUENCE_TAG +
-        node.getChildren().stream()
+        node.children().stream()
             .map(this::generateXsdString)
             .reduce("", (acc, str) -> acc + str) +
         SEQUENCE_END +
         COMPLEX_TYPE_END;
   }
 
-  private String generateAttributeTag(XNode node) {
+  private String generateAttributeTag(DataTypeNode node) {
     return String.format(
         ATTRIBUTE_TAG,
-        node.getEntity().getName(),
-        node.getEntity().getType().getXsdType());
+        node.entity().getName(),
+        node.entity().getType().getXsdType());
   }
 
-  private String generateElementTag(XNode node) {
+  private String generateElementTag(DataTypeNode node) {
     // attr -> x, elem -> x (element)
-    if (node.getChildren().isEmpty()) {
+    if (node.children().isEmpty()) {
       return generateContentElementTag(node);
     }
 
     // attr -> o, elem -> x (extension)
-    boolean hasLeafAttribute = node.getChildren().stream()
-        .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
-        .anyMatch(child -> Attribute.hasAttributeExceptAction(child.getEntity().getName()));
+    boolean hasLeafAttribute = node.children().stream()
+        .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
+        .anyMatch(child -> Attribute.hasAttributeExceptAction(child.entity().getName()));
     if (hasLeafAttribute) {
       return generateExtensionContentElementTag(node);
     }
@@ -73,57 +73,57 @@ public class XsdGenerator {
     return generateWrapperElementTag(node);
   }
 
-  private String generateContentElementTag(XNode node) {
+  private String generateContentElementTag(DataTypeNode node) {
     return String.format(
         CONTENT_ELEMENT_TAG,
-        node.getEntity().getName(),
-        node.getEntity().getType().getXsdType(),
-        node.getEntity().getOccurrence().getLowerBound(),
-        node.getEntity().getOccurrence().getUpperBound()) +
+        node.entity().getName(),
+        node.entity().getType().getXsdType(),
+        node.entity().getOccurrence().getLowerBound(),
+        node.entity().getOccurrence().getUpperBound()) +
         (
-            node.getEntity().getDescription().isEmpty()
+            node.entity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, node.getEntity().getDescription())
+                : String.format(DESCRIPTION_TAG, node.entity().getDescription())
         ) +
         ELEMENT_END;
   }
 
-  private String generateWrapperElementTag(XNode node) {
+  private String generateWrapperElementTag(DataTypeNode node) {
     return String.format(
         WRAPPER_ELEMENT_TAG,
-        node.getEntity().getName(),
-        node.getEntity().getOccurrence().getLowerBound(),
-        node.getEntity().getOccurrence().getUpperBound()) +
+        node.entity().getName(),
+        node.entity().getOccurrence().getLowerBound(),
+        node.entity().getOccurrence().getUpperBound()) +
         COMPLEX_TYPE_TAG +
         SEQUENCE_TAG +
-        node.getChildren().stream()
-            .filter(child -> child.getEntity().getCategory() == Category.ELEMENT)
+        node.children().stream()
+            .filter(child -> child.entity().getCategory() == Category.ELEMENT)
             .map(this::generateXsdString)
             .reduce("", (acc, str) -> acc + str) +
         SEQUENCE_END +
-        node.getChildren().stream()
-            .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
+        node.children().stream()
+            .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
             .map(this::generateXsdString)
             .reduce("", (acc, str) -> acc + str) +
         COMPLEX_TYPE_END +
         ELEMENT_END;
   }
 
-  private String generateExtensionContentElementTag(XNode node) {
+  private String generateExtensionContentElementTag(DataTypeNode node) {
     return String.format(
         WRAPPER_ELEMENT_TAG,
-        node.getEntity().getName(),
-        node.getEntity().getOccurrence().getLowerBound(),
-        node.getEntity().getOccurrence().getUpperBound()) +
+        node.entity().getName(),
+        node.entity().getOccurrence().getLowerBound(),
+        node.entity().getOccurrence().getUpperBound()) +
         (
-            node.getEntity().getDescription().isEmpty()
+            node.entity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, node.getEntity().getDescription())) +
+                : String.format(DESCRIPTION_TAG, node.entity().getDescription())) +
         COMPLEX_TYPE_TAG +
         SIMPLE_CONTENT_TAG +
-        String.format(EXTENSION_TAG, node.getEntity().getType().getXsdType()) +
-        node.getChildren().stream()
-            .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
+        String.format(EXTENSION_TAG, node.entity().getType().getXsdType()) +
+        node.children().stream()
+            .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
             .map(this::generateXsdString)
             .reduce("", (acc, str) -> acc + str) +
         EXTENSION_END +

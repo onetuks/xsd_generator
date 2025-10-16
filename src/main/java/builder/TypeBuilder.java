@@ -1,6 +1,5 @@
 package builder;
 
-import core.NodeLinker;
 import definition.DataTypeDefinition;
 import dto.XDataTypes;
 
@@ -9,7 +8,7 @@ import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.XNode;
+import model.DataTypeNode;
 import model.XTree;
 import model.vo.Attribute;
 import model.vo.Category;
@@ -62,43 +61,43 @@ public class TypeBuilder extends JFrame {
         return container;
     }
 
-    public void removeDetailPanel(XNode node) {
+    public void removeDetailPanel(DataTypeNode node) {
         tree.removeNode(node);
         refreshFrame();
     }
 
-    public void updateCategory(XNode node, Category updatedCategory) {
-        node.getEntity().setCategory(updatedCategory);
+    public void updateCategory(DataTypeNode node, Category updatedCategory) {
+        node.entity().setCategory(updatedCategory);
 
         if (updatedCategory == Category.ATTRIBUTE) {
-            node.getEntity().setDataType(model.vo.Type.STRING);
-            node.getEntity().setOccurrence(Occurrence.ofOptional());
+            node.entity().setDataType(model.vo.Type.STRING);
+            node.entity().setOccurrence(Occurrence.ofOptional());
         } else {
-            node.getEntity().setOccurrence(Occurrence.ofZeroOne());
+            node.entity().setOccurrence(Occurrence.ofZeroOne());
         }
 
         refreshFrame();
     }
 
-    public void updateType(XNode node, model.vo.Type updatedType) {
-        node.getEntity().setType(updatedType);
+    public void updateType(DataTypeNode node, model.vo.Type updatedType) {
+        node.entity().setType(updatedType);
         refreshFrame();
     }
 
-    public void addAttribute(XNode node, Attribute attribute) {
+    public void addAttribute(DataTypeNode node, Attribute attribute) {
         node.addChild(
-                XNode.of(
+                DataTypeNode.of(
                         attribute.getName(), null,
                         Category.ATTRIBUTE, model.vo.Type.STRING, Occurrence.ofOptional()));
     }
 
-    public void removeAttribute(XNode node, Attribute attribute) {
-        XNode targetNode = node.getChildren().stream()
-                .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
-                .filter(child -> Objects.equals(child.getEntity().getName(), attribute.getName()))
+    public void removeAttribute(DataTypeNode node, Attribute attribute) {
+        DataTypeNode targetNode = node.children().stream()
+                .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
+                .filter(child -> Objects.equals(child.entity().getName(), attribute.getName()))
                 .findAny()
                 .orElseThrow(() -> new RuntimeException("Attribute not found"));
-        node.getChildren().remove(targetNode);
+        node.children().remove(targetNode);
     }
 
     private void refreshFrame() {

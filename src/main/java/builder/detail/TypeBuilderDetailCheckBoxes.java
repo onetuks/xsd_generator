@@ -4,7 +4,7 @@ import builder.TypeBuilder;
 import java.util.Arrays;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import model.XNode;
+import model.DataTypeNode;
 import model.vo.Attribute;
 import model.vo.Category;
 import ui.FrameInfo;
@@ -17,7 +17,7 @@ public class TypeBuilderDetailCheckBoxes {
     this.builder = builder;
   }
 
-  protected JPanel buildAttributeCheckBoxPanel(XNode node) {
+  protected JPanel buildAttributeCheckBoxPanel(DataTypeNode node) {
     JPanel attributeCheckBoxPanel = new JPanel();
 
     attributeCheckBoxPanel.setBackground(FrameInfo.PRIMARY);
@@ -30,16 +30,16 @@ public class TypeBuilderDetailCheckBoxes {
     return attributeCheckBoxPanel;
   }
 
-  private JCheckBox buildAttributeCheckBox(Attribute attribute, XNode node) {
+  private JCheckBox buildAttributeCheckBox(Attribute attribute, DataTypeNode node) {
     JCheckBox attributeCheckBox = new JCheckBox(attribute.getName());
 
     attributeCheckBox.setBackground(FrameInfo.SECONDARY);
     attributeCheckBox.setForeground(FrameInfo.TERTIARY);
 
-    setCheckBoxEnabled(attributeCheckBox, node.getEntity().getCategory());
+    setCheckBoxEnabled(attributeCheckBox, node.entity().getCategory());
 
     attributeCheckBox.addActionListener(e -> {
-      setCheckBoxEnabled(attributeCheckBox, node.getEntity().getCategory());
+      setCheckBoxEnabled(attributeCheckBox, node.entity().getCategory());
 
       if (attributeCheckBox.isSelected()) {
         builder.addAttribute(node, attribute);

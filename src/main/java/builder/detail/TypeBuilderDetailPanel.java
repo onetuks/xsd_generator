@@ -5,7 +5,7 @@ import static builder.TypeBuilder.CONTENT_HEIGHT;
 import builder.TypeBuilder;
 import java.awt.Dimension;
 import javax.swing.JPanel;
-import model.XNode;
+import model.DataTypeNode;
 import ui.FrameInfo;
 
 public class TypeBuilderDetailPanel extends JPanel {
@@ -15,7 +15,7 @@ public class TypeBuilderDetailPanel extends JPanel {
   private final TypeBuilderDetailComboBoxes comboBoxes;
   private final TypeBuilderDetailCheckBoxes checkBoxes;
 
-  public TypeBuilderDetailPanel(TypeBuilder builder, XNode node) {
+  public TypeBuilderDetailPanel(TypeBuilder builder, DataTypeNode node) {
     super();
 
     this.buttons = new TypeBuilderDetailButtons(builder);
@@ -31,7 +31,7 @@ public class TypeBuilderDetailPanel extends JPanel {
     buildDetailPanel(node);
   }
 
-  private void buildDetailPanel(XNode node) {
+  private void buildDetailPanel(DataTypeNode node) {
     add(buttons.buildRemoveButton(node));
     add(textFields.buildNameTextField(node));
     add(comboBoxes.buildCategoryComboBox(node));

@@ -1,12 +1,12 @@
 package definition;
 
-import static dto.XDataType.ACCESS;
-import static dto.XDataType.ACTION;
-import static dto.XDataType.DB_TABLE_NAME;
-import static dto.XDataType.KEY;
-import static dto.XDataType.ROW;
-import static dto.XDataType.STATEMENT;
-import static dto.XDataType.TABLE;
+import static definition.DataTypeElement.ACCESS;
+import static definition.DataTypeElement.ACTION;
+import static definition.DataTypeElement.DB_TABLE_NAME;
+import static definition.DataTypeElement.KEY;
+import static definition.DataTypeElement.ROW;
+import static definition.DataTypeElement.STATEMENT;
+import static definition.DataTypeElement.TABLE;
 
 import java.util.ArrayList;
 import java.util.List;
