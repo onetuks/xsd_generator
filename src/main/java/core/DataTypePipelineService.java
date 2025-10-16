@@ -1,7 +1,9 @@
 package core;
 
+import model.DataTypeMeta;
 import model.DataTypeState;
 import model.DataTypeNode;
+import model.vo.Category;
 import specification.elements.DataTypeElement;
 
 import java.util.*;
@@ -19,7 +21,11 @@ public class DataTypePipelineService {
     }
 
     public void updateDataTypeNode(List<DataTypeElement> elements) {
-        IntStream.of(0, elements.size())
+        DataTypeMeta meta = state.getMeta();
+        state.setRootNode(
+                DataTypeNode.of(meta.dtName(), null, Category.COMPLEX_TYPE, null, null));
+
+        IntStream.range(0, elements.size())
                 .forEach(idx -> {
                     DataTypeElement currentElement = elements.get(idx);
                     DataTypeNode currentNode = DataTypeNode.of(
@@ -58,14 +64,10 @@ public class DataTypePipelineService {
                 return elements.get(i);
             }
         }
-        return elements.get(idx);
+        return new DataTypeElement(state.getMeta().dtName());
     }
 
-    public List<DataTypeElement> getDataTypeElement() {
+    public List<DataTypeElement> getDataTypeElements() {
         return state.getElements();
-    }
-
-    public DataTypeNode getRootNode() {
-        return state.getRootNode();
     }
 }

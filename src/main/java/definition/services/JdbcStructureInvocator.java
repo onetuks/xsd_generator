@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JdbcStructureInvocator {
 
-  protected List<String> generateSELECTStructure() {
+  public List<String> generateSELECTStructure() {
     List<String> schema = new ArrayList<>();
 
     schema.add(ROW);
@@ -21,7 +21,7 @@ public class JdbcStructureInvocator {
     return schema;
   }
 
-  protected List<String> generateDMLStructure(int schemaIndex) {
+  public List<String> generateDMLStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(TABLE);
@@ -30,7 +30,7 @@ public class JdbcStructureInvocator {
     return schema;
   }
 
-  protected List<String> generateSQLStructure(int schemaIndex) {
+  public List<String> generateSQLStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(ACCESS);
@@ -39,7 +39,7 @@ public class JdbcStructureInvocator {
     return schema;
   }
 
-  protected List<String> generatePROCEDUREStructure(int schemaIndex) {
+  public List<String> generatePROCEDUREStructure(int schemaIndex) {
     List<String> schema = generateDefaultSchema(schemaIndex);
 
     schema.add(TABLE);

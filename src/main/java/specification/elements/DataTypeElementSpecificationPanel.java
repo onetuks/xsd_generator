@@ -1,12 +1,10 @@
 package specification.elements;
 
-import static builder.TypeBuilder.CONTENT_HEIGHT;
-
-import java.awt.Dimension;
-import javax.swing.JPanel;
-
 import specification.DataTypeSpecificationPanel;
 import ui.FrameInfo;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class DataTypeElementSpecificationPanel extends JPanel {
 
@@ -22,7 +20,7 @@ public class DataTypeElementSpecificationPanel extends JPanel {
         this.checkBoxes = new DataTypeElementSpecificationCheckBoxFactory();
 
         setBorder(FrameInfo.COMPOUND_BORDER);
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, CONTENT_HEIGHT * 2));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 25 * 2));
 
         buildDetailPanel(element);
     }

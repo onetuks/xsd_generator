@@ -9,6 +9,7 @@ import ui.FrameInfo;
 import util.Navigator;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class DataTypeDefinitionPanel extends JPanel {
 
@@ -30,6 +31,7 @@ public class DataTypeDefinitionPanel extends JPanel {
     private void initComponent() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(FrameInfo.EMPTY_BORDER);
+
         add(Box.createVerticalStrut(8));
         add(dtInfoPanel);
         add(Box.createVerticalStrut(8));

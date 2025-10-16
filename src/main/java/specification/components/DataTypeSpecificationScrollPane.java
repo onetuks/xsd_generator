@@ -8,8 +8,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import ui.FrameInfo;
-
 public class DataTypeSpecificationScrollPane extends JScrollPane {
 
     private final DataTypeSpecificationPanel specification;
@@ -20,16 +18,23 @@ public class DataTypeSpecificationScrollPane extends JScrollPane {
         JPanel detailPanelContainer = createDetailPanelContainer();
 
         this.setViewportView(detailPanelContainer);
-        this.setPreferredSize(new Dimension(FrameInfo.CONTENT_WIDTH, FrameInfo.CONTENT_HEIGHT));
+        this.setPreferredSize(new Dimension(1000, 600));
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.getVerticalScrollBar().setUnitIncrement(20);
-        this.setVisible(true);
+    }
+
+    public void refresh() {
+        setViewportView(createDetailPanelContainer());
+        revalidate();
+        repaint();
     }
 
     private JPanel createDetailPanelContainer() {
-        JPanel container = new JPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
-        specification.getDataTypeElements()
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        specification.getService()
+                .getDataTypeElements()
                 .forEach(element -> container.add(new DataTypeElementSpecificationPanel(specification, element)));
         return container;
     }

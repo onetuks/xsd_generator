@@ -5,13 +5,10 @@ import util.IconLoader;
 import javax.swing.*;
 import java.awt.*;
 
-import static builder.TypeBuilder.CONTENT_HEIGHT;
-import static builder.TypeBuilder.CONTENT_WIDTH;
-
 public class DataTypeDefinitionInfoComponent extends JPanel {
 
     private static final Dimension LABEL_DIMENSION = new Dimension(80, 30);
-    private static final Dimension TEXT_FIELD_DIMENSION = new Dimension(400, 25);
+    private static final Dimension TEXT_FIELD_DIMENSION = new Dimension(950, 25);
 
     private final JTextField infoTextField;
     private final JFileChooser fileChooser;
@@ -31,7 +28,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
         this.infoTextField.setPreferredSize(TEXT_FIELD_DIMENSION);
 
         JButton dirSelectionBtn = new JButton(new IconLoader().loadIcon(IconLoader.FOLDER_ICON_PATH));
-        dirSelectionBtn.setPreferredSize(new Dimension(CONTENT_WIDTH, CONTENT_HEIGHT));
+        dirSelectionBtn.setPreferredSize(new Dimension(25, 25));
         dirSelectionBtn.setBorderPainted(false);
         dirSelectionBtn.setContentAreaFilled(false);
         dirSelectionBtn.addActionListener(e -> {

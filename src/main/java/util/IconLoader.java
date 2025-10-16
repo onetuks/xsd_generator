@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public record IconLoader() {
 
+    public static final int ICON_SIZE = 20;
     public static final String FOLDER_ICON_PATH = "/folder.png";
     public static final String DELETE_ICON_PATH = "/delete.png";
 

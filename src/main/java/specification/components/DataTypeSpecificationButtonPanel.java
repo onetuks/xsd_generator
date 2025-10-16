@@ -2,7 +2,6 @@ package specification.components;
 
 import specification.DataTypeSpecificationPanel;
 import util.Navigator;
-import ui.FrameInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,22 +22,22 @@ public class DataTypeSpecificationButtonPanel extends JPanel {
         add(createNextButton());
     }
 
-    private JButton createGenerateButton() {
-        JButton generateButton = new JButton("Generate");
-
-        generateButton.setBackground(FrameInfo.SECONDARY);
-        generateButton.setForeground(FrameInfo.TERTIARY);
-
-        generateButton.addActionListener(e -> {
-            fileSaver.saveFile(
-                    builder.getTree().getFileFullPath(),
-                    xsdGenerator.generate(builder.getTree()));
-
-            JOptionPane.showMessageDialog(this, "XSD File Generated!");
-        });
-
-        add(generateButton);
-    }
+//    private JButton createGenerateButton() {
+//        JButton generateButton = new JButton("Generate");
+//
+//        generateButton.setBackground(FrameInfo.SECONDARY);
+//        generateButton.setForeground(FrameInfo.TERTIARY);
+//
+//        generateButton.addActionListener(e -> {
+//            fileSaver.saveFile(
+//                    builder.getTree().getFileFullPath(),
+//                    xsdGenerator.generate(builder.getTree()));
+//
+//            JOptionPane.showMessageDialog(this, "XSD File Generated!");
+//        });
+//
+//        add(generateButton);
+//    }
 
     private JButton createPrevButton() {
         JButton prevBtn = new JButton("Prev");
@@ -49,7 +48,7 @@ public class DataTypeSpecificationButtonPanel extends JPanel {
     private JButton createNextButton() {
         JButton nextBtn = new JButton("Next");
         nextBtn.addActionListener(e -> {
-            specification.getService().updateDataTypeNode(specification.getDataTypeElements());
+            specification.getService().updateDataTypeNode(specification.getService().getDataTypeElements());
             specification.getNavigator().showScreen(Navigator.HIERARCHY);
         });
         return nextBtn;

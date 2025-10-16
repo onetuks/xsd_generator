@@ -1,8 +1,5 @@
 package specification.components;
 
-import static builder.TypeBuilder.CONTENT_HEIGHT;
-import static builder.TypeBuilder.SMALL_TEXT_FIELD_WIDTH;
-
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
@@ -39,30 +36,29 @@ public class DataTypeSpecificationHeaderPanel extends JPanel {
 
   protected void setup() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
-    setPreferredSize(new Dimension(FrameInfo.CONTENT_WIDTH, (int) (CONTENT_HEIGHT * 1.5)));
+    setPreferredSize(new Dimension(600, (int) (25 * 1.5)));
     setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
   }
 
   private JLabel createHeaderLabel(String labelText) {
     JLabel label = new JLabel(labelText);
-    label.setForeground(FrameInfo.TERTIARY);
 
     switch (labelText) {
       case CATEGORY:
-        label.setPreferredSize(new Dimension(BIG_COMBO_BOX_WIDTH, CONTENT_HEIGHT));
+        label.setPreferredSize(new Dimension(BIG_COMBO_BOX_WIDTH, 25));
         break;
       case TYPE:
-        label.setPreferredSize(new Dimension(COMBO_BOX_WIDTH, CONTENT_HEIGHT));
+        label.setPreferredSize(new Dimension(COMBO_BOX_WIDTH, 25));
         break;
       case OCCURRENCE:
-        label.setPreferredSize(new Dimension(SMALL_TEXT_FIELD_WIDTH, CONTENT_HEIGHT));
+        label.setPreferredSize(new Dimension(80, 25));
         break;
       case NAME:
       case DESCRIPTION:
-        label.setPreferredSize(new Dimension(TEXT_FIELD_WIDTH, CONTENT_HEIGHT));
+        label.setPreferredSize(new Dimension(TEXT_FIELD_WIDTH, 25));
         break;
       case ATTRIBUTES:
-        label.setPreferredSize(new Dimension(CHECK_BOX_WIDTH, CONTENT_HEIGHT));
+        label.setPreferredSize(new Dimension(CHECK_BOX_WIDTH, 25));
         break;
     }
 

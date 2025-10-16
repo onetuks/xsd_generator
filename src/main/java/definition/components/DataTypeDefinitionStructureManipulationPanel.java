@@ -3,6 +3,7 @@ package definition.components;
 import ui.FrameInfo;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class DataTypeDefinitionStructureManipulationPanel extends JPanel {
 
