@@ -40,19 +40,17 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
                     hierarchy.setFocusedDataType();
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     hierarchyTree.setSelectionPath(hierarchyTree.getPathForLocation(e.getX(), e.getY()));
-                    String targetDataTypeName =
-                            ((DefaultMutableTreeNode) hierarchyTree.getLastSelectedPathComponent())
-                                    .getUserObject()
-                                    .toString();
+                    DataTypeNode targetNode = (DataTypeNode) ((DefaultMutableTreeNode) hierarchyTree.getLastSelectedPathComponent())
+                            .getUserObject();
 
                     HierarchyManipulationType type = getManipulationType();
                     if (type == HierarchyManipulationType.BE_A_CHILD) {
-                        hierarchy.addChildTo(targetDataTypeName);
+                        hierarchy.addChildTo(targetNode);
                     } else if (type == HierarchyManipulationType.BE_A_SIBLING) {
-                        hierarchy.addSiblingTo(targetDataTypeName);
+                        hierarchy.addSiblingTo(targetNode);
                     }
 
-                    bindTreeViewPort(); //todo: 무한 재귀 호출
+                    bindTreeViewPort();
                 }
             }
         });
@@ -95,7 +93,7 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
             return null;
         }
 
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node.entity().getName());
+        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node);
 
         node.children().stream()
                 .map(this::createNode)

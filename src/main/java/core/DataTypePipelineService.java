@@ -51,21 +51,16 @@ public class DataTypePipelineService {
                 });
     }
 
-    public void addChildTo(String parentDataTypeName, String childDataTypeName) {
-        DataTypeNode parentNode = findNode(parentDataTypeName);
-        DataTypeNode childNode = findNode(childDataTypeName);
-
-        DataTypeNode originParentNode = findParentNode(childDataTypeName);
+    public void addChildTo(DataTypeNode parentNode, DataTypeNode childNode) {
+        DataTypeNode originParentNode = findParentNode(childNode);
 
         Objects.requireNonNull(originParentNode).children().remove(childNode);
         Objects.requireNonNull(parentNode).children().add(childNode);
     }
 
-    public void addSiblingTo(String olderSiblingDataTypeName, String youngerSiblingDataTypeName) {
-        DataTypeNode youngerNode = findNode(youngerSiblingDataTypeName);
-
-        DataTypeNode olderParentNode = findParentNode(olderSiblingDataTypeName);
-        DataTypeNode youngerParentNode = findParentNode(youngerSiblingDataTypeName);
+    public void addSiblingTo(DataTypeNode olderNode, DataTypeNode youngerNode) {
+        DataTypeNode olderParentNode = findParentNode(olderNode);
+        DataTypeNode youngerParentNode = findParentNode(youngerNode);
 
         Objects.requireNonNull(olderParentNode).children().add(youngerNode);
         Objects.requireNonNull(youngerParentNode).children().remove(youngerNode);
@@ -90,15 +85,14 @@ public class DataTypePipelineService {
         return null;
     }
 
-    private DataTypeNode findParentNode(String name) {
+    private DataTypeNode findParentNode(DataTypeNode targetNode) {
         Queue<DataTypeNode> queue = new ArrayDeque<>();
         queue.add(state.getRootNode());
 
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
 
-            boolean isParent = node.children().stream()
-                    .anyMatch(child -> Objects.equals(child.entity().getName(), name));
+            boolean isParent = node.children().stream().anyMatch(child -> Objects.equals(child, targetNode));
             if (isParent) {
                 return node;
             }
@@ -126,9 +120,5 @@ public class DataTypePipelineService {
 
     public DataTypeNode getRootNode() {
         return state.getRootNode();
-    }
-
-    public void setRootNode(DataTypeNode rootNode) {
-        state.setRootNode(rootNode);
     }
 }

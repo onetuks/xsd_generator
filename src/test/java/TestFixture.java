@@ -1,6 +1,5 @@
 import dto.XDataTypes;
 import model.DataTypeNode;
-import model.XTree;
 import model.vo.Category;
 import model.vo.Occurrence;
 import model.vo.Type;

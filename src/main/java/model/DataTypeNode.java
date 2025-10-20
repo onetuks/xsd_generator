@@ -53,15 +53,18 @@ public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DataTypeNode node = (DataTypeNode) o;
-        return Objects.equals(entity, node.entity);
+        if (o == null || getClass() != o.getClass()) return false;
+        DataTypeNode that = (DataTypeNode) o;
+        return Objects.equals(entity.getId(), that.entity.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(entity);
+        return entity.getId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return entity.getName();
     }
 }

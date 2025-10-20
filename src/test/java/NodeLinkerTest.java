@@ -1,5 +1,4 @@
 import dto.XDataTypes;
-import model.XTree;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

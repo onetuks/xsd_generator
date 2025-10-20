@@ -3,6 +3,7 @@ package hierarchy;
 import core.DataTypePipelineService;
 import hierarchy.components.DataTypeHierarchyControlPanel;
 import hierarchy.components.DataTypeHierarchyScrollPane;
+import model.DataTypeNode;
 import util.Navigator;
 
 import javax.swing.*;
@@ -52,34 +53,32 @@ public class DataTypeHierarchyPanel extends JPanel {
 
     public void setFocusedDataType() {
         if (!controlPanel.getEditModeCheckBox().isSelected()) {
-            controlPanel.getFocusedDataTypeNameLabel().setText("");
+            controlPanel.setFocusedNode(null);
             return;
         }
 
-        controlPanel.getFocusedDataTypeNameLabel()
-                .setText(
-                        ((DefaultMutableTreeNode) scrollPane.getHierarchyTree()
-                                .getLastSelectedPathComponent())
-                                .getUserObject()
-                                .toString());
+        controlPanel.setFocusedNode(
+                (DataTypeNode) ((DefaultMutableTreeNode) scrollPane.getHierarchyTree()
+                        .getLastSelectedPathComponent())
+                        .getUserObject());
     }
 
-    public void addChildTo(String parentDataTypeName) {
+    public void addChildTo(DataTypeNode parentNode) {
         if (!controlPanel.getEditModeCheckBox().isSelected()) {
             return;
         }
 
-        String childDataTypeName = controlPanel.getFocusedDataTypeNameLabel().getText();
-        service.addChildTo(parentDataTypeName, childDataTypeName);
+        DataTypeNode childNode = controlPanel.getFocusedNode();
+        service.addChildTo(parentNode, childNode);
     }
 
-    public void addSiblingTo(String olderSiblingDataTypeName) {
+    public void addSiblingTo(DataTypeNode olderNode) {
         if (!controlPanel.getEditModeCheckBox().isSelected()) {
             return;
         }
 
-        String youngerSiblingDataTypeName = controlPanel.getFocusedDataTypeNameLabel().getText();
-        service.addSiblingTo(olderSiblingDataTypeName, youngerSiblingDataTypeName);
+        DataTypeNode youngerNode = controlPanel.getFocusedNode();
+        service.addSiblingTo(olderNode, youngerNode);
     }
 
     public void completeHierarchy() {

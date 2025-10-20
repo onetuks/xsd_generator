@@ -1,6 +1,7 @@
 package hierarchy.components;
 
 import hierarchy.DataTypeHierarchyPanel;
+import model.DataTypeNode;
 import ui.FrameInfo;
 import util.Navigator;
 
@@ -19,6 +20,8 @@ public class DataTypeHierarchyControlPanel extends JPanel {
 
     private final JCheckBox editModeCheckBox = new JCheckBox("Edit Mode");
     private final JLabel focusedDataTypeNameLabel = new JLabel("");
+
+    private DataTypeNode focusedNode = null;
 
     public DataTypeHierarchyControlPanel(DataTypeHierarchyPanel hierarchy) {
         super();
@@ -54,6 +57,7 @@ public class DataTypeHierarchyControlPanel extends JPanel {
         focusedPanel.setBorder(FrameInfo.COMPOUND_BORDER);
 
         focusedPanel.add(new JLabel(HINT_FOCUS));
+        focusedDataTypeNameLabel.setForeground(FrameInfo.PRIMARY_COLOR);
         focusedPanel.add(focusedDataTypeNameLabel);
 
         return focusedPanel;
@@ -96,7 +100,15 @@ public class DataTypeHierarchyControlPanel extends JPanel {
         return editModeCheckBox;
     }
 
-    public JLabel getFocusedDataTypeNameLabel() {
-        return focusedDataTypeNameLabel;
+    public DataTypeNode getFocusedNode() {
+        return focusedNode;
+    }
+
+    public void setFocusedNode(DataTypeNode  focusedNode) {
+        this.focusedNode = focusedNode;
+
+        if (focusedNode != null) {
+            this.focusedDataTypeNameLabel.setText(focusedNode.entity().getName());
+        }
     }
 }

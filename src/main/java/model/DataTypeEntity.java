@@ -5,23 +5,29 @@ import model.vo.Occurrence;
 import model.vo.Type;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class DataTypeEntity {
 
-
+    private final UUID id;
     private final String name;
     private final String description;
     private Category category;
     private Type type;
-    private Occurrence occurrence;
+    private final Occurrence occurrence;
 
     public DataTypeEntity(
             String name, String description, Category category, Type type, Occurrence occurrence) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description == null ? "" : description;
         this.category = category;
         this.type = type;
         this.occurrence = occurrence;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public Category getCategory() {
@@ -48,15 +54,7 @@ public class DataTypeEntity {
         this.category = category;
     }
 
-    public void setOccurrence(Occurrence occurrence) {
-        this.occurrence = occurrence;
-    }
-
     public void setType(Type type) {
-        this.type = type;
-    }
-
-    public void setDataType(Type type) {
         this.type = type;
     }
 
