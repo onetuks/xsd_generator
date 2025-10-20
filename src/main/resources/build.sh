@@ -1,0 +1,1 @@
+& "C:\Users\seyou\.jdks\temurin-21.0.8\bin\jpackage.exe" --name xsd_generator --input build\libs --main-jar xsd_generator-1.0.jar --main-class MainFrame --type app-image --dest dist
