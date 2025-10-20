@@ -7,6 +7,7 @@ import model.vo.Type;
 
 public class DataTypeEntity {
 
+
   private final String name;
   private final String description;
   private Category category;

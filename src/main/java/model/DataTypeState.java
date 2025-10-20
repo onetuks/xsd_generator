@@ -10,7 +10,7 @@ public class DataTypeState {
 
     private DataTypeMeta meta;
 
-    private TreeMap<String, String> fields = new TreeMap<>();
+    private final TreeMap<String, String> fields = new TreeMap<>();
     private List<DataTypeElement> elements = new ArrayList<>();
     private DataTypeNode rootNode = null;
 

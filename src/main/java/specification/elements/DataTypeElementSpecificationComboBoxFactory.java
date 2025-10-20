@@ -39,9 +39,6 @@ public record DataTypeElementSpecificationComboBoxFactory() {
     JComboBox<Type> createTypeComboBox(DataTypeElement element) {
         JComboBox<Type> typeComboBox = new JComboBox<>(Type.values());
 
-        typeComboBox.setBackground(FrameInfo.SECONDARY);
-        typeComboBox.setForeground(FrameInfo.TERTIARY);
-
         typeComboBox.setSelectedItem(element.getType());
 
         typeComboBox.addActionListener(e -> {
@@ -54,9 +51,6 @@ public record DataTypeElementSpecificationComboBoxFactory() {
 
     JComboBox<String> createOccurrenceComboBox(DataTypeElement element) {
         JComboBox<String> occurrenceComboBox = new JComboBox<>(Occurrence.getOccurrenceCombo());
-
-        occurrenceComboBox.setBackground(FrameInfo.SECONDARY);
-        occurrenceComboBox.setForeground(FrameInfo.TERTIARY);
 
         occurrenceComboBox.setSelectedItem(element.getOccurrence().toString());
 

@@ -22,23 +22,6 @@ public class DataTypeSpecificationButtonPanel extends JPanel {
         add(createNextButton());
     }
 
-//    private JButton createGenerateButton() {
-//        JButton generateButton = new JButton("Generate");
-//
-//        generateButton.setBackground(FrameInfo.SECONDARY);
-//        generateButton.setForeground(FrameInfo.TERTIARY);
-//
-//        generateButton.addActionListener(e -> {
-//            fileSaver.saveFile(
-//                    builder.getTree().getFileFullPath(),
-//                    xsdGenerator.generate(builder.getTree()));
-//
-//            JOptionPane.showMessageDialog(this, "XSD File Generated!");
-//        });
-//
-//        add(generateButton);
-//    }
-
     private JButton createPrevButton() {
         JButton prevBtn = new JButton("Prev");
         prevBtn.addActionListener(e -> specification.getNavigator().showScreen(Navigator.DEFINITION));
