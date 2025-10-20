@@ -1,6 +1,7 @@
 package definition.components;
 
 import definition.services.DataTypeFieldParser;
+import specification.components.TextLineNumber;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -54,17 +55,16 @@ public class DataTypeDefinitionFieldPanel extends JPanel {
     }
 
     private JScrollPane buildDataInputScrollPane(String dataInputLabel) {
-        JScrollPane scrollPane = new JScrollPane();
-
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane =
+                new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         if (Objects.equals(dataInputLabel, NAME)) {
             scrollPane.setViewportView(nameTextArea);
+            scrollPane.setRowHeaderView(new TextLineNumber(nameTextArea));
         } else if (Objects.equals(dataInputLabel, DESCRIPTION)) {
             scrollPane.setViewportView(descriptionTextArea);
+            scrollPane.setRowHeaderView(new TextLineNumber(descriptionTextArea));
         }
-
         return scrollPane;
     }
 
