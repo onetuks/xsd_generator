@@ -108,7 +108,7 @@ public class DataTypeHierarchyControlPanel extends JPanel {
         this.focusedNode = focusedNode;
 
         if (focusedNode != null) {
-            this.focusedDataTypeNameLabel.setText(focusedNode.entity().getName());
+            this.focusedDataTypeNameLabel.setText(focusedNode.entity().name());
         }
     }
 }

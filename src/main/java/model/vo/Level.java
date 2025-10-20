@@ -1,6 +1,7 @@
 package model.vo;
 
 public interface Level {
+    int ROOT = 0;
     int FIRST = 1;
     int SECOND = 2;
     int THIRD = 3;

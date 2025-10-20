@@ -2,11 +2,13 @@ package specification.elements;
 
 import model.vo.Attribute;
 import model.vo.Category;
+import specification.DataTypeSpecificationPanel;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Objects;
 
-public record DataTypeElementSpecificationCheckBoxFactory() {
+public record DataTypeElementSpecificationCheckBoxFactory(DataTypeSpecificationPanel specificationPanel) {
 
     JPanel createAttributeCheckBoxPanel(DataTypeElement element) {
         JPanel attributeCheckBoxPanel = new JPanel();
@@ -24,14 +26,22 @@ public record DataTypeElementSpecificationCheckBoxFactory() {
 
         setCheckBoxEnabled(attributeCheckBox, element.getCategory());
 
+        attributeCheckBox.setSelected(element.getAttributes().contains(attribute));
+
         attributeCheckBox.addActionListener(e -> {
             setCheckBoxEnabled(attributeCheckBox, element.getCategory());
 
+            DataTypeElement targetElement = specificationPanel.getService().getDataTypeElements().stream()
+                    .filter(dataTypeElement -> dataTypeElement == element)
+                    .findAny()
+                    .orElseThrow(() -> new RuntimeException("Element not found"));
+
             if (attributeCheckBox.isSelected()) {
-                element.getAttributes().add(attribute);
+                targetElement.getAttributes().add(attribute);
+                return;
             }
 
-            element.getAttributes().remove(attribute);
+            targetElement.getAttributes().remove(attribute);
         });
 
         return attributeCheckBox;

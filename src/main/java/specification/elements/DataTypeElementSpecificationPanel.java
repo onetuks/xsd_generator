@@ -15,9 +15,9 @@ public class DataTypeElementSpecificationPanel extends JPanel {
 
     public DataTypeElementSpecificationPanel(DataTypeSpecificationPanel specification, DataTypeElement element) {
         this.buttons = new DataTypeElementSpecificationButtonFactory(specification);
-        this.textFields = new DataTypeElementSpecificationTextFieldFactory();
-        this.comboBoxes = new DataTypeElementSpecificationComboBoxFactory();
-        this.checkBoxes = new DataTypeElementSpecificationCheckBoxFactory();
+        this.textFields = new DataTypeElementSpecificationTextFieldFactory(specification);
+        this.comboBoxes = new DataTypeElementSpecificationComboBoxFactory(specification);
+        this.checkBoxes = new DataTypeElementSpecificationCheckBoxFactory(specification);
 
         setBorder(FrameInfo.COMPOUND_BORDER);
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 25 * 2));
@@ -27,11 +27,13 @@ public class DataTypeElementSpecificationPanel extends JPanel {
 
     private void buildDetailPanel(DataTypeElement element) {
         add(buttons.createRemoveButton(element));
-        add(textFields.createNameTextField(element));
+        add(textFields.createTextField(element,
+                DataTypeElementSpecificationTextFieldFactory.DataTypeElementTextFieldType.NAME));
         add(comboBoxes.createCategoryComboBox(element));
         add(comboBoxes.createTypeComboBox(element));
         add(comboBoxes.createOccurrenceComboBox(element));
-        add(textFields.createDescriptionTextField(element));
+        add(textFields.createTextField(element,
+                DataTypeElementSpecificationTextFieldFactory.DataTypeElementTextFieldType.DESCRIPTION));
         add(checkBoxes.createAttributeCheckBoxPanel(element));
     }
 }

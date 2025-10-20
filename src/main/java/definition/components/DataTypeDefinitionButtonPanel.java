@@ -36,7 +36,7 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
             try {
                 dataTypeDefinitionPanel
                         .getDataTypePipelineService()
-                        .updateDataTypeState(
+                        .updateDataTypeElements(
                                 dataTypeDefinitionPanel.getDtInfoPanel().getDTName(),
                                 dataTypeDefinitionPanel.getDtInfoPanel().getNamespace(),
                                 dataTypeDefinitionPanel.getDtInfoPanel().getTargetDir(),

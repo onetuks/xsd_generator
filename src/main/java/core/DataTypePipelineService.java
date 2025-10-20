@@ -4,6 +4,8 @@ import model.DataTypeMeta;
 import model.DataTypeNode;
 import model.DataTypeState;
 import model.vo.Category;
+import model.vo.Occurrence;
+import model.vo.Type;
 import specification.elements.DataTypeElement;
 
 import java.util.*;
@@ -21,7 +23,7 @@ public class DataTypePipelineService {
         fileSaver.saveFile(state.getMeta().filePath() + state.getMeta().dtName(), xsdString);
     }
 
-    public void updateDataTypeState(
+    public void updateDataTypeElements(
             String dtName, String namespace, String targetDir,
             List<DataTypeElement> dataTypeElements) {
         state.setMeta(dtName, namespace, targetDir);
@@ -33,21 +35,34 @@ public class DataTypePipelineService {
      * - DT명을 최상위 루트 노드로 추가
      */
     public void updateDataTypeNode(List<DataTypeElement> elements) {
-        DataTypeMeta meta = state.getMeta();
+        DataTypeElement rootElement = new DataTypeElement(state.getMeta().dtName());
         state.setRootNode(
-                DataTypeNode.of(meta.dtName(), null, Category.COMPLEX_TYPE, null, null));
+                DataTypeNode.of(
+                        rootElement.getId(), rootElement.getName(), rootElement.getDescription(),
+                        rootElement.getCategory(), rootElement.getType(), rootElement.getOccurrence()));
 
         IntStream.range(0, elements.size())
                 .forEach(idx -> {
                     DataTypeElement currentElement = elements.get(idx);
                     DataTypeNode currentNode = DataTypeNode.of(
-                            currentElement.getName(), currentElement.getDescription(),
+                            currentElement.getId(), currentElement.getName(), currentElement.getDescription(),
                             currentElement.getCategory(), currentElement.getType(), currentElement.getOccurrence());
 
-                    DataTypeElement parentElement = findParentElement(idx, elements);
-                    DataTypeNode parentNode = Objects.requireNonNull(findNode(parentElement.getName()));
-
+                    DataTypeElement parentElement =
+                            Objects.requireNonNullElse(findParentElement(idx, elements), rootElement);
+                    DataTypeNode parentNode = Objects.requireNonNull(findNode(parentElement));
                     parentNode.addChild(currentNode);
+
+                    currentElement.getAttributes().stream()
+                            .map(attribute ->
+                                    DataTypeNode.of(
+                                            UUID.randomUUID(),
+                                            attribute.getName(),
+                                            null,
+                                            Category.ATTRIBUTE,
+                                            Type.STRING,
+                                            Occurrence.ofOptional()))
+                            .forEach(currentNode::addChild);
                 });
     }
 
@@ -66,20 +81,18 @@ public class DataTypePipelineService {
         Objects.requireNonNull(youngerParentNode).children().remove(youngerNode);
     }
 
-    private DataTypeNode findNode(String name) {
+    private DataTypeNode findNode(DataTypeElement element) {
         Queue<DataTypeNode> queue = new ArrayDeque<>();
         queue.add(state.getRootNode());
 
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
 
-            if (Objects.equals(node.entity().getName(), name)) {
+            if (Objects.equals(node.entity().id(), element.getId())) {
                 return node;
             }
 
-            List<DataTypeNode> reversedChildren = new ArrayList<>(node.children());
-            Collections.reverse(reversedChildren);
-            queue.addAll(reversedChildren);
+            queue.addAll(node.children());
         }
 
         return null;
@@ -92,14 +105,13 @@ public class DataTypePipelineService {
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
 
-            boolean isParent = node.children().stream().anyMatch(child -> Objects.equals(child, targetNode));
+            boolean isParent = node.children().stream()
+                    .anyMatch(child -> Objects.equals(child, targetNode));
             if (isParent) {
                 return node;
             }
 
-            List<DataTypeNode> reversedChildren = new ArrayList<>(node.children());
-            Collections.reverse(reversedChildren);
-            queue.addAll(reversedChildren);
+            queue.addAll(node.children());
         }
 
         return null;
@@ -111,7 +123,7 @@ public class DataTypePipelineService {
                 return elements.get(i);
             }
         }
-        return new DataTypeElement(state.getMeta().dtName());
+        return null;
     }
 
     public List<DataTypeElement> getDataTypeElements() {

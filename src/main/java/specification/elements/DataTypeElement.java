@@ -5,6 +5,7 @@ import model.vo.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class DataTypeElement {
 
@@ -16,16 +17,18 @@ public class DataTypeElement {
     public static final String TABLE = "table";
     public static final String ROW = "row";
 
+    private final UUID id;
     private final int level;
-    private final String name;
-    private final String description;
+    private String name;
+    private String description;
     private Category category;
     private Type type;
     private Occurrence occurrence;
     private final List<Attribute> attributes;
 
     public DataTypeElement(String dataTypeName) {
-        this.level = getProperLevel(dataTypeName);
+        this.id = UUID.randomUUID();
+        this.level = Level.ROOT;
         this.name = dataTypeName;
         this.description = "";
         this.category = Category.COMPLEX_TYPE;
@@ -35,6 +38,7 @@ public class DataTypeElement {
     }
 
     public DataTypeElement(String name, String description) {
+        this.id = UUID.randomUUID();
         this.level = getProperLevel(name);
         this.name = name;
         this.description = description;
@@ -42,19 +46,6 @@ public class DataTypeElement {
         this.type = Type.STRING;
         this.occurrence = getProperOccurrence(name);
         this.attributes = new ArrayList<>();
-    }
-
-    public DataTypeElement(
-            int level, String name, String description,
-            Category category, Type type, Occurrence occurrence,
-            List<Attribute> attributes) {
-        this.level = level;
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.occurrence = occurrence;
-        this.category = category;
-        this.attributes = attributes;
     }
 
     private int getProperLevel(String name) {
@@ -97,6 +88,10 @@ public class DataTypeElement {
         return Occurrence.ofZeroOne();
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public int getLevel() {
         return level;
     }
@@ -105,8 +100,16 @@ public class DataTypeElement {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Category getCategory() {
@@ -135,5 +138,17 @@ public class DataTypeElement {
 
     public List<Attribute> getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        DataTypeElement that = (DataTypeElement) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

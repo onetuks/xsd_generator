@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-public record DataTypeElementSpecificationComboBoxFactory() {
+public record DataTypeElementSpecificationComboBoxFactory(specification.DataTypeSpecificationPanel specification) {
 
     JComboBox<Category> createCategoryComboBox(DataTypeElement element) {
         JComboBox<Category> categoryComboBox = new JComboBox<>(
@@ -22,13 +22,19 @@ public record DataTypeElementSpecificationComboBoxFactory() {
             Category updatedCategory =
                     Category.valueOf(Objects.requireNonNull(categoryComboBox.getSelectedItem()).toString());
 
-            element.setCategory(updatedCategory);
+            DataTypeElement targetElement =
+                    specification.getService().getDataTypeElements().stream()
+                            .filter(dataTypeElement -> element == dataTypeElement)
+                            .findAny()
+                            .orElseThrow(() -> new RuntimeException("DataTypeElement not found"));
+
+            targetElement.setCategory(updatedCategory);
 
             if (updatedCategory == Category.ATTRIBUTE) {
-                element.setType(Type.STRING);
-                element.setOccurrence(Occurrence.ofOptional());
+                targetElement.setType(Type.STRING);
+                targetElement.setOccurrence(Occurrence.ofOptional());
             } else {
-                element.setOccurrence(Occurrence.ofZeroOne());
+                targetElement.setOccurrence(Occurrence.ofZeroOne());
             }
         });
 

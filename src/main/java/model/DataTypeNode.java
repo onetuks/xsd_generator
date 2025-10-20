@@ -8,13 +8,14 @@ import specification.elements.DataTypeElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
 
     public static DataTypeNode of(
-            String name, String description, Category category, Type type, Occurrence occurrence) {
-        return new DataTypeNode(new DataTypeEntity(name, description, category, type, occurrence));
+            UUID id, String name, String description, Category category, Type type, Occurrence occurrence) {
+        return new DataTypeNode(new DataTypeEntity(id, name, description, category, type, occurrence));
     }
 
     private DataTypeNode(DataTypeEntity entity) {
@@ -23,7 +24,7 @@ public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
 
     public void addChild(DataTypeNode node) {
         boolean isLeafNode = node.children().isEmpty();
-        boolean isNotStatementNameDataType = !node.entity().getName().contains(DataTypeElement.STATEMENT);
+        boolean isNotStatementNameDataType = !node.entity().name().contains(DataTypeElement.STATEMENT);
         if (isLeafNode && isNotStatementNameDataType) {
             int targetIndex = IntStream.range(0, children.size())
                     .filter(i -> !children.get(i).children().isEmpty())
@@ -40,16 +41,16 @@ public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         DataTypeNode that = (DataTypeNode) o;
-        return Objects.equals(entity.getId(), that.entity.getId());
+        return Objects.equals(entity.id(), that.entity.id());
     }
 
     @Override
     public int hashCode() {
-        return entity.getId().hashCode();
+        return entity.id().hashCode();
     }
 
     @Override
     public String toString() {
-        return entity.getName();
+        return entity.name();
     }
 }

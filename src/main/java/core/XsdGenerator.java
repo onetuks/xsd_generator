@@ -37,16 +37,16 @@ public class XsdGenerator {
     }
 
     private String generateXsdString(DataTypeNode node) {
-        if (node.entity().getCategory() == Category.COMPLEX_TYPE) {
+        if (node.entity().category() == Category.COMPLEX_TYPE) {
             return appendComplexTypeTag(node);
-        } else if (node.entity().getCategory() == Category.ATTRIBUTE) {
+        } else if (node.entity().category() == Category.ATTRIBUTE) {
             return appendAttributeTag(node);
         }
         return appendElementTag(node);
     }
 
     private String appendComplexTypeTag(DataTypeNode node) {
-        return String.format(ROOT_COMPLEX_TYPE_TAG, node.entity().getName()) +
+        return String.format(ROOT_COMPLEX_TYPE_TAG, node.entity().name()) +
                 SEQUENCE_TAG +
                 node.children().stream()
                         .map(this::generateXsdString)
@@ -58,8 +58,8 @@ public class XsdGenerator {
     private String appendAttributeTag(DataTypeNode node) {
         return String.format(
                 ATTRIBUTE_TAG,
-                node.entity().getName(),
-                node.entity().getType().getXsdType());
+                node.entity().name(),
+                node.entity().type().getXsdType());
     }
 
     private String appendElementTag(DataTypeNode node) {
@@ -70,8 +70,8 @@ public class XsdGenerator {
 
         // attr -> o, elem -> x (extension)
         boolean hasLeafAttribute = node.children().stream()
-                .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
-                .anyMatch(child -> Attribute.hasAttributeExceptAction(child.entity().getName()));
+                .filter(child -> child.entity().category() == Category.ATTRIBUTE)
+                .anyMatch(child -> Attribute.hasAttributeExceptAction(child.entity().name()));
         if (hasLeafAttribute) {
             return generateExtensionContentElementTag(node);
         }
@@ -83,14 +83,14 @@ public class XsdGenerator {
     private String generateContentElementTag(DataTypeNode node) {
         return String.format(
                 CONTENT_ELEMENT_TAG,
-                node.entity().getName(),
-                node.entity().getType().getXsdType(),
-                node.entity().getOccurrence().lowerBound(),
-                node.entity().getOccurrence().upperBound()) +
+                node.entity().name(),
+                node.entity().type().getXsdType(),
+                node.entity().occurrence().lowerBound(),
+                node.entity().occurrence().upperBound()) +
                 (
-                        node.entity().getDescription().isEmpty()
+                        node.entity().description().isEmpty()
                                 ? ""
-                                : String.format(DESCRIPTION_TAG, node.entity().getDescription())
+                                : String.format(DESCRIPTION_TAG, node.entity().description())
                 ) +
                 ELEMENT_END;
     }
@@ -98,18 +98,18 @@ public class XsdGenerator {
     private String generateWrapperElementTag(DataTypeNode node) {
         return String.format(
                 WRAPPER_ELEMENT_TAG,
-                node.entity().getName(),
-                node.entity().getOccurrence().lowerBound(),
-                node.entity().getOccurrence().upperBound()) +
+                node.entity().name(),
+                node.entity().occurrence().lowerBound(),
+                node.entity().occurrence().upperBound()) +
                 COMPLEX_TYPE_TAG +
                 SEQUENCE_TAG +
                 node.children().stream()
-                        .filter(child -> child.entity().getCategory() == Category.ELEMENT)
+                        .filter(child -> child.entity().category() == Category.ELEMENT)
                         .map(this::generateXsdString)
                         .reduce("", (acc, str) -> acc + str) +
                 SEQUENCE_END +
                 node.children().stream()
-                        .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
+                        .filter(child -> child.entity().category() == Category.ATTRIBUTE)
                         .map(this::generateXsdString)
                         .reduce("", (acc, str) -> acc + str) +
                 COMPLEX_TYPE_END +
@@ -119,18 +119,18 @@ public class XsdGenerator {
     private String generateExtensionContentElementTag(DataTypeNode node) {
         return String.format(
                 WRAPPER_ELEMENT_TAG,
-                node.entity().getName(),
-                node.entity().getOccurrence().lowerBound(),
-                node.entity().getOccurrence().upperBound()) +
+                node.entity().name(),
+                node.entity().occurrence().lowerBound(),
+                node.entity().occurrence().upperBound()) +
                 (
-                        node.entity().getDescription().isEmpty()
+                        node.entity().description().isEmpty()
                                 ? ""
-                                : String.format(DESCRIPTION_TAG, node.entity().getDescription())) +
+                                : String.format(DESCRIPTION_TAG, node.entity().description())) +
                 COMPLEX_TYPE_TAG +
                 SIMPLE_CONTENT_TAG +
-                String.format(EXTENSION_TAG, node.entity().getType().getXsdType()) +
+                String.format(EXTENSION_TAG, node.entity().type().getXsdType()) +
                 node.children().stream()
-                        .filter(child -> child.entity().getCategory() == Category.ATTRIBUTE)
+                        .filter(child -> child.entity().category() == Category.ATTRIBUTE)
                         .map(this::generateXsdString)
                         .reduce("", (acc, str) -> acc + str) +
                 EXTENSION_END +

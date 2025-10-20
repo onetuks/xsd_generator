@@ -31,7 +31,7 @@ public class DataTypeSpecificationHeaderPanel extends JPanel {
 
     protected void setup() {
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        setPreferredSize(new Dimension(600, (int) (25 * 1.5)));
+        setPreferredSize(new Dimension(1000, (int) (25 * 1.5)));
         setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
     }
 
