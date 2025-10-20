@@ -1,15 +1,14 @@
 package specification.components;
 
-import ui.FrameInfo;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.Utilities;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -42,8 +41,8 @@ public class TextLineNumber extends JPanel
         int availableWidth = getWidth() - insets.left - insets.right;
 
         Rectangle clip = g.getClipBounds();
-        int rowStartOffset = component.viewToModel(new Point(0, clip.y));
-        int endOffset = component.viewToModel(new Point(0, clip.y + clip.height));
+        int rowStartOffset = component.viewToModel2D(new Point(0, clip.y));
+        int endOffset = component.viewToModel2D(new Point(0, clip.y + clip.height));
 
         while (rowStartOffset <= endOffset) {
             try {
@@ -79,8 +78,7 @@ public class TextLineNumber extends JPanel
     private int getOffsetY(int rowStartOffset, FontMetrics fontMetrics)
             throws BadLocationException {
         Rectangle r = component.modelToView(rowStartOffset);
-        int y = r.y + r.height - fontMetrics.getDescent();
-        return y;
+        return r.y + r.height - fontMetrics.getDescent();
     }
 
     @Override public void caretUpdate(CaretEvent e) { repaint(); }

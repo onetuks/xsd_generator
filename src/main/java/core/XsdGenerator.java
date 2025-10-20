@@ -85,8 +85,8 @@ public class XsdGenerator {
                 CONTENT_ELEMENT_TAG,
                 node.entity().getName(),
                 node.entity().getType().getXsdType(),
-                node.entity().getOccurrence().getLowerBound(),
-                node.entity().getOccurrence().getUpperBound()) +
+                node.entity().getOccurrence().lowerBound(),
+                node.entity().getOccurrence().upperBound()) +
                 (
                         node.entity().getDescription().isEmpty()
                                 ? ""
@@ -99,8 +99,8 @@ public class XsdGenerator {
         return String.format(
                 WRAPPER_ELEMENT_TAG,
                 node.entity().getName(),
-                node.entity().getOccurrence().getLowerBound(),
-                node.entity().getOccurrence().getUpperBound()) +
+                node.entity().getOccurrence().lowerBound(),
+                node.entity().getOccurrence().upperBound()) +
                 COMPLEX_TYPE_TAG +
                 SEQUENCE_TAG +
                 node.children().stream()
@@ -120,8 +120,8 @@ public class XsdGenerator {
         return String.format(
                 WRAPPER_ELEMENT_TAG,
                 node.entity().getName(),
-                node.entity().getOccurrence().getLowerBound(),
-                node.entity().getOccurrence().getUpperBound()) +
+                node.entity().getOccurrence().lowerBound(),
+                node.entity().getOccurrence().upperBound()) +
                 (
                         node.entity().getDescription().isEmpty()
                                 ? ""

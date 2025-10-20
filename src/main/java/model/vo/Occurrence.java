@@ -2,21 +2,13 @@ package model.vo;
 
 import java.util.Objects;
 
-public class Occurrence {
+public record Occurrence(String lowerBound, String upperBound) {
 
     public final static String ZERO = "0";
     public final static String ONE = "1";
     public final static String UNBOUNDED = "unbounded";
     public final static String UNBOUNDED_N = "N";
     public final static String OPTIONAL = "optional";
-
-    private final String lowerBound;
-    private final String upperBound;
-
-    private Occurrence(String lowerBound, String upperBound) {
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
-    }
 
     public static Occurrence ofZeroOne() {
         return new Occurrence(ZERO, ONE);
@@ -44,7 +36,7 @@ public class Occurrence {
                 ofZeroUnbounded().toString(),
                 ofOnlyOne().toString(),
                 ofOneUnbounded().toString(),
-                ofOptional().getLowerBound()
+                ofOptional().lowerBound()
         };
     }
 
@@ -59,14 +51,6 @@ public class Occurrence {
             return ofOneUnbounded();
         }
         return ofOptional();
-    }
-
-    public String getLowerBound() {
-        return lowerBound;
-    }
-
-    public String getUpperBound() {
-        return upperBound;
     }
 
     @Override

@@ -4,13 +4,11 @@ import specification.elements.DataTypeElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 public class DataTypeState {
 
     private DataTypeMeta meta;
 
-    private final TreeMap<String, String> fields = new TreeMap<>();
     private List<DataTypeElement> elements = new ArrayList<>();
     private DataTypeNode rootNode = null;
 
@@ -20,10 +18,6 @@ public class DataTypeState {
 
     public void setMeta(String dtName, String namespace, String filePath) {
         this.meta = new DataTypeMeta(dtName, namespace, filePath);
-    }
-
-    public TreeMap<String, String> getFields() {
-        return fields;
     }
 
     public List<DataTypeElement> getElements() {

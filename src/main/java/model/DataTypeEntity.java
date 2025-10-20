@@ -12,8 +12,8 @@ public class DataTypeEntity {
     private final UUID id;
     private final String name;
     private final String description;
-    private Category category;
-    private Type type;
+    private final Category category;
+    private final Type type;
     private final Occurrence occurrence;
 
     public DataTypeEntity(
@@ -48,14 +48,6 @@ public class DataTypeEntity {
 
     public Type getType() {
         return type;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     @Override

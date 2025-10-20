@@ -8,7 +8,6 @@ import specification.elements.DataTypeElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
@@ -16,20 +15,6 @@ public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
     public static DataTypeNode of(
             String name, String description, Category category, Type type, Occurrence occurrence) {
         return new DataTypeNode(new DataTypeEntity(name, description, category, type, occurrence));
-    }
-
-    public static DataTypeNode of(DataTypeNode originNode) {
-        return new DataTypeNode(
-                new DataTypeEntity(
-                        originNode.entity().getName(),
-                        originNode.entity().getDescription(),
-                        originNode.entity().getCategory(),
-                        originNode.entity().getType(),
-                        originNode.entity().getOccurrence()),
-                originNode.children().stream()
-                        .map(DataTypeNode::of)
-                        .collect(Collectors.toList())
-        );
     }
 
     private DataTypeNode(DataTypeEntity entity) {
