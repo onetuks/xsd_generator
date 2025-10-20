@@ -1,31 +1,28 @@
 public class XsdGeneratorTest {
 
 
+    @Test
 
-  @Test
+    public void generateTest() {
 
-  public void generateTest() {
+        // given
 
-    // given
+        XsdGenerator xsdGenerator = new XsdGenerator();
 
-    XsdGenerator xsdGenerator = new XsdGenerator();
+        XTree xTree = TestFixture.createXTree();
 
-    XTree xTree = TestFixture.createXTree();
-
-    String expected = TestFixture.createXsdString();
-
+        String expected = TestFixture.createXsdString();
 
 
-    // when
+        // when
 
-    String result = xsdGenerator.generate(xTree);
+        String result = xsdGenerator.generate(xTree);
 
 
+        // then
 
-    // then
+        Assert.assertEquals(expected, result);
 
-    Assert.assertEquals(expected, result);
-
-  }
+    }
 
 }

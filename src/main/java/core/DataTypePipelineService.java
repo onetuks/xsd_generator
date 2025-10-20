@@ -1,8 +1,8 @@
 package core;
 
 import model.DataTypeMeta;
-import model.DataTypeState;
 import model.DataTypeNode;
+import model.DataTypeState;
 import model.vo.Category;
 import specification.elements.DataTypeElement;
 

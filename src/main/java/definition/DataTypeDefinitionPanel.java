@@ -9,7 +9,6 @@ import ui.FrameInfo;
 import util.Navigator;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class DataTypeDefinitionPanel extends JPanel {
 

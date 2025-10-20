@@ -1,7 +1,7 @@
 package definition.components;
 
-import definition.services.DataTypeFieldParser;
 import definition.DataTypeDefinitionPanel;
+import definition.services.DataTypeFieldParser;
 import specification.elements.DataTypeElement;
 import util.Navigator;
 

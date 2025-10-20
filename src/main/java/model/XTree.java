@@ -1,13 +1,8 @@
 package model;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-
 import model.vo.Category;
+
+import java.util.*;
 
 public class XTree {
 

@@ -4,7 +4,6 @@ import definition.services.JdbcStructureInvocator;
 import ui.FrameInfo;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
 

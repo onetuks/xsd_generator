@@ -1,10 +1,8 @@
 package hierarchy;
 
 import core.DataTypePipelineService;
-import core.XsdGenerator;
 import hierarchy.components.DataTypeHierarchyControlPanel;
 import hierarchy.components.DataTypeHierarchyScrollPane;
-import model.DataTypeNode;
 import util.Navigator;
 
 import javax.swing.*;

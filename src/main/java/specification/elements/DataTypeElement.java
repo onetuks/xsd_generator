@@ -1,14 +1,10 @@
 package specification.elements;
 
+import model.vo.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import model.vo.Level;
-import model.vo.Attribute;
-import model.vo.Category;
-import model.vo.Occurrence;
-import model.vo.Type;
 
 public class DataTypeElement {
 

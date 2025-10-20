@@ -2,12 +2,10 @@ import core.DataTypePipelineService;
 import definition.DataTypeDefinitionPanel;
 import hierarchy.DataTypeHierarchyPanel;
 import specification.DataTypeSpecificationPanel;
-import ui.FrameInfo;
 import util.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class MainFrame extends JFrame implements Navigator {
 

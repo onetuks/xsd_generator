@@ -3,10 +3,8 @@ package specification.components;
 import specification.DataTypeSpecificationPanel;
 import specification.elements.DataTypeElementSpecificationPanel;
 
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.awt.*;
 
 public class DataTypeSpecificationScrollPane extends JScrollPane {
 

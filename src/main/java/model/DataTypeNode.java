@@ -1,14 +1,15 @@
 package model;
 
+import model.vo.Category;
+import model.vo.Occurrence;
+import model.vo.Type;
+import specification.elements.DataTypeElement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import model.vo.Category;
-import model.vo.Occurrence;
-import model.vo.Type;
-import specification.elements.DataTypeElement;
 
 public record DataTypeNode(DataTypeEntity entity, List<DataTypeNode> children) {
 

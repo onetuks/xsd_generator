@@ -1,13 +1,12 @@
 package specification.elements;
 
-import java.util.Arrays;
-import java.util.Objects;
-import javax.swing.JComboBox;
-
 import model.vo.Category;
 import model.vo.Occurrence;
 import model.vo.Type;
-import ui.FrameInfo;
+
+import javax.swing.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public record DataTypeElementSpecificationComboBoxFactory() {
 
