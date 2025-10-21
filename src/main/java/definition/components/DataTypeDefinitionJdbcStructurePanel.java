@@ -35,7 +35,7 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
             component.appendSchemaToTextArea(jdbcStructureInvocator.generateSELECTStructure());
         });
 
-        JButton updateBtn = new JButton("Update");
+        JButton updateBtn = new JButton("DML");
         updateBtn.addActionListener(e -> {
             DataTypeDefinitionFieldPanel component =
                     (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
