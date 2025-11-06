@@ -16,13 +16,10 @@ public class DataTypeHierarchyControlPanel extends JPanel {
     private static final int BUTTON_HEIGHT = 25;
     private static final String HINT_LCK = "L-Ck: focus on";
     private static final String HINT_RCK = "R-Ck: move to";
-    private static final String HINT_FOCUS = "Focused DT";
 
     private final DataTypeHierarchyPanel hierarchy;
 
     private final JCheckBox editModeCheckBox = new JCheckBox("Edit Mode");
-    private final JPanel focusedPanel = new JPanel();
-    private final List<JLabel> focusedDataTypeNameLabels = new ArrayList<>();
 
     private List<DataTypeNode> focusedNodes = new ArrayList<>();
 
@@ -48,26 +45,8 @@ public class DataTypeHierarchyControlPanel extends JPanel {
         hintPanel.add(new JLabel(HINT_LCK));
         hintPanel.add(new JLabel(HINT_RCK));
         editPanel.add(hintPanel);
-        editPanel.add(createFocusedDataTypePanel());
 
         return editPanel;
-    }
-
-    private JPanel createFocusedDataTypePanel() {
-        focusedPanel.setLayout(new GridLayout(0, 1, 0, 3));
-        focusedPanel.setBorder(FrameInfo.COMPOUND_BORDER);
-
-        focusedPanel.add(new JLabel(HINT_FOCUS));
-        focusedDataTypeNameLabels.add(createFocusedLabel(""));
-        focusedPanel.add(focusedDataTypeNameLabels.get(0));
-
-        return focusedPanel;
-    }
-
-    private JLabel createFocusedLabel(String labelText) {
-      JLabel focusedLabel = new JLabel(labelText);
-      focusedLabel.setForeground(FrameInfo.PRIMARY_COLOR);
-      return focusedLabel;
     }
 
     private JPanel createHierarchyControlButtonPanel() {
@@ -113,16 +92,5 @@ public class DataTypeHierarchyControlPanel extends JPanel {
 
     public void setFocusedNodes(List<DataTypeNode> focusedNodes) {
         this.focusedNodes = focusedNodes;
-
-        if (focusedNodes == null || focusedNodes.isEmpty()) {
-          focusedDataTypeNameLabels.clear();
-          focusedDataTypeNameLabels.add(createFocusedLabel(""));
-          focusedPanel.add(focusedDataTypeNameLabels.get(0));
-          return;
-        }
-
-        focusedNodes.stream()
-          .map(focusedNode -> createFocusedLabel(focusedNode.getEntity().getName()))
-          .forEach(focusedPanel::add);
     }
 }
