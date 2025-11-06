@@ -8,7 +8,13 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.Objects;
 
-public record DataTypeElementSpecificationTextFieldFactory(DataTypeSpecificationPanel specification) {
+public class DataTypeElementSpecificationTextFieldFactory {
+
+    private final DataTypeSpecificationPanel specification;
+
+    public DataTypeElementSpecificationTextFieldFactory(DataTypeSpecificationPanel specification) {
+        this.specification = specification;
+    }
 
     enum DataTypeElementTextFieldType {
         NAME, DESCRIPTION

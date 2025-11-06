@@ -6,9 +6,14 @@ import specification.DataTypeSpecificationPanel;
 
 import javax.swing.*;
 import java.util.Arrays;
-import java.util.Objects;
 
-public record DataTypeElementSpecificationCheckBoxFactory(DataTypeSpecificationPanel specificationPanel) {
+public class DataTypeElementSpecificationCheckBoxFactory {
+
+    private final DataTypeSpecificationPanel specificationPanel;
+
+    public DataTypeElementSpecificationCheckBoxFactory(DataTypeSpecificationPanel specificationPanel) {
+        this.specificationPanel = specificationPanel;
+    }
 
     JPanel createAttributeCheckBoxPanel(DataTypeElement element) {
         JPanel attributeCheckBoxPanel = new JPanel();

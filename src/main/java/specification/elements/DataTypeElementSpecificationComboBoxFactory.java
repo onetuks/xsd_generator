@@ -8,7 +8,13 @@ import javax.swing.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-public record DataTypeElementSpecificationComboBoxFactory(specification.DataTypeSpecificationPanel specification) {
+public class DataTypeElementSpecificationComboBoxFactory {
+
+    private final specification.DataTypeSpecificationPanel specification;
+
+    public DataTypeElementSpecificationComboBoxFactory(specification.DataTypeSpecificationPanel specification) {
+        this.specification = specification;
+    }
 
     JComboBox<Category> createCategoryComboBox(DataTypeElement element) {
         JComboBox<Category> categoryComboBox = new JComboBox<>(

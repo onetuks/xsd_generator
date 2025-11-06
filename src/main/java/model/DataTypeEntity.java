@@ -7,13 +7,14 @@ import model.vo.Type;
 import java.util.Objects;
 import java.util.UUID;
 
-public record DataTypeEntity(
-        UUID id,
-        String name,
-        String description,
-        Category category,
-        Type type,
-        Occurrence occurrence) {
+public class DataTypeEntity {
+
+    private final UUID id;
+    private final String name;
+    private final String description;
+    private final Category category;
+    private final Type type;
+    private final Occurrence occurrence;
 
     public DataTypeEntity(
             UUID id, String name, String description, Category category, Type type, Occurrence occurrence) {
@@ -37,5 +38,29 @@ public record DataTypeEntity(
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Occurrence getOccurrence() {
+        return occurrence;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

@@ -33,6 +33,8 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
 
         bindTreeViewPort();
 
+        hierarchyTree.getSelectionModel()
+            .setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
         hierarchyTree.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -95,7 +97,7 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
 
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node);
 
-        node.children().stream()
+        node.getChildren().stream()
                 .map(this::createNode)
                 .filter(Objects::nonNull)
                 .forEach(treeNode::add);

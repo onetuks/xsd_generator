@@ -3,95 +3,107 @@ package hierarchy;
 import core.DataTypePipelineService;
 import hierarchy.components.DataTypeHierarchyControlPanel;
 import hierarchy.components.DataTypeHierarchyScrollPane;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.Box;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import model.DataTypeNode;
 import util.Navigator;
 
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 public class DataTypeHierarchyPanel extends JPanel {
 
-    private final Navigator navigator;
-    private final DataTypePipelineService service;
+  private final Navigator navigator;
+  private final DataTypePipelineService service;
 
-    private final DataTypeHierarchyScrollPane scrollPane;
-    private final DataTypeHierarchyControlPanel controlPanel;
+  private final DataTypeHierarchyScrollPane scrollPane;
+  private final DataTypeHierarchyControlPanel controlPanel;
 
-    public DataTypeHierarchyPanel(Navigator navigator, DataTypePipelineService service) {
-        this.navigator = navigator;
-        this.service = service;
+  public DataTypeHierarchyPanel(Navigator navigator, DataTypePipelineService service) {
+    this.navigator = navigator;
+    this.service = service;
 
-        this.scrollPane = new DataTypeHierarchyScrollPane(this);
-        this.controlPanel = new DataTypeHierarchyControlPanel(this);
+    this.scrollPane = new DataTypeHierarchyScrollPane(this);
+    this.controlPanel = new DataTypeHierarchyControlPanel(this);
 
+    resetHierarchy();
+
+    add(scrollPane);
+    add(Box.createHorizontalStrut(20));
+    add(controlPanel);
+
+    addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentShown(ComponentEvent e) {
         resetHierarchy();
+        revalidate();
+        repaint();
+      }
+    });
+  }
 
-        add(scrollPane);
-        add(Box.createHorizontalStrut(20));
-        add(controlPanel);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                resetHierarchy();
-                revalidate();
-                repaint();
-            }
-        });
+  public void resetHierarchy() {
+    if (service.getDataTypeElements().isEmpty()) {
+      return;
     }
 
-    public void resetHierarchy() {
-        if (service.getDataTypeElements().isEmpty()) {
-            return;
-        }
+    service.updateDataTypeNode(service.getDataTypeElements());
+    scrollPane.bindTreeViewPort();
+  }
 
-        service.updateDataTypeNode(service.getDataTypeElements());
-        scrollPane.bindTreeViewPort();
+  public void setFocusedDataType() {
+    if (!controlPanel.getEditModeCheckBox().isSelected()) {
+      controlPanel.setFocusedNodes(null);
+      return;
     }
 
-    public void setFocusedDataType() {
-        if (!controlPanel.getEditModeCheckBox().isSelected()) {
-            controlPanel.setFocusedNode(null);
-            return;
-        }
-
-        controlPanel.setFocusedNode(
-                (DataTypeNode) ((DefaultMutableTreeNode) scrollPane.getHierarchyTree()
-                        .getLastSelectedPathComponent())
-                        .getUserObject());
+    TreePath[] selectionPaths = scrollPane.getHierarchyTree().getSelectionPaths();
+    if (selectionPaths == null) {
+      controlPanel.setFocusedNodes(null);
+      return;
     }
 
-    public void addChildTo(DataTypeNode parentNode) {
-        if (!controlPanel.getEditModeCheckBox().isSelected()) {
-            return;
-        }
+    List<DataTypeNode> focusedNodes = Arrays.stream(selectionPaths)
+        .map(path -> (DefaultMutableTreeNode) path.getLastPathComponent())
+        .map(dataTypeNode -> (DataTypeNode) dataTypeNode.getUserObject())
+        .collect(Collectors.toList());
+    controlPanel.setFocusedNodes(focusedNodes);
+  }
 
-        DataTypeNode childNode = controlPanel.getFocusedNode();
-        service.addChildTo(parentNode, childNode);
+  public void addChildTo(DataTypeNode parentNode) {
+    if (!controlPanel.getEditModeCheckBox().isSelected()) {
+      return;
     }
 
-    public void addSiblingTo(DataTypeNode olderNode) {
-        if (!controlPanel.getEditModeCheckBox().isSelected()) {
-            return;
-        }
+    List<DataTypeNode> childrenNodes = controlPanel.getFocusedNodes();
+    childrenNodes.forEach(childNode -> service.addChildTo(parentNode, childNode));
+  }
 
-        DataTypeNode youngerNode = controlPanel.getFocusedNode();
-        service.addSiblingTo(olderNode, youngerNode);
+  public void addSiblingTo(DataTypeNode olderNode) {
+    if (!controlPanel.getEditModeCheckBox().isSelected()) {
+      return;
     }
 
-    public void completeHierarchy() {
-        service.generateXSDFile();
-        JOptionPane.showMessageDialog(this, "XSD File Generated!");
-    }
+    List<DataTypeNode> youngerNodes = controlPanel.getFocusedNodes();
+    youngerNodes.forEach(youngerNode -> service.addSiblingTo(olderNode, youngerNode));
+  }
 
-    /* getter & setter */
-    public Navigator getNavigator() {
-        return navigator;
-    }
+  public void completeHierarchy() {
+    service.generateXSDFile();
+    JOptionPane.showMessageDialog(this, "XSD File Generated!");
+  }
 
-    public DataTypePipelineService getService() {
-        return service;
-    }
+  /* getter & setter */
+  public Navigator getNavigator() {
+    return navigator;
+  }
+
+  public DataTypePipelineService getService() {
+    return service;
+  }
 }

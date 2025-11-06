@@ -57,12 +57,17 @@ public class DataTypeElement {
             return Level.FIRST;
         }
 
-        return switch (name) {
-            case ROW -> Level.FIRST;
-            case DB_TABLE_NAME -> Level.SECOND;
-            case ACCESS, KEY, TABLE -> Level.THIRD;
-            default -> Level.FOURTH;
-        };
+        switch (name) {
+            case ROW:
+                return Level.FIRST;
+            case DB_TABLE_NAME:
+                return Level.SECOND;
+            case ACCESS:
+            case KEY:
+            case TABLE:
+                return Level.THIRD;
+        }
+        return Level.FOURTH;
     }
 
     private Category getProperCategory(String name) {

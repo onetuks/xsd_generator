@@ -6,7 +6,13 @@ import util.IconLoader;
 import javax.swing.*;
 import java.awt.*;
 
-public record DataTypeElementSpecificationButtonFactory(DataTypeSpecificationPanel specification) {
+public class DataTypeElementSpecificationButtonFactory {
+
+    private final DataTypeSpecificationPanel specification;
+
+    public DataTypeElementSpecificationButtonFactory(DataTypeSpecificationPanel specification) {
+        this.specification = specification;
+    }
 
     JButton createRemoveButton(DataTypeElement element) {
         JButton removeButton = new JButton(new IconLoader().loadIcon(IconLoader.DELETE_ICON_PATH));

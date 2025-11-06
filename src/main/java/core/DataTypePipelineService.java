@@ -1,6 +1,5 @@
 package core;
 
-import model.DataTypeMeta;
 import model.DataTypeNode;
 import model.DataTypeState;
 import model.vo.Category;
@@ -20,7 +19,7 @@ public class DataTypePipelineService {
 
     public void generateXSDFile() {
         String xsdString = xsdGenerator.generate(state.getMeta(), state.getRootNode());
-        fileSaver.saveFile(state.getMeta().filePath() + state.getMeta().dtName(), xsdString);
+        fileSaver.saveFile(state.getMeta().getFilePath() + state.getMeta().getDtName(), xsdString);
     }
 
     public void updateDataTypeElements(
@@ -35,7 +34,7 @@ public class DataTypePipelineService {
      * - DT명을 최상위 루트 노드로 추가
      */
     public void updateDataTypeNode(List<DataTypeElement> elements) {
-        DataTypeElement rootElement = new DataTypeElement(state.getMeta().dtName());
+        DataTypeElement rootElement = new DataTypeElement(state.getMeta().getDtName());
         state.setRootNode(
                 DataTypeNode.of(
                         rootElement.getId(), rootElement.getName(), rootElement.getDescription(),
@@ -48,8 +47,10 @@ public class DataTypePipelineService {
                             currentElement.getId(), currentElement.getName(), currentElement.getDescription(),
                             currentElement.getCategory(), currentElement.getType(), currentElement.getOccurrence());
 
-                    DataTypeElement parentElement =
-                            Objects.requireNonNullElse(findParentElement(idx, elements), rootElement);
+                    DataTypeElement parentElement = findParentElement(idx, elements);
+                    if (parentElement == null) {
+                        parentElement = rootElement;
+                    }
                     DataTypeNode parentNode = Objects.requireNonNull(findNode(parentElement));
                     parentNode.addChild(currentNode);
 
@@ -69,16 +70,16 @@ public class DataTypePipelineService {
     public void addChildTo(DataTypeNode parentNode, DataTypeNode childNode) {
         DataTypeNode originParentNode = findParentNode(childNode);
 
-        Objects.requireNonNull(originParentNode).children().remove(childNode);
-        Objects.requireNonNull(parentNode).children().add(childNode);
+        Objects.requireNonNull(originParentNode).getChildren().remove(childNode);
+        Objects.requireNonNull(parentNode).getChildren().add(childNode);
     }
 
     public void addSiblingTo(DataTypeNode olderNode, DataTypeNode youngerNode) {
         DataTypeNode olderParentNode = findParentNode(olderNode);
         DataTypeNode youngerParentNode = findParentNode(youngerNode);
 
-        Objects.requireNonNull(olderParentNode).children().add(youngerNode);
-        Objects.requireNonNull(youngerParentNode).children().remove(youngerNode);
+        Objects.requireNonNull(olderParentNode).getChildren().add(youngerNode);
+        Objects.requireNonNull(youngerParentNode).getChildren().remove(youngerNode);
     }
 
     private DataTypeNode findNode(DataTypeElement element) {
@@ -88,11 +89,11 @@ public class DataTypePipelineService {
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
 
-            if (Objects.equals(node.entity().id(), element.getId())) {
+            if (Objects.equals(node.getEntity().getId(), element.getId())) {
                 return node;
             }
 
-            queue.addAll(node.children());
+            queue.addAll(node.getChildren());
         }
 
         return null;
@@ -105,13 +106,13 @@ public class DataTypePipelineService {
         while (!queue.isEmpty()) {
             DataTypeNode node = queue.poll();
 
-            boolean isParent = node.children().stream()
+            boolean isParent = node.getChildren().stream()
                     .anyMatch(child -> Objects.equals(child, targetNode));
             if (isParent) {
                 return node;
             }
 
-            queue.addAll(node.children());
+            queue.addAll(node.getChildren());
         }
 
         return null;
