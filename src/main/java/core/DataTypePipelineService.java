@@ -24,9 +24,9 @@ public class DataTypePipelineService {
     }
 
     public void updateDataTypeElements(
-            String dtName, String namespace, String targetDir,
+            String mtName, String dtName, String namespace, String targetDir,
             List<DataTypeElement> dataTypeElements) {
-        state.setMeta(dtName, namespace, targetDir);
+        state.setMeta(mtName, dtName, namespace, targetDir);
         state.setElements(dataTypeElements);
     }
 

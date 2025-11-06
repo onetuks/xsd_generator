@@ -16,8 +16,8 @@ public class DataTypeState {
         return meta;
     }
 
-    public void setMeta(String dtName, String namespace, String filePath) {
-        this.meta = new DataTypeMeta(dtName, namespace, filePath);
+    public void setMeta(String mtName, String dtName, String namespace, String filePath) {
+        this.meta = new DataTypeMeta(mtName, dtName, namespace, filePath);
     }
 
     public List<DataTypeElement> getElements() {
