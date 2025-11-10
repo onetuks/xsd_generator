@@ -7,7 +7,7 @@ import util.Navigator;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame implements Navigator {
+public class Main extends JFrame implements Navigator {
 
     public static final String APP_NAME = "XSD Generator";
 
@@ -16,7 +16,7 @@ public class MainFrame extends JFrame implements Navigator {
 
     private final DataTypePipelineService service = new DataTypePipelineService();
 
-    public MainFrame() throws HeadlessException {
+    public Main() throws HeadlessException {
         super(APP_NAME);
 
         registerContentPanels();
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame implements Navigator {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
+            Main frame = new Main();
             frame.setVisible(true);
         });
     }
