@@ -19,8 +19,13 @@ public class DataTypePipelineService {
     private final DataTypeState state = new DataTypeState();
 
     public void generateXSDFile() {
-        String xsdString = xsdGenerator.generate(state.getMeta(), state.getRootNode());
+        String xsdString = xsdGenerator.generateDT(state.getMeta(), state.getRootNode());
         fileSaver.saveFile(state.getMeta().getFilePath() + state.getMeta().getDtName(), xsdString);
+
+        if (!state.getMeta().getMtName().isEmpty()) {
+          String mtXsdString = xsdGenerator.generateMT(state.getMeta(), state.getRootNode());
+          fileSaver.saveFile(state.getMeta().getFilePath() + state.getMeta().getMtName(), mtXsdString);
+        }
     }
 
     public void updateDataTypeElements(

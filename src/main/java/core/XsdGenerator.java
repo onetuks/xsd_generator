@@ -26,11 +26,14 @@ public class XsdGenerator {
   private static final String ATTRIBUTE_TAG = "<xsd:attribute name=\"%s\" type=\"%s\"/>";
   private static final String DESCRIPTION_TAG = "<xsd:annotation><xsd:documentation>%s</xsd:documentation></xsd:annotation>";
 
-  public String generate(DataTypeMeta meta, DataTypeNode root) {
-    return appendSchemaTag(meta, root);
+  public String generateDT(DataTypeMeta meta, DataTypeNode root) {
+    return XML_META_TAG
+        + String.format(SCHEMA_TAG, meta.getNamespace(), meta.getNamespace())
+        + generateXsdString(root)
+        + SCHEMA_END;
   }
 
-  private String appendSchemaTag(DataTypeMeta meta, DataTypeNode root) {
+  public String generateMT(DataTypeMeta meta, DataTypeNode root) {
     return XML_META_TAG
         + String.format(SCHEMA_TAG, meta.getNamespace(), meta.getNamespace())
         + (meta.getMtName().isEmpty() ? ""
