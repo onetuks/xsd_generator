@@ -5,55 +5,56 @@ import definition.components.DataTypeDefinitionButtonPanel;
 import definition.components.DataTypeDefinitionFieldTabbedPane;
 import definition.components.DataTypeDefinitionInfoPanel;
 import definition.components.DataTypeDefinitionStructurePanel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 import ui.FrameInfo;
 import util.Navigator;
 
-import javax.swing.*;
-
 public class DataTypeDefinitionPanel extends JPanel {
 
-    private final Navigator navigator;
-    private final DataTypePipelineService dataTypePipelineService;
+  private final Navigator navigator;
+  private final DataTypePipelineService dataTypePipelineService;
 
-    private final DataTypeDefinitionInfoPanel dtInfoPanel;
-    private final DataTypeDefinitionFieldTabbedPane dtFieldTabbedPane;
+  private final DataTypeDefinitionInfoPanel dtInfoPanel;
+  private final DataTypeDefinitionFieldTabbedPane dtFieldTabbedPane;
 
-    public DataTypeDefinitionPanel(Navigator navigator, DataTypePipelineService service) {
-        this.navigator = navigator;
-        this.dataTypePipelineService = service;
-        this.dtInfoPanel = new DataTypeDefinitionInfoPanel();
-        this.dtFieldTabbedPane = new DataTypeDefinitionFieldTabbedPane();
+  public DataTypeDefinitionPanel(Navigator navigator, DataTypePipelineService service) {
+    this.navigator = navigator;
+    this.dataTypePipelineService = service;
+    this.dtInfoPanel = new DataTypeDefinitionInfoPanel();
+    this.dtFieldTabbedPane = new DataTypeDefinitionFieldTabbedPane();
 
-        initComponent();
-    }
+    initComponent();
+  }
 
-    private void initComponent() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(FrameInfo.EMPTY_BORDER);
+  private void initComponent() {
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setBorder(FrameInfo.EMPTY_BORDER);
 
-        add(Box.createVerticalStrut(8));
-        add(dtInfoPanel);
-        add(Box.createVerticalStrut(8));
-        add(new DataTypeDefinitionStructurePanel(dtFieldTabbedPane));
-        add(Box.createVerticalStrut(8));
-        add(dtFieldTabbedPane);
-        add(Box.createVerticalStrut(12));
-        add(new DataTypeDefinitionButtonPanel(this));
-    }
+    add(Box.createVerticalStrut(8));
+    add(dtInfoPanel);
+    add(Box.createVerticalStrut(8));
+    add(new DataTypeDefinitionStructurePanel(dtFieldTabbedPane));
+    add(Box.createVerticalStrut(8));
+    add(dtFieldTabbedPane);
+    add(Box.createVerticalStrut(12));
+    add(new DataTypeDefinitionButtonPanel(this));
+  }
 
-    public Navigator getNavigator() {
-        return navigator;
-    }
+  public Navigator getNavigator() {
+    return navigator;
+  }
 
-    public DataTypePipelineService getDataTypePipelineService() {
-        return dataTypePipelineService;
-    }
+  public DataTypePipelineService getDataTypePipelineService() {
+    return dataTypePipelineService;
+  }
 
-    public DataTypeDefinitionInfoPanel getDtInfoPanel() {
-        return dtInfoPanel;
-    }
+  public DataTypeDefinitionInfoPanel getDtInfoPanel() {
+    return dtInfoPanel;
+  }
 
-    public DataTypeDefinitionFieldTabbedPane getDtFieldTabbedPane() {
-        return dtFieldTabbedPane;
-    }
+  public DataTypeDefinitionFieldTabbedPane getDtFieldTabbedPane() {
+    return dtFieldTabbedPane;
+  }
 }

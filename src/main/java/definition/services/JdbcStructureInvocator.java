@@ -1,53 +1,59 @@
 package definition.services;
 
+import static specification.elements.DataTypeElement.ACCESS;
+import static specification.elements.DataTypeElement.ACTION;
+import static specification.elements.DataTypeElement.DB_TABLE_NAME;
+import static specification.elements.DataTypeElement.KEY;
+import static specification.elements.DataTypeElement.ROW;
+import static specification.elements.DataTypeElement.STATEMENT;
+import static specification.elements.DataTypeElement.TABLE;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static specification.elements.DataTypeElement.*;
-
 public class JdbcStructureInvocator {
 
-    public List<String> generateSELECTStructure() {
-        List<String> schema = new ArrayList<>();
+  public List<String> generateSELECTStructure() {
+    List<String> schema = new ArrayList<>();
 
-        schema.add(ROW);
+    schema.add(ROW);
 
-        return schema;
-    }
+    return schema;
+  }
 
-    public List<String> generateDMLStructure(int schemaIndex) {
-        List<String> schema = generateDefaultSchema(schemaIndex);
+  public List<String> generateDMLStructure(int schemaIndex) {
+    List<String> schema = generateDefaultSchema(schemaIndex);
 
-        schema.add(TABLE);
-        schema.add(ACCESS);
+    schema.add(TABLE);
+    schema.add(ACCESS);
 
-        return schema;
-    }
+    return schema;
+  }
 
-    public List<String> generateSQLStructure(int schemaIndex) {
-        List<String> schema = generateDefaultSchema(schemaIndex);
+  public List<String> generateSQLStructure(int schemaIndex) {
+    List<String> schema = generateDefaultSchema(schemaIndex);
 
-        schema.add(ACCESS);
-        schema.add(KEY);
+    schema.add(ACCESS);
+    schema.add(KEY);
 
-        return schema;
-    }
+    return schema;
+  }
 
-    public List<String> generatePROCEDUREStructure(int schemaIndex) {
-        List<String> schema = generateDefaultSchema(schemaIndex);
+  public List<String> generatePROCEDUREStructure(int schemaIndex) {
+    List<String> schema = generateDefaultSchema(schemaIndex);
 
-        schema.add(TABLE);
+    schema.add(TABLE);
 
-        return schema;
-    }
+    return schema;
+  }
 
-    private List<String> generateDefaultSchema(int schemaIndex) {
-        List<String> schema = new ArrayList<>();
+  private List<String> generateDefaultSchema(int schemaIndex) {
+    List<String> schema = new ArrayList<>();
 
-        schema.add(STATEMENT + schemaIndex);
-        schema.add(DB_TABLE_NAME);
-        schema.add(ACTION);
+    schema.add(STATEMENT + schemaIndex);
+    schema.add(DB_TABLE_NAME);
+    schema.add(ACTION);
 
-        return schema;
-    }
+    return schema;
+  }
 }

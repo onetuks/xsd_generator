@@ -1,21 +1,21 @@
 package definition.components;
 
-import javax.swing.*;
+import javax.swing.JTabbedPane;
 
 public class DataTypeDefinitionFieldTabbedPane extends JTabbedPane {
 
-    public DataTypeDefinitionFieldTabbedPane() {
-        super();
-        clearAllTabs();
-    }
+  public DataTypeDefinitionFieldTabbedPane() {
+    super();
+    clearAllTabs();
+  }
 
-    public void clearAllTabs() {
-        removeAll();
-        addNewTab();
-    }
+  public void clearAllTabs() {
+    removeAll();
+    addNewTab();
+  }
 
-    public void addNewTab() {
-        String newTabTitle = "#" + (getTabCount() + 1);
-        addTab(newTabTitle, null, new DataTypeDefinitionFieldPanel(), null);
-    }
+  public void addNewTab() {
+    String newTabTitle = "#" + (getTabCount() + 1);
+    addTab(newTabTitle, null, new DataTypeDefinitionFieldPanel(), null);
+  }
 }

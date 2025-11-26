@@ -106,4 +106,8 @@ public class DataTypeHierarchyPanel extends JPanel {
   public DataTypePipelineService getService() {
     return service;
   }
+
+  public DataTypeHierarchyControlPanel getControlPanel() {
+    return controlPanel;
+  }
 }

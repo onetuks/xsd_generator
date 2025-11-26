@@ -49,6 +49,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
 
     JCheckBox mtDeclarationCheckBox = new JCheckBox();
     mtDeclarationCheckBox.setSelected(false);
+    infoTextField.setEnabled(false);
     mtDeclarationCheckBox.addActionListener(e -> {
       if (mtDeclarationCheckBox.isSelected()) {
         infoTextField.setEnabled(true);

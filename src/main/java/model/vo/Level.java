@@ -1,10 +1,11 @@
 package model.vo;
 
 public interface Level {
-    int ROOT = 0;
-    int FIRST = 1;
-    int SECOND = 2;
-    int THIRD = 3;
-    int FOURTH = 4;
-    int FIFTH = 5;
+
+  int ROOT = 0;
+  int FIRST = 1;
+  int SECOND = 2;
+  int THIRD = 3;
+  int FOURTH = 4;
+  int FIFTH = 5;
 }
