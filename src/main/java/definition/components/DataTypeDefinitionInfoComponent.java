@@ -1,8 +1,9 @@
 package definition.components;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -39,25 +40,37 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
   public DataTypeDefinitionInfoComponent(InfoFieldType fieldType) {
     super();
 
-    setLayout(new FlowLayout(FlowLayout.LEFT));
-
-    JLabel jLabel = new JLabel(fieldType.getLabel());
-    jLabel.setPreferredSize(LABEL_DIMENSION);
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setAlignmentX(Component.LEFT_ALIGNMENT);
 
     this.infoTextField = new JTextField();
     this.infoTextField.setPreferredSize(TEXT_FIELD_DIMENSION);
 
-    add(jLabel, BorderLayout.WEST);
-    add(infoTextField, BorderLayout.CENTER);
+    if (fieldType == InfoFieldType.MT_NAME) {
+      add(createMTDeclarationPanel());
+    }
 
-    setDirSelection(fieldType);
-    setMTDeclaration(fieldType);
+    add(createInputPanel(fieldType));
   }
 
-  private void setMTDeclaration(InfoFieldType fieldType) {
-    if (fieldType != InfoFieldType.MT_NAME) {
-      return;
-    }
+  private JPanel createInputPanel(InfoFieldType fieldType) {
+    JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    inputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+    JLabel jLabel = new JLabel(fieldType.getLabel());
+    jLabel.setPreferredSize(LABEL_DIMENSION);
+
+    inputPanel.add(jLabel);
+    inputPanel.add(infoTextField);
+
+    setDirSelection(fieldType, inputPanel);
+
+    return inputPanel;
+  }
+
+  private JPanel createMTDeclarationPanel() {
+    JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
     JCheckBox mtDeclarationCheckBox = new JCheckBox("MT 파일도 함께 생성");
     mtDeclarationCheckBox.setToolTipText(
@@ -74,10 +87,15 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
       infoTextField.setText(null);
     });
 
-    add(mtDeclarationCheckBox);
+    panel.add(mtDeclarationCheckBox);
+    return panel;
   }
 
-  private void setDirSelection(InfoFieldType fieldType) {
+  private void setDirSelection(InfoFieldType fieldType, JPanel panel) {
+    if (fieldType != InfoFieldType.TARGET_DIR) {
+      return;
+    }
+
     this.fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
     JButton dirSelectionBtn = new JButton(new IconLoader().loadIcon(IconLoader.FOLDER_ICON_PATH));
@@ -91,11 +109,9 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
       }
     });
 
-    if (fieldType == InfoFieldType.TARGET_DIR) {
-      infoTextField.setText(System.getProperty("user.home"));
-      infoTextField.setEditable(false);
-      add(dirSelectionBtn);
-    }
+    infoTextField.setText(System.getProperty("user.home"));
+    infoTextField.setEditable(false);
+    panel.add(dirSelectionBtn);
   }
 
   public JTextField getInfoTextField() {

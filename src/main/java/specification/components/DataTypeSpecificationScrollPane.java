@@ -20,7 +20,7 @@ public class DataTypeSpecificationScrollPane extends JScrollPane {
     JPanel detailPanelContainer = createDetailPanelContainer();
 
     this.setViewportView(detailPanelContainer);
-    this.setPreferredSize(new Dimension(1000, 600));
+    this.setPreferredSize(new Dimension(1000, 560));
     this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     this.getVerticalScrollBar().setUnitIncrement(20);

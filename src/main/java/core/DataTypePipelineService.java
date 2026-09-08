@@ -48,14 +48,19 @@ public class DataTypePipelineService {
   }
 
   /**
-   * generateXSDFile()이 만들 DT/MT 파일 중 이미 존재하는 파일이 있는지 확인한다.
+   * generateXSDFile()이 만들 DT 파일이 이미 존재하는지 확인한다.
    * 저장 전에 덮어쓰기 여부를 사용자에게 확인받기 위해 사용한다.
    */
-  public boolean willOverwriteExistingFile() {
-    boolean dtExists = fileSaver.exists(state.getMeta().getFilePath(), state.getMeta().getDtName());
-    boolean mtExists = !state.getMeta().getMtName().isEmpty()
+  public boolean willOverwriteDtFile() {
+    return fileSaver.exists(state.getMeta().getFilePath(), state.getMeta().getDtName());
+  }
+
+  /**
+   * generateXSDFile()이 만들 MT 파일이 이미 존재하는지 확인한다. MT Name이 없으면 false를 반환한다.
+   */
+  public boolean willOverwriteMtFile() {
+    return !state.getMeta().getMtName().isEmpty()
         && fileSaver.exists(state.getMeta().getFilePath(), state.getMeta().getMtName());
-    return dtExists || mtExists;
   }
 
   public void updateDataTypeElements(

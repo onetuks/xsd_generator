@@ -175,31 +175,42 @@ public class DataTypeHierarchyPanel extends JPanel {
   }
 
   /**
-   * 저장 전에 생성될 XSD 내용을 미리 보여주고 저장 여부를 확인받는다. 기존 파일을 덮어쓰게 되는 경우
-   * 안내 문구도 함께 보여준다.
+   * 저장 전에 생성될 XSD 내용을 DT -> MT 순서로 하나씩 따로 보여주고 저장 여부를 확인받는다.
+   * 둘 중 하나라도 취소하면 아무 것도 저장하지 않는다.
    */
   private boolean confirmSaveWithPreview() {
-    StringBuilder previewText = new StringBuilder(service.previewDT());
-    String mtPreview = service.previewMT();
-    if (mtPreview != null) {
-      previewText.append("\n\n").append(mtPreview);
+    if (!confirmPreview("DT", service.previewDT(), service.willOverwriteDtFile())) {
+      return false;
     }
 
-    JTextArea previewArea = new JTextArea(previewText.toString(), 20, 80);
+    String mtPreview = service.previewMT();
+    if (mtPreview != null) {
+      return confirmPreview("MT", mtPreview, service.willOverwriteMtFile());
+    }
+
+    return true;
+  }
+
+  /**
+   * XSD 내용을 미리 보여주고 저장 여부를 확인받는다. 기존 파일을 덮어쓰게 되는 경우
+   * 안내 문구도 함께 보여준다.
+   */
+  private boolean confirmPreview(String label, String xsdText, boolean willOverwrite) {
+    JTextArea previewArea = new JTextArea(xsdText, 20, 80);
     previewArea.setEditable(false);
     previewArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
     previewArea.setCaretPosition(0);
 
-    String message = service.willOverwriteExistingFile()
-        ? "동일한 이름의 XSD 파일이 이미 존재합니다. 아래 내용으로 덮어쓰시겠습니까?"
-        : "아래 내용으로 XSD 파일을 저장하시겠습니까?";
+    String message = willOverwrite
+        ? String.format("동일한 이름의 %s 파일이 이미 존재합니다. 아래 내용으로 덮어쓰시겠습니까?", label)
+        : String.format("아래 내용으로 %s 파일을 저장하시겠습니까?", label);
 
     JPanel messagePanel = new JPanel(new BorderLayout(0, 8));
     messagePanel.add(new JLabel(message), BorderLayout.NORTH);
     messagePanel.add(new JScrollPane(previewArea), BorderLayout.CENTER);
 
     int result = JOptionPane.showConfirmDialog(
-        this, messagePanel, "XSD 미리보기",
+        this, messagePanel, label + " 미리보기",
         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
     return result == JOptionPane.OK_OPTION;
