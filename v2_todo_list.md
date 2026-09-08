@@ -34,9 +34,10 @@
   `model/vo/Type.java:5` (`NUMBER("xsd:number")`)
   `xsd:number`는 XML Schema 표준 내장 타입이 아님(올바른 타입은 `xsd:decimal`, `xsd:integer`, `xsd:double` 등). 이 타입으로 생성된 필드는 SAP PO에서 스키마 검증 실패로 이어질 가능성이 높음. 실제 사용 가능한 숫자 타입으로 교체 필요.
 
-- [ ] 🟡 **"Jdbc Manipulation" 패널이 실제 JDBC 연동 없이 정적 템플릿만 삽입**
+- [x] 🟡 **"Jdbc Manipulation" 패널이 실제 JDBC 연동 없이 정적 템플릿만 삽입**
   `definition/components/DataTypeDefinitionJdbcStructurePanel.java`, `definition/services/JdbcStructureInvocator.java`
   이름과 달리 실제 DB에 연결해 테이블/컬럼을 읽어오지 않고, 고정된 필드명 템플릿 문자열만 텍스트영역에 추가함. 실제 JDBC 인트로스펙션 기능으로 완성하거나, 오해를 줄이도록 "Template Insert" 등으로 명칭을 바꾸는 결정이 필요함.
+  → 실제 DB 연동(드라이버/커넥션/자격증명 UI 등)은 별도 요구사항 정의가 필요한 큰 작업이라 이번 범위에서는 제외하고, 오해를 줄이는 쪽으로 결정: 제목을 "SQL Template Insert"로 바꾸고 각 버튼에 "실제 DB에 연결하지 않는다"는 툴팁을 추가.
 
 - [x] 🔴 **테스트 코드가 전혀 없음**
   `src/test` 디렉토리 자체가 존재하지 않음

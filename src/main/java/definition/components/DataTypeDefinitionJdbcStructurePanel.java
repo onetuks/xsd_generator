@@ -24,7 +24,10 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
 
   private JPanel titlePanel() {
     JPanel titlePanel = new JPanel();
-    titlePanel.add(new JLabel("Jdbc Manipulation"));
+    JLabel title = new JLabel("SQL Template Insert");
+    title.setToolTipText(
+        "실제 DB에 연결하지 않고, SAP PO Jdbc 어댑터에서 흔히 쓰는 필드 구성을 템플릿으로 삽입합니다.");
+    titlePanel.add(title);
     return titlePanel;
   }
 
@@ -32,6 +35,7 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
     JPanel panel = new JPanel();
 
     JButton selectBtn = new JButton("Select");
+    selectBtn.setToolTipText("SELECT 결과(row) 템플릿을 삽입합니다.");
     selectBtn.addActionListener(e -> {
       DataTypeDefinitionFieldPanel component =
           (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
@@ -39,6 +43,7 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
     });
 
     JButton updateBtn = new JButton("DML");
+    updateBtn.setToolTipText("StatementName/dbTableName/action/table/access 템플릿을 삽입합니다.");
     updateBtn.addActionListener(e -> {
       DataTypeDefinitionFieldPanel component =
           (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
@@ -47,6 +52,7 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
     });
 
     JButton sqlBtn = new JButton("SQL");
+    sqlBtn.setToolTipText("StatementName/dbTableName/action/access/key 템플릿을 삽입합니다.");
     sqlBtn.addActionListener(e -> {
       DataTypeDefinitionFieldPanel component =
           (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
@@ -55,6 +61,7 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
     });
 
     JButton procedureBtn = new JButton("Procedure");
+    procedureBtn.setToolTipText("StatementName/dbTableName/action/table 템플릿을 삽입합니다.");
     procedureBtn.addActionListener(e -> {
       DataTypeDefinitionFieldPanel component =
           (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
