@@ -164,9 +164,10 @@
   `definition/components/DataTypeDefinitionButtonPanel.java:47-49`, `model/DataTypeMeta.java:22-28`
   `"Invalid data type name: " + dtName` 같은 원문 예외 메시지가 그대로 사용자에게 노출됨. SAP PO 담당자가 이해하기 쉬운 한국어 안내 문구로 다듬을 필요가 있음.
 
-- [ ] 🟢 **`hasQuot` / `isInput` / `isOutput` 속성 체크박스에 설명(툴팁)이 없음**
+- [x] 🟢 **`hasQuot` / `isInput` / `isOutput` 속성 체크박스에 설명(툴팁)이 없음**
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:30-54`
   각 속성이 실제로 무엇을 의미하는지 UI 상에서 전혀 안내되지 않아 신규 사용자는 별도 문서 없이는 이해하기 어려움.
+  → `Attribute` enum에 설명 필드를 추가하고 체크박스 툴팁으로 노출.
 
 - [x] 🟢 **Hierarchy 우클릭 시 EditMode 꺼짐 경고가 "확인" 버튼 하나뿐인 `showConfirmDialog`로 실제로는 알림(Alert)에 가까움**
   `hierarchy/components/DataTypeHierarchyScrollPane.java:51-55`

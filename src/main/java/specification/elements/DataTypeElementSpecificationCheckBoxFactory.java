@@ -27,6 +27,7 @@ public class DataTypeElementSpecificationCheckBoxFactory {
 
   private JCheckBox createAttributeCheckBox(Attribute attribute, DataTypeElement element) {
     JCheckBox attributeCheckBox = new JCheckBox(attribute.getName());
+    attributeCheckBox.setToolTipText(attribute.getDescription());
 
     setCheckBoxEnabled(attributeCheckBox, element.getCategory());
 
