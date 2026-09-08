@@ -17,9 +17,10 @@
   Target Dir과 DT/MT Name이 자유 텍스트라서 `..\..\` 같은 상대경로나 금지 문자를 입력하면 의도하지 않은 위치에 파일이 생성될 수 있음. Target Dir은 `JFileChooser`로 고정하고(직접 타이핑 비활성화), DT/MT Name은 파일명으로 쓸 수 없는 문자를 검증하도록 개선 필요.
   → Target Dir 텍스트필드를 `setEditable(false)`로 고정해 반드시 `JFileChooser`를 거치도록 하고, `DataTypeMeta.validate()`에서 DT/MT Name에 `..`나 `\ / : * ? " < > |` 포함 시 예외를 던지도록 추가.
 
-- [ ] 🟡 **기존 파일 덮어쓰기 시 경고 없음**
+- [x] 🟡 **기존 파일 덮어쓰기 시 경고 없음**
   `util/FileSaver.java:20-25`
   동일 이름의 `.xsd` 파일이 이미 존재해도 아무 확인 없이 덮어씀. 저장 전 파일 존재 여부를 확인해 확인 다이얼로그를 띄우는 로직 추가 필요.
+  → `FileSaver.exists()` + `DataTypePipelineService.willOverwriteExistingFile()` 추가, Hierarchy의 "Complete" 버튼에서 덮어쓰기 전 확인 다이얼로그 표시. 부가적으로 `FileSaver`가 플랫폼 기본 인코딩(MS949) 대신 항상 UTF-8로 파일을 쓰도록 수정(XSD 선언부의 `encoding="UTF-8"`과 실제 바이트가 불일치해 한글 설명이 깨지던 문제도 함께 해결).
 
 - [ ] 🟢 **아이콘 리소스 로딩 실패 시 전체 앱 크래시**
   `util/IconLoader.java:18` (`Objects.requireNonNull(getClass().getResource(...))`)
@@ -70,9 +71,10 @@
   `core/XsdGenerator.java` 전체
   이스케이프 누락(1번 항목)뿐 아니라, 들여쓰기 없는 한 줄짜리 XSD가 생성되어 Git diff/사람이 읽기 어려움. `XMLStreamWriter` 또는 DOM+`Transformer`(`INDENT`) 기반으로 전환하면 이스케이프와 포매팅 문제를 동시에 해결 가능.
 
-- [ ] 🟢 **`FileSaver`의 경로 결합 로직이 수동 문자열 처리 + 구분자 불일치**
+- [x] 🟢 **`FileSaver`의 경로 결합 로직이 수동 문자열 처리 + 구분자 불일치**
   `util/FileSaver.java:15-18`
   `charAt(len-1) == '/'`만 검사하고 Windows 기본 구분자인 `\`는 고려하지 않아 `D:\` 같은 기본값에서 `D:\/파일명.xsd` 형태의 혼용 경로가 만들어짐. `java.nio.file.Path.resolve()`로 교체 권장.
+  → `Paths.get(dirPath, filename + EXTENSION)`으로 교체(덮어쓰기 경고 항목과 함께 처리).
 
 - [ ] 🟢 **`DataTypeNode`에 부모 참조가 없어 트리 조작마다 BFS 전체 탐색**
   `core/DataTypePipelineService.java:94-128` (`findNode`, `findParentNode`)

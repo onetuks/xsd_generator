@@ -138,6 +138,18 @@ public class DataTypeHierarchyPanel extends JPanel {
   }
 
   public void completeHierarchy() {
+    if (service.willOverwriteExistingFile()) {
+      int result = JOptionPane.showConfirmDialog(
+          this,
+          "동일한 이름의 XSD 파일이 이미 존재합니다. 덮어쓰시겠습니까?",
+          "XSD 파일 저장",
+          JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
+      if (result != JOptionPane.OK_OPTION) {
+        return;
+      }
+    }
+
     service.generateXSDFile();
     JOptionPane.showMessageDialog(this, "XSD File Generated!");
   }
