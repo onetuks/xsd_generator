@@ -1,10 +1,6 @@
 package definition.components;
 
-import static definition.components.DataTypeDefinitionInfoComponent.DT_NAME;
-import static definition.components.DataTypeDefinitionInfoComponent.MT_NAME;
-import static definition.components.DataTypeDefinitionInfoComponent.NAMESPACE;
-import static definition.components.DataTypeDefinitionInfoComponent.TARGET_DIR;
-
+import definition.components.DataTypeDefinitionInfoComponent.InfoFieldType;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import ui.FrameInfo;
@@ -22,10 +18,10 @@ public class DataTypeDefinitionInfoPanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(FrameInfo.COMPOUND_BORDER);
 
-    this.dtNameComponent = new DataTypeDefinitionInfoComponent(DT_NAME);
-    this.mtNameComponent = new DataTypeDefinitionInfoComponent(MT_NAME);
-    this.namespaceComponent = new DataTypeDefinitionInfoComponent(NAMESPACE);
-    this.targetDirComponent = new DataTypeDefinitionInfoComponent(TARGET_DIR);
+    this.dtNameComponent = new DataTypeDefinitionInfoComponent(InfoFieldType.DT_NAME);
+    this.mtNameComponent = new DataTypeDefinitionInfoComponent(InfoFieldType.MT_NAME);
+    this.namespaceComponent = new DataTypeDefinitionInfoComponent(InfoFieldType.NAMESPACE);
+    this.targetDirComponent = new DataTypeDefinitionInfoComponent(InfoFieldType.TARGET_DIR);
 
     add(dtNameComponent);
     add(mtNameComponent);

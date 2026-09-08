@@ -13,10 +13,22 @@ import util.IconLoader;
 
 public class DataTypeDefinitionInfoComponent extends JPanel {
 
-  static final String DT_NAME = "DT Name";
-  static final String MT_NAME = "MT Name";
-  static final String NAMESPACE = "Namespace";
-  static final String TARGET_DIR = "Target Dir";
+  public enum InfoFieldType {
+    DT_NAME("DT Name"),
+    MT_NAME("MT Name"),
+    NAMESPACE("Namespace"),
+    TARGET_DIR("Target Dir");
+
+    private final String label;
+
+    InfoFieldType(String label) {
+      this.label = label;
+    }
+
+    public String getLabel() {
+      return label;
+    }
+  }
 
   private static final Dimension LABEL_DIMENSION = new Dimension(80, 30);
   private static final Dimension TEXT_FIELD_DIMENSION = new Dimension(950, 25);
@@ -24,12 +36,12 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
   private final JTextField infoTextField;
   private final JFileChooser fileChooser = new JFileChooser();
 
-  public DataTypeDefinitionInfoComponent(String label) {
+  public DataTypeDefinitionInfoComponent(InfoFieldType fieldType) {
     super();
 
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    JLabel jLabel = new JLabel(label);
+    JLabel jLabel = new JLabel(fieldType.getLabel());
     jLabel.setPreferredSize(LABEL_DIMENSION);
 
     this.infoTextField = new JTextField();
@@ -38,12 +50,12 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     add(jLabel, BorderLayout.WEST);
     add(infoTextField, BorderLayout.CENTER);
 
-    setDirSelection(label);
-    setMTDeclaration(label);
+    setDirSelection(fieldType);
+    setMTDeclaration(fieldType);
   }
 
-  private void setMTDeclaration(String label) {
-    if (!label.contains(MT_NAME)) {
+  private void setMTDeclaration(InfoFieldType fieldType) {
+    if (fieldType != InfoFieldType.MT_NAME) {
       return;
     }
 
@@ -65,7 +77,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     add(mtDeclarationCheckBox);
   }
 
-  private void setDirSelection(String label) {
+  private void setDirSelection(InfoFieldType fieldType) {
     this.fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
     JButton dirSelectionBtn = new JButton(new IconLoader().loadIcon(IconLoader.FOLDER_ICON_PATH));
@@ -79,7 +91,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
       }
     });
 
-    if (label.contains(TARGET_DIR)) {
+    if (fieldType == InfoFieldType.TARGET_DIR) {
       infoTextField.setText(System.getProperty("user.home"));
       infoTextField.setEditable(false);
       add(dirSelectionBtn);

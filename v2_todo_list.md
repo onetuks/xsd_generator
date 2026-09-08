@@ -92,9 +92,10 @@
   D 드라이브가 없는 환경(노트북 등)에서 기본값이 무의미함. 사용자 홈 디렉터리나 빈 값으로 대체 필요.
   → `System.getProperty("user.home")`으로 대체.
 
-- [ ] 🟢 **문자열 비교(`label.contains(...)`)로 컴포넌트 역할을 분기하는 `DataTypeDefinitionInfoComponent`**
+- [x] 🟢 **문자열 비교(`label.contains(...)`)로 컴포넌트 역할을 분기하는 `DataTypeDefinitionInfoComponent`**
   `definition/components/DataTypeDefinitionInfoComponent.java:41-84`
   라벨 문자열에 따라 디렉터리 선택 버튼/MT 체크박스 유무를 결정하는 방식이라, 새로운 필드 타입 추가 시 문자열 매칭 조건이 계속 늘어나는 구조. enum 기반 필드 타입 정의로 리팩토링 권장.
+  → `InfoFieldType` enum(라벨 포함)으로 교체하고 문자열 비교 분기를 enum 비교로 정리.
 
 - [ ] 🟢 **Hierarchy 우클릭 시 사용자가 Manipulation Type 선택을 취소하면 `IllegalArgumentException`이 미처리 상태로 전파**
   `hierarchy/components/DataTypeHierarchyScrollPane.java:97-106`
