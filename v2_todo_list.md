@@ -156,9 +156,10 @@
   라벨 없는 빈 체크박스만 덩그러니 있어 처음 쓰는 사용자는 이게 무슨 기능인지 알기 어려움. "MT 파일도 함께 생성" 같은 라벨/툴팁 추가 필요.
   → 체크박스에 "MT 파일도 함께 생성" 라벨과 툴팁 추가.
 
-- [ ] 🟢 **필드 중복 이름에 대한 경고가 없음**
+- [x] 🟢 **필드 중복 이름에 대한 경고가 없음**
   `specification/elements/DataTypeElementSpecificationTextFieldFactory.java`
   같은 이름의 필드를 여러 개 만들어도 아무 경고가 없어, 의도치 않게 동일 이름 element가 여러 개 생성될 수 있음.
+  → Specification → Hierarchy로 넘어가는 "Next" 클릭 시 중복된 이름을 모아 보여주는 확인 다이얼로그 추가.
 
 - [ ] 🟢 **에러 다이얼로그가 개발자용 메시지를 그대로 노출**
   `definition/components/DataTypeDefinitionButtonPanel.java:47-49`, `model/DataTypeMeta.java:22-28`
