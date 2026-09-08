@@ -47,7 +47,9 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
       return;
     }
 
-    JCheckBox mtDeclarationCheckBox = new JCheckBox();
+    JCheckBox mtDeclarationCheckBox = new JCheckBox("MT 파일도 함께 생성");
+    mtDeclarationCheckBox.setToolTipText(
+        "체크하면 DT 파일과 함께 MT(Message Type) 파일도 생성합니다. 체크하지 않으면 DT 파일만 생성됩니다.");
     mtDeclarationCheckBox.setSelected(false);
     infoTextField.setEnabled(false);
     mtDeclarationCheckBox.addActionListener(e -> {

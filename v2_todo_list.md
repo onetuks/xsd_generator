@@ -111,9 +111,10 @@
   "Complete" 버튼을 누르면 바로 파일이 생성됨. 생성될 XSD 내용을 미리 검토(또는 복사)할 수 있는 미리보기 창이 없어 결과를 확인하려면 파일을 직접 열어야 함.
   → `DataTypePipelineService`에 저장하지 않고 문자열만 반환하는 `previewDT()`/`previewMT()` 추가(`generateXSDFile()`도 이를 재사용하도록 정리). "Complete" 클릭 시 스크롤 가능한 읽기 전용 미리보기(모노스페이스 폰트) + 저장/취소 확인 다이얼로그를 띄우며, 기존 덮어쓰기 경고 문구도 이 다이얼로그로 통합.
 
-- [ ] 🟡 **Definition 단계에서 필드를 하나도 입력하지 않아도 다음 단계로 진행 가능**
+- [x] 🟡 **Definition 단계에서 필드를 하나도 입력하지 않아도 다음 단계로 진행 가능**
   `definition/components/DataTypeDefinitionButtonPanel.java:34-52`
   메타 정보(DT명/Namespace/경로)만 검증하고 필드 목록이 비어있는지는 검증하지 않음. 빈 Specification 화면으로 넘어가 사용자가 혼란을 겪을 수 있음.
+  → 파싱된 필드 목록이 비어있으면 "필드를 하나 이상 입력해주세요." 에러를 던지고 화면 전환을 막도록 추가.
 
 - [ ] 🟡 **Name/Description을 줄 번호로 매칭하는 입력 방식이 오류에 취약**
   `definition/services/DataTypeFieldParser.java:14-32`, `definition/components/DataTypeDefinitionFieldPanel.java`
@@ -139,13 +140,15 @@
 
 ## 5. UX의 불편함
 
-- [ ] 🟡 **Definition 화면의 "Reset" 버튼에 확인 다이얼로그가 없음**
+- [x] 🟡 **Definition 화면의 "Reset" 버튼에 확인 다이얼로그가 없음**
   `definition/components/DataTypeDefinitionButtonPanel.java:25-32`
   Hierarchy의 "Reset"과 달리 클릭 즉시 모든 입력(DT/MT명, Namespace, 모든 필드 탭)이 삭제됨. 동일한 확인 다이얼로그 패턴 적용 필요.
+  → Hierarchy Reset과 동일한 패턴의 확인 다이얼로그 추가.
 
-- [ ] 🟡 **MT Name 체크박스에 설명 텍스트/툴팁이 없음**
+- [x] 🟡 **MT Name 체크박스에 설명 텍스트/툴팁이 없음**
   `definition/components/DataTypeDefinitionInfoComponent.java:50-64`
   라벨 없는 빈 체크박스만 덩그러니 있어 처음 쓰는 사용자는 이게 무슨 기능인지 알기 어려움. "MT 파일도 함께 생성" 같은 라벨/툴팁 추가 필요.
+  → 체크박스에 "MT 파일도 함께 생성" 라벨과 툴팁 추가.
 
 - [ ] 🟢 **필드 중복 이름에 대한 경고가 없음**
   `specification/elements/DataTypeElementSpecificationTextFieldFactory.java`
