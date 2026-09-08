@@ -167,6 +167,13 @@ public class DataTypePipelineService {
     return state.getElements();
   }
 
+  /**
+   * XSD 파일이 저장되는 디렉터리 경로. 저장 완료 후 탐색기로 바로 열어주는 등의 용도로 사용한다.
+   */
+  public String getTargetDir() {
+    return state.getMeta().getFilePath();
+  }
+
   public DataTypeNode getRootNode() {
     return state.getRootNode();
   }

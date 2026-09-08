@@ -179,9 +179,10 @@
   `specification/components/DataTypeSpecificationScrollPane.java`
   필드가 수십~수백 개인 DT의 경우 원하는 필드를 찾으려면 스크롤만으로 탐색해야 함. 이름 기준 필터 입력창 추가 권장.
 
-- [ ] 🟢 **"XSD File Generated!" 완료 다이얼로그에 결과 확인 액션이 없음**
+- [x] 🟢 **"XSD File Generated!" 완료 다이얼로그에 결과 확인 액션이 없음**
   `hierarchy/DataTypeHierarchyPanel.java:96-99`
   생성 완료 후 "폴더 열기"나 "파일 열기" 같은 바로가기가 없어 사용자가 직접 탐색기를 열어 경로를 찾아가야 함.
+  → 완료 다이얼로그에 "저장 폴더 열기" 옵션을 추가해 `Desktop.open()`으로 대상 디렉터리를 바로 열어줌.
 
 ---
 

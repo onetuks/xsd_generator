@@ -4,9 +4,12 @@ import core.DataTypePipelineService;
 import hierarchy.components.DataTypeHierarchyControlPanel;
 import hierarchy.components.DataTypeHierarchyScrollPane;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -148,7 +151,27 @@ public class DataTypeHierarchyPanel extends JPanel {
     }
 
     service.generateXSDFile();
-    JOptionPane.showMessageDialog(this, "XSD File Generated!");
+
+    String[] options = {"확인", "저장 폴더 열기"};
+    int choice = JOptionPane.showOptionDialog(
+        this, "XSD File Generated!", "완료",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+    if (choice == 1) {
+      openTargetDir();
+    }
+  }
+
+  private void openTargetDir() {
+    try {
+      if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+        Desktop.getDesktop().open(new File(service.getTargetDir()));
+      }
+    } catch (IOException ex) {
+      JOptionPane.showMessageDialog(
+          this, "저장 폴더를 여는 중 오류가 발생했습니다: " + ex.getMessage(),
+          "Error", JOptionPane.ERROR_MESSAGE);
+    }
   }
 
   /**
