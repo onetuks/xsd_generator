@@ -46,7 +46,7 @@ _Screenshot_
 
 > 각 필드 단위로 속성 제어 및 자동 규칙 적용
 
-- `Attribute` 타입(isAction)은 다른 attribute를 가질 수 없도록 강제
+- `action` 필드는 체크박스 형태의 속성(hasQuot/isInput/isOutput) 목록에서 제외됨(UI에서 강제로 막는 것은 아니며, action 외 속성이 함께 있는지에 따라 XSD 생성 시 태그 구조가 달라짐)
 - 각 필드별 기본 속성 제공
     - `hasQuot`
     - `isInput`

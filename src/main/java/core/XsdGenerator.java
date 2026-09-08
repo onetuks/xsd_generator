@@ -109,6 +109,9 @@ public class XsdGenerator {
     }
 
     // attr -> o, elem -> x (extension)
+    // action 하나만 attribute로 갖는 노드는 complexType(wrapper)으로 유지하고,
+    // hasQuot/isInput/isOutput처럼 action 외의 attribute를 하나라도 가지면
+    // simpleContent extension으로 취급한다.
     boolean hasLeafAttribute = node.getChildren().stream()
         .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
         .anyMatch(child -> Attribute.hasAttributeExceptAction(child.getEntity().getName()));

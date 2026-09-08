@@ -50,9 +50,10 @@
   "optional"은 원래 ATTRIBUTE 전용으로 설계된 값(`upperBound=null`)인데, Occurrence 콤보박스는 카테고리 구분 없이 항상 전체 옵션을 보여줌. ELEMENT 카테고리 필드에 "optional"을 선택하면 `getUpperBound()`가 null을 반환해 생성된 XSD에 `maxOccurs="null"`이 그대로 찍히는 오류가 발생함. 카테고리에 따라 콤보박스 옵션을 분리하거나, ELEMENT일 때 "optional" 선택을 막아야 함.
   → `Occurrence.getOccurrenceCombo(Category)`로 옵션을 분리(ATTRIBUTE는 "optional"만, 그 외는 bound 쌍 4종만)하고, ATTRIBUTE일 때는 콤보박스 자체를 비활성화. Category 변경 시 해당 행이 다시 그려지도록 `DataTypeSpecificationPanel.refreshElements()` 추가. `OccurrenceTest` 추가.
 
-- [ ] 🟢 **README에 명시된 "action 속성은 다른 attribute를 가질 수 없도록 강제"가 실제로 UI에서 강제되지 않음**
+- [x] 🟢 **README에 명시된 "action 속성은 다른 attribute를 가질 수 없도록 강제"가 실제로 UI에서 강제되지 않음**
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:22-23`, `core/XsdGenerator.java:82-87`
   실제로는 체크박스 목록에서 ACTION만 제외될 뿐, "action"이라는 이름의 필드를 Category=ATTRIBUTE로 수동 지정하는 것 자체를 막는 로직은 없음. 관련 로직은 XSD 생성 시 태그 형태(extension vs wrapper)를 결정하는 데만 쓰임. 문서와 실제 동작을 일치시키거나(강제 로직 추가), 문서 표현을 "속성 편집 제한"이 아닌 "생성 규칙"으로 수정 필요.
+  → README 문구를 실제 동작(체크박스 제외 + 생성 시 태그 구조 분기)에 맞게 수정하고, `XsdGenerator.appendElementTag`의 분기 로직에 왜 그렇게 나뉘는지 설명하는 주석 추가.
 
 - [ ] 🟢 **프로젝트 저장/불러오기 기능 부재**
   전역 (상태는 `DataTypeState` 인메모리에만 존재, 파일 직렬화 없음)
