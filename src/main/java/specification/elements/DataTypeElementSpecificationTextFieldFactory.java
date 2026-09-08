@@ -9,10 +9,9 @@ import specification.DataTypeSpecificationPanel;
 
 public class DataTypeElementSpecificationTextFieldFactory {
 
-  private final DataTypeSpecificationPanel specification;
-
+  // 다른 Xxx Factory와 생성자 시그니처를 맞추기 위해 인자는 받되, 이 팩토리는 element를
+  // 직접 조작하므로 specification 참조가 필요 없다.
   public DataTypeElementSpecificationTextFieldFactory(DataTypeSpecificationPanel specification) {
-    this.specification = specification;
   }
 
   JTextField createTextField(DataTypeElement element, DataTypeElementTextFieldType type) {
@@ -48,15 +47,10 @@ public class DataTypeElementSpecificationTextFieldFactory {
 
   private void changeDataTypeTextField(DataTypeElement element, String name,
       DataTypeElementTextFieldType type) {
-    DataTypeElement targetElement = specification.getService().getDataTypeElements().stream()
-        .filter(dataTypeElement -> dataTypeElement == element)
-        .findFirst()
-        .orElseThrow(() -> new RuntimeException("DataType Element not found"));
-
     if (type == DataTypeElementTextFieldType.NAME) {
-      targetElement.setName(name);
+      element.setName(name);
     } else if (type == DataTypeElementTextFieldType.DESCRIPTION) {
-      targetElement.setDescription(name);
+      element.setDescription(name);
     }
   }
 

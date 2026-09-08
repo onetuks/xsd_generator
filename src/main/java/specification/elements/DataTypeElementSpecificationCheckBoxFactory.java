@@ -9,11 +9,9 @@ import specification.DataTypeSpecificationPanel;
 
 public class DataTypeElementSpecificationCheckBoxFactory {
 
-  private final DataTypeSpecificationPanel specificationPanel;
-
-  public DataTypeElementSpecificationCheckBoxFactory(
-      DataTypeSpecificationPanel specificationPanel) {
-    this.specificationPanel = specificationPanel;
+  // 다른 Xxx Factory와 생성자 시그니처를 맞추기 위해 인자는 받되, 이 팩토리는 element를
+  // 직접 조작하므로 specification 참조가 필요 없다.
+  public DataTypeElementSpecificationCheckBoxFactory(DataTypeSpecificationPanel specification) {
   }
 
   JPanel createAttributeCheckBoxPanel(DataTypeElement element) {
@@ -37,17 +35,12 @@ public class DataTypeElementSpecificationCheckBoxFactory {
     attributeCheckBox.addActionListener(e -> {
       setCheckBoxEnabled(attributeCheckBox, element.getCategory());
 
-      DataTypeElement targetElement = specificationPanel.getService().getDataTypeElements().stream()
-          .filter(dataTypeElement -> dataTypeElement == element)
-          .findAny()
-          .orElseThrow(() -> new RuntimeException("Element not found"));
-
       if (attributeCheckBox.isSelected()) {
-        targetElement.getAttributes().add(attribute);
+        element.getAttributes().add(attribute);
         return;
       }
 
-      targetElement.getAttributes().remove(attribute);
+      element.getAttributes().remove(attribute);
     });
 
     return attributeCheckBox;

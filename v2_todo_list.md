@@ -61,9 +61,10 @@
 
 ## 3. 기존 기능의 코드 냄새 / 불편함
 
-- [ ] 🟡 **참조 동일성 기반의 불필요한 "재탐색" 패턴 반복**
+- [x] 🟡 **참조 동일성 기반의 불필요한 "재탐색" 패턴 반복**
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:40-43`, `DataTypeElementSpecificationComboBoxFactory.java:31-35`, `DataTypeElementSpecificationTextFieldFactory.java:51-54`
   이미 리스트에서 꺼내 전달받은 `element` 객체를 다시 `getDataTypeElements().stream().filter(e -> e == element).findAny().orElseThrow(...)`로 재검색함. 무의미한 O(n) 탐색과 `RuntimeException` 위험만 추가하는 코드로, 그냥 전달받은 `element`를 직접 수정하면 됨.
+  → 세 팩토리 모두 전달받은 `element`를 직접 수정하도록 정리. `specification` 참조가 더 이상 필요 없어진 CheckBox/TextField 팩토리는 생성자 시그니처 일관성만 유지하고 필드 저장은 제거.
 
 - [ ] 🟡 **`model.DataTypeNode`가 `specification.elements.DataTypeElement`에 의존하는 레이어 위반**
   `model/DataTypeNode.java:11,33-34`

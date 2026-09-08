@@ -28,19 +28,13 @@ public class DataTypeElementSpecificationComboBoxFactory {
       Category updatedCategory =
           Category.valueOf(Objects.requireNonNull(categoryComboBox.getSelectedItem()).toString());
 
-      DataTypeElement targetElement =
-          specification.getService().getDataTypeElements().stream()
-              .filter(dataTypeElement -> element == dataTypeElement)
-              .findAny()
-              .orElseThrow(() -> new RuntimeException("DataTypeElement not found"));
-
-      targetElement.setCategory(updatedCategory);
+      element.setCategory(updatedCategory);
 
       if (updatedCategory == Category.ATTRIBUTE) {
-        targetElement.setType(Type.STRING);
-        targetElement.setOccurrence(Occurrence.ofOptional());
+        element.setType(Type.STRING);
+        element.setOccurrence(Occurrence.ofOptional());
       } else {
-        targetElement.setOccurrence(Occurrence.ofZeroOne());
+        element.setOccurrence(Occurrence.ofZeroOne());
       }
 
       // Occurrence 콤보박스는 카테고리에 따라 선택 가능한 옵션 자체가 달라지므로
