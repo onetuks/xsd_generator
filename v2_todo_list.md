@@ -125,9 +125,10 @@
   두 개의 별도 `JTextArea`(Name/Description)를 줄 인덱스로 매핑하는 구조라, 한쪽에 줄을 빠뜨리면 이후 모든 필드의 설명이 한 줄씩 밀려서 잘못 매칭됨. 이름-설명을 한 행으로 묶어 편집하는 테이블(JTable) 기반 입력기로 전환하면 이 문제 자체가 사라짐.
   → JTable로의 전면 전환은 보류. 이 화면의 핵심 사용 패턴이 엑셀 등에서 필드명 열/설명 열을 각각 복사해 두 텍스트영역에 통째로 붙여넣는 것으로 보이는데, JTable로 바꾸면 이 멀티라인 붙여넣기 워크플로우가 깨질 위험이 커서(별도의 커스텀 붙여넣기 핸들러 필요) 시각적 검증이 불가능한 상태로 다루기엔 위험 대비 이득이 낮다고 판단. 대신 "Next" 클릭 시 각 탭의 Name/Description 줄 수가 다르면 구체적인 줄 수 차이를 보여주는 경고 다이얼로그를 띄워 사용자가 밀림을 인지하고 계속할지 선택하게 함.
 
-- [ ] 🟢 **Structure Manipulation의 "Remove"가 항상 마지막 탭만 제거 가능**
+- [x] 🟢 **Structure Manipulation의 "Remove"가 항상 마지막 탭만 제거 가능**
   `definition/components/DataTypeDefinitionStructureManipulationPanel.java:38-40`
   중간 탭을 지우려면 그 뒤의 모든 탭을 순서대로 지웠다가 다시 만들어야 함. 각 탭에 개별 닫기 버튼을 추가하는 것이 자연스러움.
+  → 각 탭에 개별 닫기(x) 버튼을 붙이고 닫을 때마다 탭 번호를 재정렬. 마지막 남은 탭은 닫을 수 없도록 가드. 커스텀 탭 헤더 컴포넌트를 붙이면서 `JTabbedPane.getComponents()`가 헤더까지 포함하게 되는 부작용을 발견해, 필드 추출/줄 수 검증 로직도 `getComponentAt(index)` 기반으로 함께 수정.
 
 - [ ] 🟢 **Jdbc Manipulation 버튼이 "현재 선택된 탭"에 삽입되는데 실수로 탭을 잘못 선택한 채 클릭하면 되돌릴 방법이 텍스트 직접 삭제뿐**
   `definition/components/DataTypeDefinitionJdbcStructurePanel.java:34-63`

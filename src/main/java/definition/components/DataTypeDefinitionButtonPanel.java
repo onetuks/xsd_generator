@@ -2,10 +2,8 @@ package definition.components;
 
 import definition.DataTypeDefinitionPanel;
 import definition.services.DataTypeFieldParser;
-import java.awt.Component;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -74,10 +72,10 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
    * 사용자가 인지하고 계속할지 확인받는다.
    */
   private boolean confirmLineAlignment() {
-    Component[] tabs = dataTypeDefinitionPanel.getDtFieldTabbedPane().getComponents();
+    DataTypeDefinitionFieldTabbedPane tabbedPane = dataTypeDefinitionPanel.getDtFieldTabbedPane();
 
-    for (int i = 0; i < tabs.length; i++) {
-      DataTypeDefinitionFieldPanel panel = (DataTypeDefinitionFieldPanel) tabs[i];
+    for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+      DataTypeDefinitionFieldPanel panel = (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(i);
       int nameLines = panel.getNameTextArea().getText().split("\n", -1).length;
       int descriptionLines = panel.getDescriptionTextArea().getText().split("\n", -1).length;
 
@@ -101,14 +99,16 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
   }
 
   private List<DataTypeElement> extractDataTypeFields() {
+    DataTypeDefinitionFieldTabbedPane tabbedPane = dataTypeDefinitionPanel.getDtFieldTabbedPane();
     DataTypeFieldParser dataTypeFieldParser = new DataTypeFieldParser();
-    return Arrays.stream(dataTypeDefinitionPanel.getDtFieldTabbedPane().getComponents())
-        .map(component -> (DataTypeDefinitionFieldPanel) component)
-        .map(component ->
-            dataTypeFieldParser.parseData(
-                component.getNameTextArea().getText(),
-                component.getDescriptionTextArea().getText()))
-        .flatMap(List::stream)
-        .collect(Collectors.toList());
+
+    List<DataTypeElement> fields = new ArrayList<>();
+    for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+      DataTypeDefinitionFieldPanel panel = (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(i);
+      fields.addAll(dataTypeFieldParser.parseData(
+          panel.getNameTextArea().getText(),
+          panel.getDescriptionTextArea().getText()));
+    }
+    return fields;
   }
 }

@@ -36,8 +36,7 @@ public class DataTypeDefinitionStructureManipulationPanel extends JPanel {
     addBtn.addActionListener(e -> fieldTabbedPane.addNewTab());
 
     JButton removeBtn = new JButton("Remove");
-    removeBtn.addActionListener(
-        e -> fieldTabbedPane.removeTabAt(fieldTabbedPane.getTabCount() - 1));
+    removeBtn.addActionListener(e -> fieldTabbedPane.removeLastTab());
 
     panel.add(addBtn);
     panel.add(removeBtn);
