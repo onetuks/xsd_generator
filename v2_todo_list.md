@@ -12,9 +12,10 @@
   `core/XsdGenerator.java` 전체 (`String.format`으로 name/description/namespace를 그대로 삽입)
   Description이나 필드명에 `<`, `>`, `&`, `"` 등이 포함되면 XSD 자체가 깨지거나 의도치 않은 태그가 주입될 수 있음. `escapeXml()` 유틸을 만들어 `DataTypeEntity`의 name/description/namespace를 태그에 삽입하기 전에 반드시 이스케이프 처리해야 함.
 
-- [ ] 🟡 **저장 경로/파일명에 대한 검증 없음 (경로 조작 가능)**
+- [x] 🟡 **저장 경로/파일명에 대한 검증 없음 (경로 조작 가능)**
   `util/FileSaver.java:15-19`, `definition/components/DataTypeDefinitionInfoComponent.java` (Target Dir, DT Name이 모두 자유 텍스트 입력)
   Target Dir과 DT/MT Name이 자유 텍스트라서 `..\..\` 같은 상대경로나 금지 문자를 입력하면 의도하지 않은 위치에 파일이 생성될 수 있음. Target Dir은 `JFileChooser`로 고정하고(직접 타이핑 비활성화), DT/MT Name은 파일명으로 쓸 수 없는 문자를 검증하도록 개선 필요.
+  → Target Dir 텍스트필드를 `setEditable(false)`로 고정해 반드시 `JFileChooser`를 거치도록 하고, `DataTypeMeta.validate()`에서 DT/MT Name에 `..`나 `\ / : * ? " < > |` 포함 시 예외를 던지도록 추가.
 
 - [ ] 🟡 **기존 파일 덮어쓰기 시 경고 없음**
   `util/FileSaver.java:20-25`
@@ -77,9 +78,10 @@
   `core/DataTypePipelineService.java:94-128` (`findNode`, `findParentNode`)
   Hierarchy 화면에서 노드 이동/포커스할 때마다 루트부터 큐 탐색을 수행함. `DataTypeNode`에 부모 참조 필드를 추가하면 대부분의 탐색 로직을 O(1)로 단순화 가능.
 
-- [ ] 🟢 **하드코딩된 기본 저장 경로 `"D:\\"`**
+- [x] 🟢 **하드코딩된 기본 저장 경로 `"D:\\"`**
   `definition/components/DataTypeDefinitionInfoComponent.java:81`
   D 드라이브가 없는 환경(노트북 등)에서 기본값이 무의미함. 사용자 홈 디렉터리나 빈 값으로 대체 필요.
+  → `System.getProperty("user.home")`으로 대체.
 
 - [ ] 🟢 **문자열 비교(`label.contains(...)`)로 컴포넌트 역할을 분기하는 `DataTypeDefinitionInfoComponent`**
   `definition/components/DataTypeDefinitionInfoComponent.java:41-84`

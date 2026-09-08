@@ -78,7 +78,8 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     });
 
     if (label.contains(TARGET_DIR)) {
-      infoTextField.setText("D:\\");
+      infoTextField.setText(System.getProperty("user.home"));
+      infoTextField.setEditable(false);
       add(dirSelectionBtn);
     }
   }
