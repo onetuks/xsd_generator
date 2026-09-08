@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
 import specification.components.TextLineNumber;
 
 public class DataTypeDefinitionFieldPanel extends JPanel {
@@ -20,6 +21,9 @@ public class DataTypeDefinitionFieldPanel extends JPanel {
 
   private final JTextArea nameTextArea;
   private final JTextArea descriptionTextArea;
+
+  private Integer lastInsertNameOffset;
+  private Integer lastInsertDescriptionOffset;
 
   protected DataTypeDefinitionFieldPanel() {
     super();
@@ -74,10 +78,37 @@ public class DataTypeDefinitionFieldPanel extends JPanel {
   }
 
   protected void appendSchemaToTextArea(List<String> schemas) {
+    lastInsertNameOffset = nameTextArea.getDocument().getLength();
+    lastInsertDescriptionOffset = descriptionTextArea.getDocument().getLength();
+
     schemas.forEach(schema -> {
       nameTextArea.append(schema + DataTypeFieldParser.NEW_LINE);
       descriptionTextArea.append(DataTypeFieldParser.NA + DataTypeFieldParser.NEW_LINE);
     });
+  }
+
+  /**
+   * Jdbc Manipulation 패널에서 마지막으로 삽입한 템플릿을 되돌린다. 되돌릴 삽입 내역이 없으면
+   * false를 반환한다.
+   */
+  protected boolean undoLastSchemaInsert() {
+    if (lastInsertNameOffset == null) {
+      return false;
+    }
+
+    try {
+      nameTextArea.getDocument().remove(
+          lastInsertNameOffset, nameTextArea.getDocument().getLength() - lastInsertNameOffset);
+      descriptionTextArea.getDocument().remove(
+          lastInsertDescriptionOffset,
+          descriptionTextArea.getDocument().getLength() - lastInsertDescriptionOffset);
+      return true;
+    } catch (BadLocationException e) {
+      return false;
+    } finally {
+      lastInsertNameOffset = null;
+      lastInsertDescriptionOffset = null;
+    }
   }
 
   public JTextArea getNameTextArea() {

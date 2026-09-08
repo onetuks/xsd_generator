@@ -130,9 +130,10 @@
   중간 탭을 지우려면 그 뒤의 모든 탭을 순서대로 지웠다가 다시 만들어야 함. 각 탭에 개별 닫기 버튼을 추가하는 것이 자연스러움.
   → 각 탭에 개별 닫기(x) 버튼을 붙이고 닫을 때마다 탭 번호를 재정렬. 마지막 남은 탭은 닫을 수 없도록 가드. 커스텀 탭 헤더 컴포넌트를 붙이면서 `JTabbedPane.getComponents()`가 헤더까지 포함하게 되는 부작용을 발견해, 필드 추출/줄 수 검증 로직도 `getComponentAt(index)` 기반으로 함께 수정.
 
-- [ ] 🟢 **Jdbc Manipulation 버튼이 "현재 선택된 탭"에 삽입되는데 실수로 탭을 잘못 선택한 채 클릭하면 되돌릴 방법이 텍스트 직접 삭제뿐**
+- [x] 🟢 **Jdbc Manipulation 버튼이 "현재 선택된 탭"에 삽입되는데 실수로 탭을 잘못 선택한 채 클릭하면 되돌릴 방법이 텍스트 직접 삭제뿐**
   `definition/components/DataTypeDefinitionJdbcStructurePanel.java:34-63`
   템플릿을 잘못된 탭에 삽입했을 때 이를 되돌리는 전용 기능(예: "마지막 삽입 취소")이 없음.
+  → 템플릿 삽입 직전 Name/Description 문서 길이를 기억해두었다가 되돌리는 "Undo" 버튼 추가(탭당 1단계).
 
 - [ ] 🟢 **Hierarchy 재배치 UX가 좌클릭(포커스)+우클릭(대상)+모달 선택창 조합으로 비직관적**
   `hierarchy/components/DataTypeHierarchyScrollPane.java:45-73`

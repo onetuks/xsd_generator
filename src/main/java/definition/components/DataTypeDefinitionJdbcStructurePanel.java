@@ -4,6 +4,7 @@ import definition.services.JdbcStructureInvocator;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import ui.FrameInfo;
@@ -69,10 +70,22 @@ public class DataTypeDefinitionJdbcStructurePanel extends JPanel {
           jdbcStructureInvocator.generatePROCEDUREStructure(tabbedPane.getSelectedIndex() + 1));
     });
 
+    JButton undoBtn = new JButton("Undo");
+    undoBtn.setToolTipText("현재 탭에 마지막으로 삽입한 템플릿을 되돌립니다.");
+    undoBtn.addActionListener(e -> {
+      DataTypeDefinitionFieldPanel component =
+          (DataTypeDefinitionFieldPanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+      if (!component.undoLastSchemaInsert()) {
+        JOptionPane.showMessageDialog(
+            panel, "되돌릴 삽입 내역이 없습니다.", "Undo", JOptionPane.INFORMATION_MESSAGE);
+      }
+    });
+
     panel.add(selectBtn);
     panel.add(updateBtn);
     panel.add(sqlBtn);
     panel.add(procedureBtn);
+    panel.add(undoBtn);
 
     return panel;
   }
