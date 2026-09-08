@@ -60,7 +60,7 @@ public class DataTypeDefinitionButtonPanel extends JPanel {
                 fields);
         dataTypeDefinitionPanel.getNavigator().showScreen(Navigator.SPECIFICATION);
       } catch (IllegalArgumentException ex) {
-        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "입력 오류", JOptionPane.ERROR_MESSAGE);
       }
     });
     add(nextBtn);

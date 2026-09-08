@@ -161,9 +161,10 @@
   같은 이름의 필드를 여러 개 만들어도 아무 경고가 없어, 의도치 않게 동일 이름 element가 여러 개 생성될 수 있음.
   → Specification → Hierarchy로 넘어가는 "Next" 클릭 시 중복된 이름을 모아 보여주는 확인 다이얼로그 추가.
 
-- [ ] 🟢 **에러 다이얼로그가 개발자용 메시지를 그대로 노출**
+- [x] 🟢 **에러 다이얼로그가 개발자용 메시지를 그대로 노출**
   `definition/components/DataTypeDefinitionButtonPanel.java:47-49`, `model/DataTypeMeta.java:22-28`
   `"Invalid data type name: " + dtName` 같은 원문 예외 메시지가 그대로 사용자에게 노출됨. SAP PO 담당자가 이해하기 쉬운 한국어 안내 문구로 다듬을 필요가 있음.
+  → 경로/파일명 검증 작업(항목 1) 때 `DataTypeMeta`의 예외 메시지를 이미 한국어 안내문으로 교체했고, 에러 다이얼로그 제목도 "Error" → "입력 오류"로 정리.
 
 - [x] 🟢 **`hasQuot` / `isInput` / `isOutput` 속성 체크박스에 설명(툴팁)이 없음**
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:30-54`
