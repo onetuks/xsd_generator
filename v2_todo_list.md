@@ -8,7 +8,7 @@
 
 ## 1. 취약점 (Security / Robustness)
 
-- [ ] 🔴 **생성되는 XSD 문자열에 XML 이스케이프 처리가 전혀 없음**
+- [x] 🔴 **생성되는 XSD 문자열에 XML 이스케이프 처리가 전혀 없음**
   `core/XsdGenerator.java` 전체 (`String.format`으로 name/description/namespace를 그대로 삽입)
   Description이나 필드명에 `<`, `>`, `&`, `"` 등이 포함되면 XSD 자체가 깨지거나 의도치 않은 태그가 주입될 수 있음. `escapeXml()` 유틸을 만들어 `DataTypeEntity`의 name/description/namespace를 태그에 삽입하기 전에 반드시 이스케이프 처리해야 함.
 
@@ -28,7 +28,7 @@
 
 ## 2. 불완전 구현 기능
 
-- [ ] 🔴 **`Type.NUMBER`가 잘못된 XSD 내장 타입을 참조함**
+- [x] 🔴 **`Type.NUMBER`가 잘못된 XSD 내장 타입을 참조함**
   `model/vo/Type.java:5` (`NUMBER("xsd:number")`)
   `xsd:number`는 XML Schema 표준 내장 타입이 아님(올바른 타입은 `xsd:decimal`, `xsd:integer`, `xsd:double` 등). 이 타입으로 생성된 필드는 SAP PO에서 스키마 검증 실패로 이어질 가능성이 높음. 실제 사용 가능한 숫자 타입으로 교체 필요.
 
@@ -36,9 +36,10 @@
   `definition/components/DataTypeDefinitionJdbcStructurePanel.java`, `definition/services/JdbcStructureInvocator.java`
   이름과 달리 실제 DB에 연결해 테이블/컬럼을 읽어오지 않고, 고정된 필드명 템플릿 문자열만 텍스트영역에 추가함. 실제 JDBC 인트로스펙션 기능으로 완성하거나, 오해를 줄이도록 "Template Insert" 등으로 명칭을 바꾸는 결정이 필요함.
 
-- [ ] 🔴 **테스트 코드가 전혀 없음**
+- [x] 🔴 **테스트 코드가 전혀 없음**
   `src/test` 디렉토리 자체가 존재하지 않음
   트리 탐색/재배치(`DataTypePipelineService`), XSD 문자열 생성(`XsdGenerator`), 필드 파싱(`DataTypeFieldParser`) 등 핵심 로직에 대한 단위 테스트가 전무함. 리팩토링/기능 추가 시 회귀를 잡을 안전망이 없으므로 우선적으로 핵심 서비스 클래스부터 테스트 추가 필요.
+  → `XsdGeneratorTest`, `DataTypePipelineServiceTest`, `DataTypeFieldParserTest` 추가(13개 케이스, JUnit 5). **참고**: 이 개발 환경(Windows + 경로에 한글 포함)에서는 `gradle test` 실행 시 Gradle 테스트 워커가 클래스패스를 찾지 못하는 환경적 제약(Gradle의 알려진 비-ASCII 경로 이슈로 추정)이 있어 CLI에서 직접 실행이 막힘. 대신 JUnit Platform Launcher를 수동 구성해 13개 테스트 전부 통과를 확인함. IntelliJ에서 "Run tests using: IntelliJ IDEA"로 설정하면 정상 동작할 가능성이 높음.
 
 - [ ] 🟡 **Category=ELEMENT에서도 Occurrence "optional" 선택이 가능해 잘못된 XSD 생성 위험**
   `model/vo/Occurrence.java:37-39,73-79`, `specification/elements/DataTypeElementSpecificationComboBoxFactory.java:64-73`, `core/XsdGenerator.java:93-99`
@@ -92,7 +93,7 @@
 
 ## 4. 전체 프로세스의 불편함
 
-- [ ] 🔴 **Specification → Hierarchy 이동 시 기존 Hierarchy 수동 작업이 경고 없이 전부 초기화됨**
+- [x] 🔴 **Specification → Hierarchy 이동 시 기존 Hierarchy 수동 작업이 경고 없이 전부 초기화됨**
   `specification/components/DataTypeSpecificationButtonPanel.java:31-39` (`updateDataTypeNode` 매번 재호출), `hierarchy/DataTypeHierarchyPanel.java:50-57`
   Hierarchy에서 공들여 재배치한 구조가 있어도, Specification 화면으로 "Prev"했다가 다시 "Next"만 눌러도 트리가 자동배치 규칙으로 완전히 재생성됨. Hierarchy의 "Reset" 버튼에는 확인 다이얼로그가 있지만 이 경로에는 전혀 없음 — 동일한 수준의 경고가 필요함.
 
