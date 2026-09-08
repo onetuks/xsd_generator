@@ -2,7 +2,7 @@ package model.vo;
 
 public enum Type {
   STRING("xsd:string"),
-  NUMBER("xsd:number"),
+  NUMBER("xsd:decimal"),
   DATE("xsd:date");
 
   private final String xsdType;
