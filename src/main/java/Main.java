@@ -1,6 +1,7 @@
 import core.DataTypePipelineService;
 import definition.DataTypeDefinitionPanel;
 import hierarchy.DataTypeHierarchyPanel;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import specification.DataTypeSpecificationPanel;
+import ui.StepIndicatorPanel;
 import util.Navigator;
 
 public class Main extends JFrame implements Navigator {
@@ -16,6 +18,7 @@ public class Main extends JFrame implements Navigator {
 
   private final CardLayout cardLayout = new CardLayout();
   private final JPanel contentPanel = new JPanel(cardLayout);
+  private final StepIndicatorPanel stepIndicatorPanel = new StepIndicatorPanel();
 
   private final DataTypePipelineService service = new DataTypePipelineService();
 
@@ -24,7 +27,11 @@ public class Main extends JFrame implements Navigator {
 
     registerContentPanels();
 
-    setContentPane(contentPanel);
+    JPanel rootPanel = new JPanel(new BorderLayout());
+    rootPanel.add(stepIndicatorPanel, BorderLayout.NORTH);
+    rootPanel.add(contentPanel, BorderLayout.CENTER);
+
+    setContentPane(rootPanel);
     setLocation(100, 100);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setPreferredSize(new Dimension(1100, 800));
@@ -41,6 +48,7 @@ public class Main extends JFrame implements Navigator {
   @Override
   public void showScreen(String name) {
     cardLayout.show(contentPanel, name);
+    stepIndicatorPanel.setActiveStep(name);
     pack();
     contentPanel.revalidate();
     contentPanel.repaint();

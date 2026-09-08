@@ -139,9 +139,10 @@
   `hierarchy/components/DataTypeHierarchyScrollPane.java:45-73`
   `JTree`는 네이티브 드래그앤드롭을 지원함에도 클릭 조합 + 팝업 다이얼로그 방식을 사용해 학습 곡선이 높음. 드래그앤드롭 기반 재배치로 전환하면 훨씬 직관적임.
 
-- [ ] 🟢 **3단계 전체 흐름에 진행 상태 표시(스텝 인디케이터)가 없음**
+- [x] 🟢 **3단계 전체 흐름에 진행 상태 표시(스텝 인디케이터)가 없음**
   `Main.java`, 각 Panel 클래스
   Definition/Specification/Hierarchy 중 현재 어디에 있는지, 이전 단계가 유효한지 한눈에 보여주는 브레드크럼/스텝 바가 없어 큰 데이터를 다룰 때 방향감을 잃기 쉬움.
+  → `ui.StepIndicatorPanel`을 추가해 화면 상단에 "① Definition → ② Specification → ③ Hierarchy"를 표시하고, `Navigator.showScreen()` 호출 시 현재 단계를 굵게/강조색으로 표시하도록 연결. (GUI 시각 요소라 실제 창에서의 최종 확인은 사용자 검토 권장)
 
 ---
 
