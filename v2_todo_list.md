@@ -178,9 +178,10 @@
   `showConfirmDialog`를 쓰면서 옵션은 사실상 "확인"뿐이라 질문처럼 보이지만 아무 선택도 할 수 없음. `showMessageDialog`로 바꾸는 것이 의미상 정확함.
   → `showMessageDialog`로 교체.
 
-- [ ] 🟢 **Specification 화면에 필드 검색/필터 기능이 없음**
+- [x] 🟢 **Specification 화면에 필드 검색/필터 기능이 없음**
   `specification/components/DataTypeSpecificationScrollPane.java`
   필드가 수십~수백 개인 DT의 경우 원하는 필드를 찾으려면 스크롤만으로 탐색해야 함. 이름 기준 필터 입력창 추가 권장.
+  → 헤더 아래에 "이름 검색" 입력창을 추가해 입력할 때마다 이름에 포함된 필드만 보이도록 필터링(대소문자 무시). 삭제/카테고리 변경으로 인한 기존 새로고침 동작과도 자연스럽게 맞물리도록 필터 상태를 스크롤 패널에 유지.
 
 - [x] 🟢 **"XSD File Generated!" 완료 다이얼로그에 결과 확인 액션이 없음**
   `hierarchy/DataTypeHierarchyPanel.java:96-99`

@@ -1,9 +1,15 @@
 package specification;
 
 import core.DataTypePipelineService;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import specification.components.DataTypeSpecificationButtonPanel;
 import specification.components.DataTypeSpecificationHeaderPanel;
 import specification.components.DataTypeSpecificationScrollPane;
@@ -24,6 +30,7 @@ public class DataTypeSpecificationPanel extends JPanel {
     this.scrollPane = new DataTypeSpecificationScrollPane(this);
 
     add(new DataTypeSpecificationHeaderPanel());
+    add(createFilterPanel());
     add(scrollPane);
     add(new DataTypeSpecificationButtonPanel(this));
 
@@ -35,6 +42,34 @@ public class DataTypeSpecificationPanel extends JPanel {
         repaint();
       }
     });
+  }
+
+  private JPanel createFilterPanel() {
+    JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+    JLabel filterLabel = new JLabel("이름 검색");
+    JTextField filterField = new JTextField();
+    filterField.setPreferredSize(new Dimension(300, 25));
+    filterField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        scrollPane.setFilterQuery(filterField.getText());
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        scrollPane.setFilterQuery(filterField.getText());
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        scrollPane.setFilterQuery(filterField.getText());
+      }
+    });
+
+    filterPanel.add(filterLabel);
+    filterPanel.add(filterField);
+    return filterPanel;
   }
 
   public void removeElement(DataTypeElement element) {
