@@ -27,15 +27,17 @@ public class XsdGenerator {
   private static final String DESCRIPTION_TAG = "<xsd:annotation><xsd:documentation>%s</xsd:documentation></xsd:annotation>";
 
   public String generateDT(DataTypeMeta meta, DataTypeNode root) {
+    String namespace = escapeXml(meta.getNamespace());
     return XML_META_TAG
-        + String.format(SCHEMA_TAG, meta.getNamespace(), meta.getNamespace())
+        + String.format(SCHEMA_TAG, namespace, namespace)
         + generateXsdString(root)
         + SCHEMA_END;
   }
 
   public String generateMT(DataTypeMeta meta, DataTypeNode root) {
+    String namespace = escapeXml(meta.getNamespace());
     return XML_META_TAG
-        + String.format(SCHEMA_TAG, meta.getNamespace(), meta.getNamespace())
+        + String.format(SCHEMA_TAG, namespace, namespace)
         + (meta.getMtName().isEmpty() ? ""
         : appendMessageTypeTag(meta.getMtName(), meta.getDtName()))
         + generateXsdString(root)
@@ -43,7 +45,22 @@ public class XsdGenerator {
   }
 
   private String appendMessageTypeTag(String mtName, String dtName) {
-    return String.format(DEFAULT_ELEMENT_TAG, mtName, dtName);
+    return String.format(DEFAULT_ELEMENT_TAG, escapeXml(mtName), escapeXml(dtName));
+  }
+
+  /**
+   * XSD 태그 속성/텍스트에 삽입되는 사용자 입력값을 이스케이프하여 XML 인젝션 및 스키마 손상을 방지한다.
+   */
+  private String escapeXml(String value) {
+    if (value == null) {
+      return "";
+    }
+    return value
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;")
+        .replace("'", "&apos;");
   }
 
   private String generateXsdString(DataTypeNode node) {
@@ -56,7 +73,7 @@ public class XsdGenerator {
   }
 
   private String appendComplexTypeTag(DataTypeNode node) {
-    return String.format(ROOT_COMPLEX_TYPE_TAG, node.getEntity().getName()) +
+    return String.format(ROOT_COMPLEX_TYPE_TAG, escapeXml(node.getEntity().getName())) +
         SEQUENCE_TAG +
         node.getChildren().stream()
             .map(this::generateXsdString)
@@ -68,7 +85,7 @@ public class XsdGenerator {
   private String appendAttributeTag(DataTypeNode node) {
     return String.format(
         ATTRIBUTE_TAG,
-        node.getEntity().getName(),
+        escapeXml(node.getEntity().getName()),
         node.getEntity().getType().getXsdType());
   }
 
@@ -93,14 +110,14 @@ public class XsdGenerator {
   private String generateContentElementTag(DataTypeNode node) {
     return String.format(
         CONTENT_ELEMENT_TAG,
-        node.getEntity().getName(),
+        escapeXml(node.getEntity().getName()),
         node.getEntity().getType().getXsdType(),
         node.getEntity().getOccurrence().getLowerBound(),
         node.getEntity().getOccurrence().getUpperBound()) +
         (
             node.getEntity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, node.getEntity().getDescription())
+                : String.format(DESCRIPTION_TAG, escapeXml(node.getEntity().getDescription()))
         ) +
         ELEMENT_END;
   }
@@ -108,7 +125,7 @@ public class XsdGenerator {
   private String generateWrapperElementTag(DataTypeNode node) {
     return String.format(
         WRAPPER_ELEMENT_TAG,
-        node.getEntity().getName(),
+        escapeXml(node.getEntity().getName()),
         node.getEntity().getOccurrence().getLowerBound(),
         node.getEntity().getOccurrence().getUpperBound()) +
         COMPLEX_TYPE_TAG +
@@ -129,13 +146,13 @@ public class XsdGenerator {
   private String generateExtensionContentElementTag(DataTypeNode node) {
     return String.format(
         WRAPPER_ELEMENT_TAG,
-        node.getEntity().getName(),
+        escapeXml(node.getEntity().getName()),
         node.getEntity().getOccurrence().getLowerBound(),
         node.getEntity().getOccurrence().getUpperBound()) +
         (
             node.getEntity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, node.getEntity().getDescription())) +
+                : String.format(DESCRIPTION_TAG, escapeXml(node.getEntity().getDescription()))) +
         COMPLEX_TYPE_TAG +
         SIMPLE_CONTENT_TAG +
         String.format(EXTENSION_TAG, node.getEntity().getType().getXsdType()) +
