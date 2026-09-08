@@ -49,9 +49,9 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
           hierarchy.setFocusedDataType();
         } else if (SwingUtilities.isRightMouseButton(e)) {
           if (!hierarchy.getControlPanel().getEditModeCheckBox().isSelected()) {
-            JOptionPane.showConfirmDialog(
+            JOptionPane.showMessageDialog(
                 null, "EditMode를 활성화해주세요", "Hierarchy Manipulation",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null);
+                JOptionPane.INFORMATION_MESSAGE);
             return;
           }
 
@@ -61,6 +61,10 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
                   .getUserObject();
 
           HierarchyManipulationType type = getManipulationType();
+          if (type == null) {
+            // 사용자가 방식 선택 다이얼로그를 취소함 - 정상 흐름이므로 그냥 무시한다.
+            return;
+          }
           if (type == HierarchyManipulationType.BE_A_CHILD) {
             hierarchy.addChildTo(targetNode);
           } else if (type == HierarchyManipulationType.BE_A_SIBLING) {
@@ -89,6 +93,10 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
     return hierarchyTree;
   }
 
+  /**
+   * 사용자가 방식 선택을 취소하면 null을 반환한다. 취소는 정상적인 사용자 흐름이므로
+   * 예외로 다루지 않는다.
+   */
   private HierarchyManipulationType getManipulationType() {
     String[] options = Arrays.stream(HierarchyManipulationType.values())
         .map(HierarchyManipulationType::getText)
@@ -99,7 +107,7 @@ public class DataTypeHierarchyScrollPane extends JScrollPane {
         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
     if (result < 0 || result >= HierarchyManipulationType.values().length) {
-      throw new IllegalArgumentException("방식을 선택해주세요");
+      return null;
     }
 
     return HierarchyManipulationType.values()[result];

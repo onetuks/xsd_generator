@@ -97,9 +97,10 @@
   라벨 문자열에 따라 디렉터리 선택 버튼/MT 체크박스 유무를 결정하는 방식이라, 새로운 필드 타입 추가 시 문자열 매칭 조건이 계속 늘어나는 구조. enum 기반 필드 타입 정의로 리팩토링 권장.
   → `InfoFieldType` enum(라벨 포함)으로 교체하고 문자열 비교 분기를 enum 비교로 정리.
 
-- [ ] 🟢 **Hierarchy 우클릭 시 사용자가 Manipulation Type 선택을 취소하면 `IllegalArgumentException`이 미처리 상태로 전파**
+- [x] 🟢 **Hierarchy 우클릭 시 사용자가 Manipulation Type 선택을 취소하면 `IllegalArgumentException`이 미처리 상태로 전파**
   `hierarchy/components/DataTypeHierarchyScrollPane.java:97-106`
   다이얼로그를 취소해도 예외가 던져지고 어디서도 catch되지 않아 스택트레이스만 콘솔에 출력됨(사용자는 아무 피드백도 못 받음). 취소는 예외 상황이 아니라 정상 흐름이므로 단순 `return`으로 처리 필요.
+  → 취소 시 예외 대신 `null`을 반환하도록 바꾸고, 호출부에서 `null`이면 조용히 무시하고 리턴하도록 수정.
 
 ---
 
@@ -166,9 +167,10 @@
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:30-54`
   각 속성이 실제로 무엇을 의미하는지 UI 상에서 전혀 안내되지 않아 신규 사용자는 별도 문서 없이는 이해하기 어려움.
 
-- [ ] 🟢 **Hierarchy 우클릭 시 EditMode 꺼짐 경고가 "확인" 버튼 하나뿐인 `showConfirmDialog`로 실제로는 알림(Alert)에 가까움**
+- [x] 🟢 **Hierarchy 우클릭 시 EditMode 꺼짐 경고가 "확인" 버튼 하나뿐인 `showConfirmDialog`로 실제로는 알림(Alert)에 가까움**
   `hierarchy/components/DataTypeHierarchyScrollPane.java:51-55`
   `showConfirmDialog`를 쓰면서 옵션은 사실상 "확인"뿐이라 질문처럼 보이지만 아무 선택도 할 수 없음. `showMessageDialog`로 바꾸는 것이 의미상 정확함.
+  → `showMessageDialog`로 교체.
 
 - [ ] 🟢 **Specification 화면에 필드 검색/필터 기능이 없음**
   `specification/components/DataTypeSpecificationScrollPane.java`
