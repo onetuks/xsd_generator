@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import model.vo.Category;
+import model.vo.FieldName;
 import model.vo.Occurrence;
 import model.vo.Type;
-import specification.elements.DataTypeElement;
 
 public class DataTypeNode {
 
@@ -31,7 +31,7 @@ public class DataTypeNode {
   public void addChild(DataTypeNode node) {
     boolean isLeafNode = node.getChildren().isEmpty();
     boolean isNotStatementNameDataType = !node.getEntity().getName()
-        .contains(DataTypeElement.STATEMENT);
+        .contains(FieldName.STATEMENT);
     if (isLeafNode && isNotStatementNameDataType) {
       int targetIndex = IntStream.range(0, children.size())
           .filter(i -> !children.get(i).getChildren().isEmpty())

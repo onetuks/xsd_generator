@@ -66,9 +66,10 @@
   이미 리스트에서 꺼내 전달받은 `element` 객체를 다시 `getDataTypeElements().stream().filter(e -> e == element).findAny().orElseThrow(...)`로 재검색함. 무의미한 O(n) 탐색과 `RuntimeException` 위험만 추가하는 코드로, 그냥 전달받은 `element`를 직접 수정하면 됨.
   → 세 팩토리 모두 전달받은 `element`를 직접 수정하도록 정리. `specification` 참조가 더 이상 필요 없어진 CheckBox/TextField 팩토리는 생성자 시그니처 일관성만 유지하고 필드 저장은 제거.
 
-- [ ] 🟡 **`model.DataTypeNode`가 `specification.elements.DataTypeElement`에 의존하는 레이어 위반**
+- [x] 🟡 **`model.DataTypeNode`가 `specification.elements.DataTypeElement`에 의존하는 레이어 위반**
   `model/DataTypeNode.java:11,33-34`
   모델 계층이 UI/스펙 계층의 상수(`DataTypeElement.STATEMENT`)를 문자열 매칭으로 참조함. 계층 의존 방향이 역전되어 있어 향후 리팩토링/모듈 분리를 어렵게 만듦. `STATEMENT` 같은 도메인 상수는 `model` 쪽으로 옮기거나 별도 공용 상수 클래스로 분리 필요.
+  → `model.vo.FieldName`에 `STATEMENT` 상수를 두고 `DataTypeNode`가 이를 참조하도록 변경. `DataTypeElement.STATEMENT`는 기존 공개 API를 유지하면서 같은 상수를 위임 참조.
 
 - [ ] 🟡 **XSD 문자열을 순수 문자열 concat/format으로 생성**
   `core/XsdGenerator.java` 전체

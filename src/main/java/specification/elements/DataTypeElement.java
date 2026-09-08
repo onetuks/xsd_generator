@@ -6,13 +6,14 @@ import java.util.Objects;
 import java.util.UUID;
 import model.vo.Attribute;
 import model.vo.Category;
+import model.vo.FieldName;
 import model.vo.Level;
 import model.vo.Occurrence;
 import model.vo.Type;
 
 public class DataTypeElement {
 
-  public static final String STATEMENT = "StatementName";
+  public static final String STATEMENT = FieldName.STATEMENT;
   public static final String DB_TABLE_NAME = "dbTableName";
   public static final String ACTION = "action";
   public static final String ACCESS = "access";
