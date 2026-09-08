@@ -116,9 +116,10 @@
   메타 정보(DT명/Namespace/경로)만 검증하고 필드 목록이 비어있는지는 검증하지 않음. 빈 Specification 화면으로 넘어가 사용자가 혼란을 겪을 수 있음.
   → 파싱된 필드 목록이 비어있으면 "필드를 하나 이상 입력해주세요." 에러를 던지고 화면 전환을 막도록 추가.
 
-- [ ] 🟡 **Name/Description을 줄 번호로 매칭하는 입력 방식이 오류에 취약**
+- [x] 🟡 **Name/Description을 줄 번호로 매칭하는 입력 방식이 오류에 취약**
   `definition/services/DataTypeFieldParser.java:14-32`, `definition/components/DataTypeDefinitionFieldPanel.java`
   두 개의 별도 `JTextArea`(Name/Description)를 줄 인덱스로 매핑하는 구조라, 한쪽에 줄을 빠뜨리면 이후 모든 필드의 설명이 한 줄씩 밀려서 잘못 매칭됨. 이름-설명을 한 행으로 묶어 편집하는 테이블(JTable) 기반 입력기로 전환하면 이 문제 자체가 사라짐.
+  → JTable로의 전면 전환은 보류. 이 화면의 핵심 사용 패턴이 엑셀 등에서 필드명 열/설명 열을 각각 복사해 두 텍스트영역에 통째로 붙여넣는 것으로 보이는데, JTable로 바꾸면 이 멀티라인 붙여넣기 워크플로우가 깨질 위험이 커서(별도의 커스텀 붙여넣기 핸들러 필요) 시각적 검증이 불가능한 상태로 다루기엔 위험 대비 이득이 낮다고 판단. 대신 "Next" 클릭 시 각 탭의 Name/Description 줄 수가 다르면 구체적인 줄 수 차이를 보여주는 경고 다이얼로그를 띄워 사용자가 밀림을 인지하고 계속할지 선택하게 함.
 
 - [ ] 🟢 **Structure Manipulation의 "Remove"가 항상 마지막 탭만 제거 가능**
   `definition/components/DataTypeDefinitionStructureManipulationPanel.java:38-40`
