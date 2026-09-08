@@ -7,6 +7,8 @@ import model.vo.Category;
 
 public class XsdGenerator {
 
+  private static final String INDENT_UNIT = "  ";
+
   private static final String XML_META_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   private static final String SCHEMA_TAG = "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"%s\" targetNamespace=\"%s\">";
   private static final String SCHEMA_END = "</xsd:schema>";
@@ -29,19 +31,19 @@ public class XsdGenerator {
   public String generateDT(DataTypeMeta meta, DataTypeNode root) {
     String namespace = escapeXml(meta.getNamespace());
     return XML_META_TAG
-        + String.format(SCHEMA_TAG, namespace, namespace)
-        + generateXsdString(root)
-        + SCHEMA_END;
+        + indent(0) + String.format(SCHEMA_TAG, namespace, namespace)
+        + generateXsdString(root, 1)
+        + indent(0) + SCHEMA_END;
   }
 
   public String generateMT(DataTypeMeta meta, DataTypeNode root) {
     String namespace = escapeXml(meta.getNamespace());
     return XML_META_TAG
-        + String.format(SCHEMA_TAG, namespace, namespace)
+        + indent(0) + String.format(SCHEMA_TAG, namespace, namespace)
         + (meta.getMtName().isEmpty() ? ""
-        : appendMessageTypeTag(meta.getMtName(), meta.getDtName()))
-        + generateXsdString(root)
-        + SCHEMA_END;
+        : indent(1) + appendMessageTypeTag(meta.getMtName(), meta.getDtName()))
+        + generateXsdString(root, 1)
+        + indent(0) + SCHEMA_END;
   }
 
   private String appendMessageTypeTag(String mtName, String dtName) {
@@ -63,36 +65,47 @@ public class XsdGenerator {
         .replace("'", "&apos;");
   }
 
-  private String generateXsdString(DataTypeNode node) {
-    if (node.getEntity().getCategory() == Category.COMPLEX_TYPE) {
-      return appendComplexTypeTag(node);
-    } else if (node.getEntity().getCategory() == Category.ATTRIBUTE) {
-      return appendAttributeTag(node);
+  /**
+   * Git diff/사람이 읽기 쉽도록 태그 앞에 줄바꿈과 depth만큼의 들여쓰기를 붙인다.
+   */
+  private String indent(int depth) {
+    StringBuilder sb = new StringBuilder("\n");
+    for (int i = 0; i < depth; i++) {
+      sb.append(INDENT_UNIT);
     }
-    return appendElementTag(node);
+    return sb.toString();
   }
 
-  private String appendComplexTypeTag(DataTypeNode node) {
-    return String.format(ROOT_COMPLEX_TYPE_TAG, escapeXml(node.getEntity().getName())) +
-        SEQUENCE_TAG +
+  private String generateXsdString(DataTypeNode node, int depth) {
+    if (node.getEntity().getCategory() == Category.COMPLEX_TYPE) {
+      return appendComplexTypeTag(node, depth);
+    } else if (node.getEntity().getCategory() == Category.ATTRIBUTE) {
+      return appendAttributeTag(node, depth);
+    }
+    return appendElementTag(node, depth);
+  }
+
+  private String appendComplexTypeTag(DataTypeNode node, int depth) {
+    return indent(depth) + String.format(ROOT_COMPLEX_TYPE_TAG, escapeXml(node.getEntity().getName())) +
+        indent(depth + 1) + SEQUENCE_TAG +
         node.getChildren().stream()
-            .map(this::generateXsdString)
+            .map(child -> generateXsdString(child, depth + 2))
             .reduce("", (acc, str) -> acc + str) +
-        SEQUENCE_END +
-        COMPLEX_TYPE_END;
+        indent(depth + 1) + SEQUENCE_END +
+        indent(depth) + COMPLEX_TYPE_END;
   }
 
-  private String appendAttributeTag(DataTypeNode node) {
-    return String.format(
+  private String appendAttributeTag(DataTypeNode node, int depth) {
+    return indent(depth) + String.format(
         ATTRIBUTE_TAG,
         escapeXml(node.getEntity().getName()),
         node.getEntity().getType().getXsdType());
   }
 
-  private String appendElementTag(DataTypeNode node) {
+  private String appendElementTag(DataTypeNode node, int depth) {
     // attr -> x, elem -> x (element)
     if (node.getChildren().isEmpty()) {
-      return generateContentElementTag(node);
+      return generateContentElementTag(node, depth);
     }
 
     // attr -> o, elem -> x (extension)
@@ -100,15 +113,15 @@ public class XsdGenerator {
         .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
         .anyMatch(child -> Attribute.hasAttributeExceptAction(child.getEntity().getName()));
     if (hasLeafAttribute) {
-      return generateExtensionContentElementTag(node);
+      return generateExtensionContentElementTag(node, depth);
     }
 
     // attr -> o/x, elem -> o (complexType)
-    return generateWrapperElementTag(node);
+    return generateWrapperElementTag(node, depth);
   }
 
-  private String generateContentElementTag(DataTypeNode node) {
-    return String.format(
+  private String generateContentElementTag(DataTypeNode node, int depth) {
+    return indent(depth) + String.format(
         CONTENT_ELEMENT_TAG,
         escapeXml(node.getEntity().getName()),
         node.getEntity().getType().getXsdType(),
@@ -117,34 +130,35 @@ public class XsdGenerator {
         (
             node.getEntity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, escapeXml(node.getEntity().getDescription()))
+                : indent(depth + 1) + String.format(DESCRIPTION_TAG,
+                    escapeXml(node.getEntity().getDescription()))
         ) +
-        ELEMENT_END;
+        indent(depth) + ELEMENT_END;
   }
 
-  private String generateWrapperElementTag(DataTypeNode node) {
-    return String.format(
+  private String generateWrapperElementTag(DataTypeNode node, int depth) {
+    return indent(depth) + String.format(
         WRAPPER_ELEMENT_TAG,
         escapeXml(node.getEntity().getName()),
         node.getEntity().getOccurrence().getLowerBound(),
         node.getEntity().getOccurrence().getUpperBound()) +
-        COMPLEX_TYPE_TAG +
-        SEQUENCE_TAG +
+        indent(depth + 1) + COMPLEX_TYPE_TAG +
+        indent(depth + 2) + SEQUENCE_TAG +
         node.getChildren().stream()
             .filter(child -> child.getEntity().getCategory() == Category.ELEMENT)
-            .map(this::generateXsdString)
+            .map(child -> generateXsdString(child, depth + 3))
             .reduce("", (acc, str) -> acc + str) +
-        SEQUENCE_END +
+        indent(depth + 2) + SEQUENCE_END +
         node.getChildren().stream()
             .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
-            .map(this::generateXsdString)
+            .map(child -> generateXsdString(child, depth + 2))
             .reduce("", (acc, str) -> acc + str) +
-        COMPLEX_TYPE_END +
-        ELEMENT_END;
+        indent(depth + 1) + COMPLEX_TYPE_END +
+        indent(depth) + ELEMENT_END;
   }
 
-  private String generateExtensionContentElementTag(DataTypeNode node) {
-    return String.format(
+  private String generateExtensionContentElementTag(DataTypeNode node, int depth) {
+    return indent(depth) + String.format(
         WRAPPER_ELEMENT_TAG,
         escapeXml(node.getEntity().getName()),
         node.getEntity().getOccurrence().getLowerBound(),
@@ -152,17 +166,18 @@ public class XsdGenerator {
         (
             node.getEntity().getDescription().isEmpty()
                 ? ""
-                : String.format(DESCRIPTION_TAG, escapeXml(node.getEntity().getDescription()))) +
-        COMPLEX_TYPE_TAG +
-        SIMPLE_CONTENT_TAG +
-        String.format(EXTENSION_TAG, node.getEntity().getType().getXsdType()) +
+                : indent(depth + 1) + String.format(DESCRIPTION_TAG,
+                    escapeXml(node.getEntity().getDescription()))) +
+        indent(depth + 1) + COMPLEX_TYPE_TAG +
+        indent(depth + 2) + SIMPLE_CONTENT_TAG +
+        indent(depth + 3) + String.format(EXTENSION_TAG, node.getEntity().getType().getXsdType()) +
         node.getChildren().stream()
             .filter(child -> child.getEntity().getCategory() == Category.ATTRIBUTE)
-            .map(this::generateXsdString)
+            .map(child -> generateXsdString(child, depth + 4))
             .reduce("", (acc, str) -> acc + str) +
-        EXTENSION_END +
-        SIMPLE_CONTENT_END +
-        COMPLEX_TYPE_END +
-        ELEMENT_END;
+        indent(depth + 3) + EXTENSION_END +
+        indent(depth + 2) + SIMPLE_CONTENT_END +
+        indent(depth + 1) + COMPLEX_TYPE_END +
+        indent(depth) + ELEMENT_END;
   }
 }

@@ -71,9 +71,10 @@
   모델 계층이 UI/스펙 계층의 상수(`DataTypeElement.STATEMENT`)를 문자열 매칭으로 참조함. 계층 의존 방향이 역전되어 있어 향후 리팩토링/모듈 분리를 어렵게 만듦. `STATEMENT` 같은 도메인 상수는 `model` 쪽으로 옮기거나 별도 공용 상수 클래스로 분리 필요.
   → `model.vo.FieldName`에 `STATEMENT` 상수를 두고 `DataTypeNode`가 이를 참조하도록 변경. `DataTypeElement.STATEMENT`는 기존 공개 API를 유지하면서 같은 상수를 위임 참조.
 
-- [ ] 🟡 **XSD 문자열을 순수 문자열 concat/format으로 생성**
+- [x] 🟡 **XSD 문자열을 순수 문자열 concat/format으로 생성**
   `core/XsdGenerator.java` 전체
   이스케이프 누락(1번 항목)뿐 아니라, 들여쓰기 없는 한 줄짜리 XSD가 생성되어 Git diff/사람이 읽기 어려움. `XMLStreamWriter` 또는 DOM+`Transformer`(`INDENT`) 기반으로 전환하면 이스케이프와 포매팅 문제를 동시에 해결 가능.
+  → 이스케이프는 이미 해결된 상태였고, `XMLStreamWriter`/DOM으로의 전체 전환은 기존 생성 로직에 녹아있는 스키마 분기 규칙(extension vs wrapper 등)을 다시 짜야 해서 위험 대비 이득이 낮다고 판단. 대신 기존 문자열 조립 방식은 유지한 채 depth 기반 들여쓰기(`indent(depth)`)만 추가해 Git diff/가독성 문제를 해결. 실제 생성 결과를 수동으로 출력해 들여쓰기·이스케이프가 의도대로 나오는지 확인함.
 
 - [x] 🟢 **`FileSaver`의 경로 결합 로직이 수동 문자열 처리 + 구분자 불일치**
   `util/FileSaver.java:15-18`
