@@ -22,13 +22,29 @@ public class DataTypePipelineService {
   private final DataTypeState state = new DataTypeState();
 
   public void generateXSDFile() {
-    String xsdString = xsdGenerator.generateDT(state.getMeta(), state.getRootNode());
-    fileSaver.saveFile(state.getMeta().getFilePath(), state.getMeta().getDtName(), xsdString);
+    fileSaver.saveFile(state.getMeta().getFilePath(), state.getMeta().getDtName(), previewDT());
 
-    if (!state.getMeta().getMtName().isEmpty()) {
-      String mtXsdString = xsdGenerator.generateMT(state.getMeta(), state.getRootNode());
+    String mtXsdString = previewMT();
+    if (mtXsdString != null) {
       fileSaver.saveFile(state.getMeta().getFilePath(), state.getMeta().getMtName(), mtXsdString);
     }
+  }
+
+  /**
+   * 파일로 저장하기 전에 DT XSD 내용을 미리 확인하기 위해 사용한다.
+   */
+  public String previewDT() {
+    return xsdGenerator.generateDT(state.getMeta(), state.getRootNode());
+  }
+
+  /**
+   * 파일로 저장하기 전에 MT XSD 내용을 미리 확인하기 위해 사용한다. MT Name이 없으면 null을 반환한다.
+   */
+  public String previewMT() {
+    if (state.getMeta().getMtName().isEmpty()) {
+      return null;
+    }
+    return xsdGenerator.generateMT(state.getMeta(), state.getRootNode());
   }
 
   /**

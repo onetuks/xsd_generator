@@ -2,6 +2,7 @@ package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -81,6 +82,22 @@ class DataTypePipelineServiceTest {
 
     assertTrue(root.getChildren().contains(accessNode));
     assertFalse(tableNode.getChildren().contains(accessNode));
+  }
+
+  @Test
+  void previewMT는_MT명이_없으면_null을_반환한다() {
+    service.updateDataTypeNode(Collections.emptyList());
+
+    assertNull(service.previewMT());
+  }
+
+  @Test
+  void previewDT는_저장하지_않고_XSD_문자열만_반환한다() {
+    service.updateDataTypeNode(Collections.emptyList());
+
+    String preview = service.previewDT();
+
+    assertTrue(preview.contains("<xsd:complexType name=\"SampleDT\">"));
   }
 
   @Test

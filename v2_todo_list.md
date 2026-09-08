@@ -106,9 +106,10 @@
   `specification/components/DataTypeSpecificationButtonPanel.java:31-39` (`updateDataTypeNode` 매번 재호출), `hierarchy/DataTypeHierarchyPanel.java:50-57`
   Hierarchy에서 공들여 재배치한 구조가 있어도, Specification 화면으로 "Prev"했다가 다시 "Next"만 눌러도 트리가 자동배치 규칙으로 완전히 재생성됨. Hierarchy의 "Reset" 버튼에는 확인 다이얼로그가 있지만 이 경로에는 전혀 없음 — 동일한 수준의 경고가 필요함.
 
-- [ ] 🟡 **최종 XSD 파일을 디스크에 쓰기 전 미리보기가 없음**
+- [x] 🟡 **최종 XSD 파일을 디스크에 쓰기 전 미리보기가 없음**
   `hierarchy/DataTypeHierarchyPanel.java:96-99`
   "Complete" 버튼을 누르면 바로 파일이 생성됨. 생성될 XSD 내용을 미리 검토(또는 복사)할 수 있는 미리보기 창이 없어 결과를 확인하려면 파일을 직접 열어야 함.
+  → `DataTypePipelineService`에 저장하지 않고 문자열만 반환하는 `previewDT()`/`previewMT()` 추가(`generateXSDFile()`도 이를 재사용하도록 정리). "Complete" 클릭 시 스크롤 가능한 읽기 전용 미리보기(모노스페이스 폰트) + 저장/취소 확인 다이얼로그를 띄우며, 기존 덮어쓰기 경고 문구도 이 다이얼로그로 통합.
 
 - [ ] 🟡 **Definition 단계에서 필드를 하나도 입력하지 않아도 다음 단계로 진행 가능**
   `definition/components/DataTypeDefinitionButtonPanel.java:34-52`

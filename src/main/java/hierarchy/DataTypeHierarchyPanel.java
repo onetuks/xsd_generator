@@ -3,14 +3,19 @@ package hierarchy;
 import core.DataTypePipelineService;
 import hierarchy.components.DataTypeHierarchyControlPanel;
 import hierarchy.components.DataTypeHierarchyScrollPane;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import model.DataTypeNode;
@@ -138,20 +143,43 @@ public class DataTypeHierarchyPanel extends JPanel {
   }
 
   public void completeHierarchy() {
-    if (service.willOverwriteExistingFile()) {
-      int result = JOptionPane.showConfirmDialog(
-          this,
-          "동일한 이름의 XSD 파일이 이미 존재합니다. 덮어쓰시겠습니까?",
-          "XSD 파일 저장",
-          JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-
-      if (result != JOptionPane.OK_OPTION) {
-        return;
-      }
+    if (!confirmSaveWithPreview()) {
+      return;
     }
 
     service.generateXSDFile();
     JOptionPane.showMessageDialog(this, "XSD File Generated!");
+  }
+
+  /**
+   * 저장 전에 생성될 XSD 내용을 미리 보여주고 저장 여부를 확인받는다. 기존 파일을 덮어쓰게 되는 경우
+   * 안내 문구도 함께 보여준다.
+   */
+  private boolean confirmSaveWithPreview() {
+    StringBuilder previewText = new StringBuilder(service.previewDT());
+    String mtPreview = service.previewMT();
+    if (mtPreview != null) {
+      previewText.append("\n\n").append(mtPreview);
+    }
+
+    JTextArea previewArea = new JTextArea(previewText.toString(), 20, 80);
+    previewArea.setEditable(false);
+    previewArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+    previewArea.setCaretPosition(0);
+
+    String message = service.willOverwriteExistingFile()
+        ? "동일한 이름의 XSD 파일이 이미 존재합니다. 아래 내용으로 덮어쓰시겠습니까?"
+        : "아래 내용으로 XSD 파일을 저장하시겠습니까?";
+
+    JPanel messagePanel = new JPanel(new BorderLayout(0, 8));
+    messagePanel.add(new JLabel(message), BorderLayout.NORTH);
+    messagePanel.add(new JScrollPane(previewArea), BorderLayout.CENTER);
+
+    int result = JOptionPane.showConfirmDialog(
+        this, messagePanel, "XSD 미리보기",
+        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+    return result == JOptionPane.OK_OPTION;
   }
 
   /* getter & setter */
