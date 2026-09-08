@@ -22,9 +22,10 @@
   동일 이름의 `.xsd` 파일이 이미 존재해도 아무 확인 없이 덮어씀. 저장 전 파일 존재 여부를 확인해 확인 다이얼로그를 띄우는 로직 추가 필요.
   → `FileSaver.exists()` + `DataTypePipelineService.willOverwriteExistingFile()` 추가, Hierarchy의 "Complete" 버튼에서 덮어쓰기 전 확인 다이얼로그 표시. 부가적으로 `FileSaver`가 플랫폼 기본 인코딩(MS949) 대신 항상 UTF-8로 파일을 쓰도록 수정(XSD 선언부의 `encoding="UTF-8"`과 실제 바이트가 불일치해 한글 설명이 깨지던 문제도 함께 해결).
 
-- [ ] 🟢 **아이콘 리소스 로딩 실패 시 전체 앱 크래시**
+- [x] 🟢 **아이콘 리소스 로딩 실패 시 전체 앱 크래시**
   `util/IconLoader.java:18` (`Objects.requireNonNull(getClass().getResource(...))`)
   리소스가 누락되면 NPE로 앱 전체가 죽음. 배포 패키징 실수 시 사용자에게 알아보기 힘든 크래시로 이어지므로, 최소한 사용자 친화적 에러 처리(기본 아이콘 대체 등)로 완화 필요.
+  → 리소스를 찾지 못하거나 읽기 실패 시 예외 대신 빈 아이콘으로 대체하고 콘솔에 원인을 남기도록 수정.
 
 ---
 
