@@ -42,6 +42,14 @@ public class DataTypeSpecificationPanel extends JPanel {
     scrollPane.refresh();
   }
 
+  /**
+   * 필드 한 행의 상태(예: Category)가 바뀌어 해당 행의 다른 입력 컴포넌트(Occurrence 옵션 등)까지
+   * 다시 그려야 할 때 호출한다.
+   */
+  public void refreshElements() {
+    scrollPane.refresh();
+  }
+
   public Navigator getNavigator() {
     return navigator;
   }

@@ -42,6 +42,10 @@ public class DataTypeElementSpecificationComboBoxFactory {
       } else {
         targetElement.setOccurrence(Occurrence.ofZeroOne());
       }
+
+      // Occurrence 콤보박스는 카테고리에 따라 선택 가능한 옵션 자체가 달라지므로
+      // 행 전체를 다시 그려야 한다.
+      specification.refreshElements();
     });
 
     return categoryComboBox;
@@ -62,9 +66,11 @@ public class DataTypeElementSpecificationComboBoxFactory {
   }
 
   JComboBox<String> createOccurrenceComboBox(DataTypeElement element) {
-    JComboBox<String> occurrenceComboBox = new JComboBox<>(Occurrence.getOccurrenceCombo());
+    JComboBox<String> occurrenceComboBox =
+        new JComboBox<>(Occurrence.getOccurrenceCombo(element.getCategory()));
 
     occurrenceComboBox.setSelectedItem(element.getOccurrence().toString());
+    occurrenceComboBox.setEnabled(element.getCategory() != Category.ATTRIBUTE);
 
     occurrenceComboBox.addActionListener(e ->
         element.setOccurrence(Occurrence.of((String) occurrenceComboBox.getSelectedItem())));

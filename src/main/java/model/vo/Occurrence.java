@@ -38,13 +38,21 @@ public class Occurrence {
     return new Occurrence(OPTIONAL, null);
   }
 
-  public static String[] getOccurrenceCombo() {
+  /**
+   * ATTRIBUTE는 항상 "optional" 하나만 선택 가능하고, 그 외(ELEMENT)는 실제 bound 쌍을 갖는
+   * 값만 선택 가능해야 한다. 구분 없이 전체 옵션을 보여주면 ELEMENT에 "optional"이 선택되어
+   * upperBound가 null인 상태로 XSD가 생성되는 오류(maxOccurs="null")로 이어진다.
+   */
+  public static String[] getOccurrenceCombo(Category category) {
+    if (category == Category.ATTRIBUTE) {
+      return new String[]{ofOptional().getLowerBound()};
+    }
+
     return new String[]{
         ofZeroOne().toString(),
         ofZeroUnbounded().toString(),
         ofOnlyOne().toString(),
-        ofOneUnbounded().toString(),
-        ofOptional().getLowerBound()
+        ofOneUnbounded().toString()
     };
   }
 

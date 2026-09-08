@@ -44,9 +44,10 @@
   트리 탐색/재배치(`DataTypePipelineService`), XSD 문자열 생성(`XsdGenerator`), 필드 파싱(`DataTypeFieldParser`) 등 핵심 로직에 대한 단위 테스트가 전무함. 리팩토링/기능 추가 시 회귀를 잡을 안전망이 없으므로 우선적으로 핵심 서비스 클래스부터 테스트 추가 필요.
   → `XsdGeneratorTest`, `DataTypePipelineServiceTest`, `DataTypeFieldParserTest` 추가(13개 케이스, JUnit 5). **참고**: 이 개발 환경(Windows + 경로에 한글 포함)에서는 `gradle test` 실행 시 Gradle 테스트 워커가 클래스패스를 찾지 못하는 환경적 제약(Gradle의 알려진 비-ASCII 경로 이슈로 추정)이 있어 CLI에서 직접 실행이 막힘. 대신 JUnit Platform Launcher를 수동 구성해 13개 테스트 전부 통과를 확인함. IntelliJ에서 "Run tests using: IntelliJ IDEA"로 설정하면 정상 동작할 가능성이 높음.
 
-- [ ] 🟡 **Category=ELEMENT에서도 Occurrence "optional" 선택이 가능해 잘못된 XSD 생성 위험**
+- [x] 🟡 **Category=ELEMENT에서도 Occurrence "optional" 선택이 가능해 잘못된 XSD 생성 위험**
   `model/vo/Occurrence.java:37-39,73-79`, `specification/elements/DataTypeElementSpecificationComboBoxFactory.java:64-73`, `core/XsdGenerator.java:93-99`
   "optional"은 원래 ATTRIBUTE 전용으로 설계된 값(`upperBound=null`)인데, Occurrence 콤보박스는 카테고리 구분 없이 항상 전체 옵션을 보여줌. ELEMENT 카테고리 필드에 "optional"을 선택하면 `getUpperBound()`가 null을 반환해 생성된 XSD에 `maxOccurs="null"`이 그대로 찍히는 오류가 발생함. 카테고리에 따라 콤보박스 옵션을 분리하거나, ELEMENT일 때 "optional" 선택을 막아야 함.
+  → `Occurrence.getOccurrenceCombo(Category)`로 옵션을 분리(ATTRIBUTE는 "optional"만, 그 외는 bound 쌍 4종만)하고, ATTRIBUTE일 때는 콤보박스 자체를 비활성화. Category 변경 시 해당 행이 다시 그려지도록 `DataTypeSpecificationPanel.refreshElements()` 추가. `OccurrenceTest` 추가.
 
 - [ ] 🟢 **README에 명시된 "action 속성은 다른 attribute를 가질 수 없도록 강제"가 실제로 UI에서 강제되지 않음**
   `specification/elements/DataTypeElementSpecificationCheckBoxFactory.java:22-23`, `core/XsdGenerator.java:82-87`
