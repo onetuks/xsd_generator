@@ -1,5 +1,6 @@
 package definition.components;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -32,7 +33,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
   }
 
   private static final Dimension LABEL_DIMENSION = new Dimension(80, 30);
-  private static final Dimension TEXT_FIELD_DIMENSION = new Dimension(950, 25);
+  private static final int ROW_HEIGHT = 30;
 
   private final JTextField infoTextField;
   private final JFileChooser fileChooser = new JFileChooser();
@@ -44,7 +45,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     setAlignmentX(Component.LEFT_ALIGNMENT);
 
     this.infoTextField = new JTextField();
-    this.infoTextField.setPreferredSize(TEXT_FIELD_DIMENSION);
+    this.infoTextField.setPreferredSize(new Dimension(200, 25));
 
     if (fieldType == InfoFieldType.MT_NAME) {
       add(createMTDeclarationPanel());
@@ -53,15 +54,20 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     add(createInputPanel(fieldType));
   }
 
+  /**
+   * 라벨은 왼쪽에 고정 너비로, 입력창은 남는 너비를 모두 채우도록 BorderLayout으로 구성한다.
+   * 고정 px 너비를 쓰면 창 크기와 무관하게 필드 폭이 어긋나 보이던 문제가 있었다.
+   */
   private JPanel createInputPanel(InfoFieldType fieldType) {
-    JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel inputPanel = new JPanel(new BorderLayout(5, 0));
     inputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, ROW_HEIGHT));
 
     JLabel jLabel = new JLabel(fieldType.getLabel());
     jLabel.setPreferredSize(LABEL_DIMENSION);
 
-    inputPanel.add(jLabel);
-    inputPanel.add(infoTextField);
+    inputPanel.add(jLabel, BorderLayout.WEST);
+    inputPanel.add(infoTextField, BorderLayout.CENTER);
 
     setDirSelection(fieldType, inputPanel);
 
@@ -111,7 +117,7 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
 
     infoTextField.setText(System.getProperty("user.home"));
     infoTextField.setEditable(false);
-    panel.add(dirSelectionBtn);
+    panel.add(dirSelectionBtn, BorderLayout.EAST);
   }
 
   public JTextField getInfoTextField() {
