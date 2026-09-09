@@ -1,7 +1,6 @@
 package definition.components;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
@@ -42,7 +41,6 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
     super();
 
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(Component.LEFT_ALIGNMENT);
 
     this.infoTextField = new JTextField();
     this.infoTextField.setPreferredSize(new Dimension(200, 25));
@@ -60,7 +58,6 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
    */
   private JPanel createInputPanel(InfoFieldType fieldType) {
     JPanel inputPanel = new JPanel(new BorderLayout(5, 0));
-    inputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, ROW_HEIGHT));
 
     JLabel jLabel = new JLabel(fieldType.getLabel());
@@ -76,7 +73,6 @@ public class DataTypeDefinitionInfoComponent extends JPanel {
 
   private JPanel createMTDeclarationPanel() {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
     JCheckBox mtDeclarationCheckBox = new JCheckBox("MT 파일도 함께 생성");
     mtDeclarationCheckBox.setToolTipText(
