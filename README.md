@@ -123,7 +123,39 @@ _Screenshot_
 - Java 21
 - Swing (UI)
 - Gradle
-- jpackage
+- jlink · jpackage (런타임 내장 단일 exe)
+
+<br>
+
+---
+
+## 📦 빌드 / 배포
+
+```powershell
+.\build.ps1
+```
+
+`dist\xsd_generator-<version>.exe` **파일 하나**가 만들어진다. 설치 과정이나 별도의 `app`,
+`runtime` 폴더 없이 이 exe 하나만 복사해서 실행하면 되고, 대상 PC 에 Java 가 설치되어 있지
+않아도 동작한다.
+
+빌드 단계는 다음과 같다.
+
+1. `gradlew jar` — 애플리케이션 jar 생성
+2. `jdeps` — 실제로 사용하는 JDK 모듈 산출 (현재 `java.base`, `java.desktop`)
+3. `jlink` — 해당 모듈만 담은 최소 런타임 생성 (전체 JDK 151MB → 46MB)
+4. `jpackage --type app-image` — 런타임 + jar + 실행 파일 묶음 생성
+5. 묶음을 zip 으로 압축 후 [`launcher/Launcher.cs`](launcher/Launcher.cs) 런처 exe 에 리소스로 내장
+
+실행 시 런처는 내장된 zip 을 `%LOCALAPPDATA%\xsd_generator\<version>` 에 한 번만 풀고
+애플리케이션을 띄운다. 최초 실행은 1~2초 정도 걸리며, 이후 실행은 곧바로 시작된다.
+버전이 올라가면 이전 버전 캐시는 자동으로 정리된다.
+
+> JDK 는 `JAVA_HOME`, `PATH`, `%USERPROFILE%\.jdks` 에서 `jpackage` 를 가진 것을 모두 모아 **가장 높은
+> 버전**을 쓴다. `JAVA_HOME` 이 구버전을 가리켜도 문제가 없고, 특정 JDK 를 강제하려면
+> `.\build.ps1 -JdkHome <경로>` 로 지정한다. JDK 21 미만이면 jlink 압축 옵션을 자동으로 낮춘다.
+> 런처 컴파일에는 Windows 에 기본 포함된 .NET Framework 의 `csc.exe` 를 사용하므로
+> 추가 설치가 필요 없다.
 
 <br>
 
